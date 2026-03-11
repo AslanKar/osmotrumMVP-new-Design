@@ -3,118 +3,192 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Осмотрум v5.5 — Local Mode</title>
+  <title>СОГАЗ — Самостоятельный осмотр страхового события</title>
+
+  <link rel="preload" as="image" href="images/Gemini_Generated_Image_2vtzki2vtzki2vtz.png">
+  <link rel="preload" as="image" href="images/Gemini_Generated_Image_lqxfsdlqxfsdlqxf.png">
+  <link rel="preload" as="image" href="images/Gemini_Generated_Image_96i9wk96i9wk96i9.png">
+  <link rel="preload" as="image" href="images/Gemini_Generated_Image_mk5w7imk5w7imk5w.png">
 
   <!-- CSP добавим отдельной итерацией (по ТЗ нужен sha256-hash/nonce). Сейчас НЕ включаем, чтобы не “убить” запуск. -->
   <style>
-    :root {
-      --bg:#f4f6fb;
-      --fg:#111827;
-      --muted:#6b7280;
-      --card:#fff;
-      --line:#d9e0ec;
-      --accent:#2563eb;
-      --accent-soft:#dbeafe;
-      --shadow:0 8px 24px rgba(17,24,39,0.06);
+    :root{
+      --bg:#F3F4F6;
+      --card:#FFFFFF;
+      --primary:#2563EB;
+      --text:#111827;
+      --muted:#6B7280;
+      --line:#E5E7EB;
+
+      --r12:12px;
+      --shadowTop:0 -4px 12px rgba(0,0,0,0.05);
+
+      --wrapMax:600px;
+      --padX:16px;
+      --padY:24px;
+
+      --footerH:80px; /* для scroll padding */
+      --btnR:16px;
     }
-    * { box-sizing:border-box; }
-    body {
+    body{
       margin:0;
-      font:14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--fg);
       background:var(--bg);
-      -webkit-tap-highlight-color: transparent;
+      color:var(--text);
+      font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      overflow-x:hidden;
     }
-    header {
-      background:#fff;
-      border-bottom:1px solid var(--line);
-      padding:12px 14px;
-      position:sticky;
-      top:0;
-      z-index:10;
-      backdrop-filter:saturate(1.2) blur(6px);
+    .stepH1{
+      margin:2px 0 6px;
+      font-size:22px;
+      line-height:1.15;
+      letter-spacing:-0.01em;
+      font-weight:800;
     }
-    .wrap { max-width:980px; margin:0 auto; padding:14px; }
+    .stepH1:focus,
+    .stepH1:focus-visible{
+      outline:none !important;
+      box-shadow:none !important;
+      border:0 !important;
+    }
+    @media (max-width:420px){
+      .stepH1{ font-size:20px; }
+    }
+    header { background:#fff; border-bottom:1px solid var(--line); padding:12px var(--padX); position:sticky; top:0; z-index:10; }
+    .wrap{
+      max-width:var(--wrapMax);
+      margin:0 auto;
+      padding:var(--padY) var(--padX);
+      padding-top:0;
+      min-width:0;
+    }
     .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-    .card {
+    .card{
       background:var(--card);
       border:1px solid var(--line);
-      border-radius:14px;
+      border-radius:16px;
       padding:14px;
-      box-shadow:var(--shadow);
+      min-width:0;
+      max-width:100%;
     }
     .steps { display:flex; gap:8px; flex-wrap:wrap; }
     .stepBtn {
-      border:1px solid var(--line); background:#fff; border-radius:999px; padding:9px 12px;
+      border:1px solid var(--line); background:#fff; border-radius:999px; padding:8px 12px;
       cursor:pointer; user-select:none;
     }
-    .stepBtn[aria-current="true"] { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); font-weight:700; }
+    .stepBtn[aria-current="true"] { font-weight:600; }
     .muted { color:var(--muted); }
     .err { color:#b91c1c; font-weight:600; }
     .ok { color:#15803d; font-weight:600; }
     label { display:block; font-weight:600; margin:10px 0 6px; }
-    input[type="text"], input[type="date"], textarea, select {
-      width:100%; border:1px solid var(--line); border-radius:10px; padding:11px 12px;
-      font:inherit; background:#fff;
+    /* базовые стили полей (используются только там, где ещё не mdField) */
+    input[type="text"], input[type="date"], textarea, select, input[type="number"]{
+      width:100%;
+      max-width:100%;
+      min-width:0;
+      box-sizing:border-box;
+      border:1px solid var(--line);
+      border-radius:var(--r12);
+      padding:14px;
+      font:inherit;
+      background:#fff;
     }
-    textarea { min-height:90px; resize:vertical; }
-    .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+    textarea { min-height:112px; resize:vertical; }
+    .actions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-top:14px;
+    }
+    .actions button{
+      height:56px;
+      border-radius:var(--btnR);
+      font-weight:600;
+      font-size:16px;
+      width:100%;
+      min-width:0;
+    }
+    .actions button.primary{
+      background:var(--primary);
+      color:#fff;
+      border:0;
+      box-shadow:0 10px 24px rgba(17,24,39,0.10);
+    }
+    .actions button.ghost{
+      background:transparent;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
     .catTiles{
   display:grid;
   grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:10px;
-  margin-top:8px;
+  gap:12px;
 }
 .catTile{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  min-height:96px;
-  border-radius:14px;
+  background:var(--card);
   border:1px solid var(--line);
-  background:#fff;
-  transition:transform .08s ease, border-color .2s ease, box-shadow .2s ease;
+  border-radius:16px;
+  padding:14px;
+  text-align:left;
+  min-height:96px;
 }
-.catTile:active{ transform:translateY(1px); }
 .catTile.active{
-  border-color: var(--accent);
-  background:var(--accent-soft);
-  box-shadow:0 0 0 2px rgba(37,99,235,.15) inset;
+  border-color:rgba(37,99,235,.35);
+  box-shadow:0 10px 24px rgba(17,24,39,0.06);
 }
 .catTileIcon{
-  width:34px;
-  height:34px;
-  object-fit:contain;
-  line-height:1;
+  width:110px;
+  height:100px;
+  border-radius:18px;
+  background:#fff;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  margin-bottom:10px;
 }
-.catTileIconWrap{
-  width:36px;
-  height:36px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.catTileImg{
+  width:100%;
+  height:100%;
+  background:#fff;
+  object-fit:cover;
+  object-position:center;
 }
-.catTileIconFallback{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
+.catTileLabel{
+  font-weight:600;
+  font-size:16px;
 }
-.catTileLabel{ margin-top:2px; font-weight:700; text-align:center; }
     button {
       border:1px solid var(--line);
       background:#fff;
-      border-radius:10px;
+      border-radius:var(--btnR);
       padding:10px 12px;
       cursor:pointer;
-      font:inherit;
     }
-    button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+    button:focus-visible{
+      outline:3px solid rgba(37,99,235,.35);
+      outline-offset:2px;
+    }
+    button.primary{
+      background:var(--primary);
+      color:#fff;
+      border:0;
+      border-radius:var(--btnR);
+      height:56px;
+      font-weight:600;
+      font-size:16px;
+      box-shadow:0 10px 24px rgba(17,24,39,0.10);
+    }
+    button.ghost{
+      background:transparent;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:var(--btnR);
+      height:56px;
+      font-weight:600;
+      font-size:16px;
+    }
     button:disabled { opacity:.5; cursor:not-allowed; }
     .list { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
-    .item { display:flex; justify-content:space-between; gap:10px; align-items:center; }
+    .item { display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap; }
     .card.item.incomplete { border:1px solid #ef4444; }
 .card.item .incompleteHint { color:#b91c1c; font-size:12px; margin-top:4px; }
     .pre { white-space:pre-wrap; background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow:auto; }
@@ -122,9 +196,9 @@
     /* Photos UI (Iteration 4.2.3) */
 .thumbGrid { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:10px; margin-top:10px; }
 .thumbCard { border:1px solid var(--line); border-radius:10px; padding:8px; background:#fff; }
-    .thumbImg { width:100%; height:110px; object-fit:cover; border-radius:8px; border:1px solid var(--line); background:#eef2ff; }
+.thumbImg { width:100%; height:110px; object-fit:cover; border-radius:8px; border:1px solid var(--line); background:#f3f4f6; }
 .thumbMeta { font-size:12px; color:var(--muted); margin-top:6px; display:flex; justify-content:space-between; gap:8px; }
-.thumbBtn { padding:6px 8px; border-radius:8px; }
+.thumbBtn { padding:6px 8px; border-radius:var(--btnR); }
 /* 4.3.1 inline field errors (no red borders) */
 .fieldError {
   margin-top: 6px;
@@ -142,87 +216,469 @@
 }
     /* ===== Sticky Footer (по ТЗ) ===== */
     .stickyFooter{
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #fff;
-      border-top: 1px solid var(--line);
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
-      z-index: 50;
+      position:fixed;
+      left:0; right:0; bottom:0;
+      background:var(--bg);
+      box-shadow:var(--shadowTop);
+      padding:12px var(--padX);
+      z-index:50;
     }
-    .stickyFooterInner{
-      max-width: 980px;
-      margin: 0 auto;
+    .stickyFooter .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      width:min(var(--wrapMax), 100%);
+      margin:0 auto;
     }
-
-    /* В футере кнопки не должны иметь верхний отступ */
-    .stickyFooter .actions { margin-top: 0; }
-
-    /* Кнопки в футере нормальной высоты */
-    .stickyFooter button { min-height: 48px; }
-
-    /* Запас снизу у контента, чтобы футер НЕ перекрывал последний элемент */
-    .wrap{
-      padding-bottom: calc(var(--footerH, 80px) + 16px);
+    .stickyFooter .actions.single{
+      grid-template-columns:1fr;
     }
-
-    /* Когда клавиатура открыта: футер превращаем в обычный блок (static) */
+    .stickyFooter .actions button{
+      height:56px;
+      border-radius:var(--btnR);
+      font-weight:600;
+      font-size:16px;
+      width:100%;
+      min-width:0;
+    }
+    .stickyFooter .actions button.primary{
+      background:var(--primary);
+      color:#fff;
+      border:0;
+      box-shadow:0 10px 24px rgba(17,24,39,0.10);
+    }
+    .stickyFooter .actions button:not(.primary){
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+    .stickyFooter .actions button:focus-visible{
+      outline:3px solid rgba(37,99,235,.35);
+      outline-offset:2px;
+    }
+    #screen{
+      padding-bottom:calc(var(--footerH) + 24px);
+      padding-top:12px;
+    }
     body.kbdOpen .stickyFooter{
-      position: static;
-      box-shadow: none;
-      padding-bottom: 10px;
+      position:static;
+      box-shadow:none;
+    }
+    body.kbdOpen #screen{
+      padding-bottom:24px;
+    }
+    /* ===== Stepper (modern) ===== */
+    #stepperCard{
+      position:sticky;
+      top:var(--headerH, 56px);
+      z-index:9;
+      background:var(--bg);
+      padding:8px 0;
+      border:0;
+      border-bottom:1px solid var(--line);
+      border-radius:0;
+      margin-top:0;
+    }
+    #stepperCard .row{
+      justify-content:stretch !important;
+      align-items:stretch !important;
+      gap:10px;
+      flex-direction:column;
+    }
+    #configMeta{
+      font-size:12px;
+      line-height:1.2;
+    }
+    #steps{
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+      width:100%;
+    }
+    #steps .stepBtn{
+      flex:1;
+      min-width:0;
+      position:relative;
+      height:72px; /* одинаковая “ячейка” для всех шагов */
+      border:1px solid rgba(17,24,39,0.06);
+      background:rgba(255,255,255,0.85);
+      border-radius:14px;
+      padding:8px 6px 18px; /* место под нижнюю полосу */
+      text-align:center;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.15;
+      font-weight:600;
+      white-space:normal;
+      overflow-wrap:anywhere;
+      hyphens:auto;
+      overflow:hidden; /* лишние строки не ломают высоту */
+      -webkit-tap-highlight-color: transparent;
+    }
+    #steps .stepBtn::after{
+      content:"";
+      display:block;
+      position:absolute;
+      left:8px;
+      right:8px;
+      bottom:8px;
+      height:6px;
+      border-radius:999px;
+      background:var(--line);
+    }
+    /* шаг доступен (пройден/текущий/следующий разрешён) */
+    #steps .stepBtn:not(:disabled)::after{
+      background:rgba(37,99,235,.35);
+    }
+    #steps .stepBtn.active{
+      color:var(--primary);
+      border-color:rgba(17,24,39,0.06); /* без синей “обводки” */
+      background:#fff;
+    }
+    #steps .stepBtn.active::after{
+      background:var(--primary);
+    }
+    #steps .stepBtn:disabled{
+      opacity:1;
+    }
+    #steps .stepBtn:focus,
+    #steps .stepBtn:focus-visible{
+      outline:none !important;
+      box-shadow:none !important;
+    }
+    /* ===== Floating label (MD3) ===== */
+    .mdField{
+      position:relative;
+      margin-top:14px;
+      width:100%;
+      max-width:100%;
+      min-width:0;
+      overflow:hidden;
+    }
+    .mdControl{
+      width:100%;
+      max-width:100%;
+      min-width:0;
+      height:64px;
+      border-radius:var(--r12);
+      border:1px solid var(--line);
+      background:#fff;
+      padding:34px 14px 6px;
+      font-size:16px;
+      color:var(--text);
+      box-sizing:border-box;
+      line-height:1.1;
+    }
+    .mdControl:focus{
+      outline:none;
+      border-color:rgba(37,99,235,.75);
+      box-shadow:0 0 0 3px rgba(37,99,235,.18);
+    }
+    .mdLabel{
+      position:absolute;
+      left:14px;
+      right:14px;
+      top:12px;
+      color:var(--muted);
+      font-size:15px;
+      pointer-events:none;
+      transition:transform .12s ease, font-size .12s ease, top .12s ease, color .12s ease;
+      background:#fff;
+      padding:0 6px;
+      max-width:calc(100% - 28px);
+      display:block;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .mdField.isActive .mdLabel{
+      top:6px;
+      font-size:10px;
+      color:var(--primary);
+    }
+    .mdField.isSelect .mdLabel{
+      right:44px;
+      max-width:calc(100% - 58px);
+    }
+    .mdField select.mdControl{
+      padding-right:44px;
+    }
+    .mdTextarea{
+      height:auto;
+      min-height:112px;
+      padding-top:22px;
+      resize:vertical;
+    }
+    .groupTitle{
+      margin-top:14px;
+      font-weight:700;
+    }
+    .groupGrid{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:12px;
+    }
+    .groupGrid.groupXY{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+    .groupGrid.groupXYZ{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+    .groupGrid .mdField{ margin-top:0; }
+    .span2{ grid-column:1 / -1; }
+
+    .miniBtn{
+      height:36px;
+      font-size:13px;
+      padding:0 12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      border-radius:var(--btnR);
+    }
+    .iconPrimary{ color:var(--primary); }
+
+    .summaryLine{
+      margin-top:6px;
+    }
+    .summaryLabel{
+      font-weight:700;
     }
 
-    /* И в этом режиме запас снизу не нужен */
-    body.kbdOpen .wrap{
-      padding-bottom: 16px;
+    .datePickerOverlay{
+      position:fixed;
+      inset:0;
+      z-index:120;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(15,23,42,0.25);
+    }
+    .datePickerCard{
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 18px 45px rgba(15,23,42,0.25);
+      padding:12px;
+      width:min(320px, 100% - 32px);
+      max-width:100%;
+      box-sizing:border-box;
+    }
+    .datePickerHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:8px;
+      font-weight:600;
+    }
+    .datePickerHeader button{
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:14px;
+    }
+    .datePickerWeek{
+      display:grid;
+      grid-template-columns:repeat(7, minmax(0, 1fr));
+      gap:4px;
+      margin-bottom:4px;
+      font-size:11px;
+      text-align:center;
+      color:var(--muted);
+    }
+    .datePickerGrid{
+      display:grid;
+      grid-template-columns:repeat(7, minmax(0, 1fr));
+      gap:4px;
+    }
+    .datePickerDay{
+      height:32px;
+      border-radius:999px;
+      border:1px solid transparent;
+      background:#f9fafb;
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+    }
+    .datePickerDay.today{
+      border-color:rgba(37,99,235,.45);
+    }
+    .datePickerDay.selected{
+      background:var(--primary);
+      color:#fff;
+    }
+    .datePickerDay.disabled{
+      opacity:.3;
+      cursor:not-allowed;
     }
 
-    @media (max-width: 640px) {
-      header { padding:10px 12px; }
-      .wrap { padding:10px; }
-      .card { border-radius:12px; padding:12px; }
-      .row { gap:8px; }
-      .steps { gap:6px; }
-      .stepBtn { padding:8px 10px; font-size:13px; }
-      .catTiles { gap:8px; }
-      .catTile { min-height:88px; }
-      .thumbGrid { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px; }
-      .stickyFooter { padding:8px 10px calc(8px + env(safe-area-inset-bottom, 0px)); }
-      .stickyFooter button { min-height:46px; }
-      .actions { width:100%; }
-      .actions > button { flex:1 1 0; min-width:0; }
+    .sigOverlay{
+      position:fixed;
+      inset:0;
+      background:#fff;
+      z-index:100;
+      display:flex;
+      flex-direction:column;
+      padding:12px;
+      gap:10px;
+      overflow:auto;
+    }
+    .sigCanvas{
+      width:100%;
+      min-height:220px; /* +50% и больше */
+      max-height:82vh;
+      flex-shrink:0;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:12px;
+      touch-action:none;
+      display:block;
+    }
+    .sigActions{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:10px;
+      flex-shrink:0;
+      padding-bottom:env(safe-area-inset-bottom, 0);
+    }
+    .sigActions button{
+      height:48px;
+      border-radius:var(--btnR);
+      font-size:14px;
+      font-weight:600;
     }
 
-    @media (min-width: 641px) {
-      .catTiles { grid-template-columns:repeat(4, minmax(0, 1fr)); }
+    .stickyFooter .actions button{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      line-height:1.15;
+      padding:0 14px;
     }
+  
+    /* ===== Design refresh: SOGAZ ===== */
+    :root{
+      --bg:#F3F4F8;
+      --card:#F7F8FC;
+      --primary:#000078;
+      --primaryActive:#1749D9;
+      --soft:#F3F6FD;
+      --softText:#1749D9;
+      --text:#1E2953;
+      --muted:#8A92A6;
+      --line:#E5E9F2;
+      --r12:14px;
+      --btnR:16px;
+      --wrapMax:430px;
+      --padX:14px;
+      --padY:0px;
+      --shadowTop:0 -8px 30px rgba(17,24,39,0.06);
+    }
+    body{ background:var(--bg); color:var(--text); font:15px/1.45 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
+    .appHeader{ background:#fff; border-bottom:1px solid var(--line); padding:14px var(--padX); }
+    .headerInner{ width:min(var(--wrapMax), 100%); margin:0 auto; display:flex; align-items:center; min-height:44px; }
+    .brandLogo{ display:block; height:22px; width:auto; max-width:140px; object-fit:contain; }
+    .wrap{ max-width:var(--wrapMax); padding:18px var(--padX) 20px; }
+    .flowIntro{ margin:0 0 10px; padding:4px 2px 0; }
+    .flowIntro h2{ margin:0; font-size:18px; line-height:1.28; font-weight:800; color:var(--text); letter-spacing:-0.02em; }
+    #stepperCard{ position:sticky; top:var(--headerH, 56px); z-index:9; background:transparent; border:0; border-radius:0; padding:0; margin:0 0 14px; }
+    #stepperCard .row{ flex-direction:column; gap:0; align-items:stretch !important; }
+    #configMeta{ display:none; }
+    #steps{ display:flex; gap:8px; align-items:flex-start; width:100%; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
+    #steps::-webkit-scrollbar{ display:none; }
+    #steps .stepBtn{ flex:1 1 0; min-width:0; position:relative; display:flex; align-items:center; justify-content:flex-start; gap:8px; min-height:34px; padding:0 10px 0 0; background:transparent; border:0; border-radius:0; color:#B0B6C5; font-size:11px; font-weight:600; line-height:1.2; text-align:left; overflow:visible; }
+    #steps .stepBtn::after{ content:""; position:absolute; top:11px; left:calc(100% - 8px); width:16px; height:1px; background:#D9DEEA; }
+    #steps .stepBtn:last-child::after{ display:none; }
+    .stepBtnIndex{ width:22px; height:22px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; flex:0 0 22px; background:#ECEFF6; color:#9AA3B5; font-size:11px; font-weight:700; }
+    .stepBtnLabel{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    #steps .stepBtn:not(:disabled){ color:#6D7590; }
+    #steps .stepBtn:not(:disabled) .stepBtnIndex{ background:#EDF1FF; color:#5C6A92; }
+    #steps .stepBtn.active{ color:var(--primary); }
+    #steps .stepBtn.active .stepBtnIndex{ background:#E7EEFF; color:var(--primary); }
+    #steps .stepBtn:disabled{ opacity:1; color:#C1C6D3; }
+    #screen.card{ background:#fff; border:0; border-radius:28px; padding:16px 14px calc(var(--footerH) + 18px); box-shadow:none; }
+    #debugCard.card{ border-radius:20px; background:#fff; }
+    .card{ background:var(--card); border:0; border-radius:22px; padding:14px; box-shadow:none; }
+    .stepH1{ margin:0 0 14px; font-size:16px; line-height:1.25; font-weight:800; letter-spacing:-0.01em; color:var(--text); }
+    .sectionLead{ margin:0 0 10px; font-size:15px; font-weight:800; color:var(--text); }
+    .muted{ color:var(--muted); }
+    .actions{ display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px; }
+    button, .actions button, .stickyFooter .actions button{ border-radius:16px; border:1px solid transparent; font-weight:600; box-shadow:none; transition:background-color .16s ease, color .16s ease, transform .16s ease, border-color .16s ease; }
+    button.primary, .actions button.primary, .stickyFooter .actions button.primary{ background:var(--primary); color:#fff; border-color:transparent; box-shadow:none; }
+    button.primary:hover, button.primary:active, .actions button.primary:hover, .actions button.primary:active, .stickyFooter .actions button.primary:hover, .stickyFooter .actions button.primary:active{ background:var(--primaryActive); }
+    button.ghost, .actions button.ghost, .stickyFooter .actions button:not(.primary), button.softBtn, .actions button.softBtn{ background:var(--soft); color:var(--primary); border-color:transparent; }
+    button.ghost:hover, button.ghost:active, button.softBtn:hover, button.softBtn:active, .stickyFooter .actions button:not(.primary):hover, .stickyFooter .actions button:not(.primary):active{ background:var(--primaryActive); color:#fff; }
+    .iconPrimary{ color:currentColor; }
+    button:disabled{ opacity:1; cursor:not-allowed; }
+    button.primary:disabled{ background:#CFD8F0; color:#fff; }
+    button.ghost:disabled, button.softBtn:disabled, .stickyFooter .actions button:not(.primary):disabled{ background:#EEF1F7; color:#B1B8C8; }
+    .stickyFooter{ background:rgba(243,244,248,0.94); backdrop-filter:blur(8px); box-shadow:var(--shadowTop); border-top:1px solid var(--line); padding:12px var(--padX) calc(12px + env(safe-area-inset-bottom, 0px)); }
+    .stickyFooter .actions{ gap:10px; width:min(var(--wrapMax), 100%); }
+    .stickyFooter .actions button{ min-height:48px; font-size:15px; padding:0 14px; }
+    #screen{ padding-bottom:calc(var(--footerH) + 20px); padding-top:0; }
+    .mdField{ margin-top:10px; overflow:visible; }
+    .mdControl, input[type="text"], input[type="date"], textarea, select, input[type="number"]{ background:#F1F3F8; border:1px solid transparent; border-radius:14px; color:var(--text); box-shadow:none; }
+    .mdControl{ height:58px; padding:26px 16px 10px; font-size:15px; }
+    .mdControl:focus, input[type="text"]:focus, input[type="date"]:focus, textarea:focus, select:focus, input[type="number"]:focus{ outline:none; border-color:#C7D4FF; box-shadow:0 0 0 3px rgba(23,73,217,0.08); background:#F5F7FE; }
+    .mdLabel{ left:16px; right:16px; top:18px; padding:0; font-size:14px; color:#7F879B; background:transparent; }
+    .mdField.isActive .mdLabel{ top:8px; font-size:10px; color:var(--primaryActive); }
+    .mdField.isSelect .mdLabel{ right:42px; }
+    .mdField.isDate::after{ content:""; position:absolute; right:16px; top:50%; transform:translateY(-50%); width:18px; height:18px; pointer-events:none; opacity:.7; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%231E2953' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='3' ry='3'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E") center/contain no-repeat; }
+    .mdField.isDate .mdControl{ padding-right:44px; }
+    .mdTextarea{ min-height:108px; padding-top:24px; }
+    .fieldError{ margin-top:5px; margin-left:4px; font-size:12px; color:#C23030; }
+    .groupTitle{ margin-top:18px; margin-bottom:2px; font-size:15px; font-weight:800; color:var(--text); }
+    .groupGrid{ gap:10px; margin-top:8px; }
+    .groupGrid.groupXY{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+    .groupGrid.groupXYZ{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+    .catTiles{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; margin-top:8px; }
+    .catTile{ position:relative; display:flex; align-items:flex-start; justify-content:flex-start; min-height:94px; padding:12px; border:0; border-radius:14px; background:#EEF2FB; text-align:left; overflow:hidden; }
+    .catTile.active{ background:linear-gradient(135deg, #3360FF, #1749D9); box-shadow:none; }
+    .catTileIcon{ position:absolute; right:2px; bottom:-2px; width:74px; height:74px; border-radius:0; background:transparent; margin:0; display:block; }
+    .catTileImg{ width:100%; height:100%; object-fit:contain; background:transparent; }
+    .catTileLabel{ position:relative; z-index:1; max-width:62%; font-size:12px; font-weight:600; color:var(--text); line-height:1.25; }
+    .catTile.active .catTileLabel{ color:#fff; }
+    .list{ gap:12px; margin-top:0; }
+    .item.card{ background:#fff; border:1px solid #EEF1F6; border-radius:18px; padding:14px; display:flex; flex-direction:column; align-items:stretch; gap:12px; }
+    .item.card.incomplete{ border-color:#F3D6D6; background:#FFFDFD; }
+    .item .row{ gap:8px; }
+    .miniBtn{ min-height:40px; padding:0 14px; border-radius:14px; font-size:13px; }
+    .thumbGrid{ grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; }
+    .thumbCard{ border:0; border-radius:16px; background:#fff; padding:8px; }
+    .thumbImg{ height:108px; border-radius:12px; border:0; background:#EEF2F8; }
+    .thumbMeta{ margin-top:8px; align-items:center; }
+    .thumbBtn{ background:var(--soft); color:var(--primary); border:0; border-radius:12px; }
+    .summaryLine{ margin-top:8px; }
+    .summaryLabel{ font-weight:700; }
+    .datePickerCard, .sigSheet{ border-radius:24px; border:0; }
+    .sigCanvas{ border-radius:18px; border:0; background:#F8FAFD; }
+    @media (max-width:380px){ .flowIntro h2{ font-size:17px; } .stepBtnLabel{ font-size:10px; } .stickyFooter .actions button{ font-size:14px; } }
+
   </style>
 </head>
 <body>
-<header>
-  <div class="row" style="justify-content:space-between; align-items:center;">
-    <div id="brandTitle" style="font-weight:800;">Осмотрум - СОГАЗ</div>
-    <div class="row">
-      <button id="resetBtn" type="button">Новый осмотр</button>
-    </div>
+<header class="appHeader">
+  <div class="headerInner">
+    <img id="brandLogo" class="brandLogo" src="images/Logo.svg" alt="СОГАЗ" />
   </div>
 
   <!-- Скрытые элементы (нужны JS-логике, но не показываем в UI) -->
   <div style="display:none;">
-    <div id="statusLine"></div>
+    <button id="resetBtn" type="button">Новый осмотр</button>
+    <div id="statusLine" role="status" aria-live="polite"></div>
     <div id="persistLine"></div>
     <input id="configFile" type="file" accept=".json,application/json" />
   </div>
 </header>
 
 <div class="wrap">
+  <section id="flowIntro" class="flowIntro" aria-label="Заголовок процесса">
+    <h2>Самостоятельный осмотр страхового события</h2>
+  </section>
   <div class="card" id="stepperCard" style="display:none;">
     <div class="row" style="justify-content:space-between;">
       <div class="steps" id="steps"></div>
-      <div class="muted" id="configMeta"></div>
+      <div class="muted" id="configMeta" aria-hidden="true"></div>
     </div>
   </div>
 
@@ -6743,72 +7199,269 @@ function __markUserPointer(e) {
   if (key) __pendingFocus = { key, ts: Date.now() };
 }
 
+const DatePicker = (() => {
+  function parseIso(iso) {
+    if (!iso) return null;
+    const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return null;
+    const [, y, mm, dd] = m;
+    const d = new Date(Number(y), Number(mm) - 1, Number(dd));
+    if (Number.isNaN(d.getTime())) return null;
+    return d;
+  }
+  function fmtIso(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${dd}`;
+  }
+  function clampToMax(d, maxIso) {
+    if (!maxIso) return d;
+    const max = parseIso(maxIso);
+    if (!max) return d;
+    if (d.getTime() > max.getTime()) return max;
+    return d;
+  }
+  function open({ valueIso, maxIso, onSelect }) {
+    const now = valueIso ? (parseIso(valueIso) || new Date()) : new Date();
+    let current = clampToMax(now, maxIso);
+    const overlay = document.createElement("div");
+    overlay.className = "datePickerOverlay";
+    const card = document.createElement("div");
+    card.className = "datePickerCard";
+    overlay.appendChild(card);
+    const header = document.createElement("div");
+    header.className = "datePickerHeader";
+    const prevBtn = document.createElement("button");
+    prevBtn.type = "button";
+    prevBtn.className = "ghost miniBtn";
+    prevBtn.textContent = "‹";
+    const titleEl = document.createElement("div");
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "ghost miniBtn";
+    nextBtn.textContent = "›";
+    header.appendChild(prevBtn);
+    header.appendChild(titleEl);
+    header.appendChild(nextBtn);
+    card.appendChild(header);
+    const week = document.createElement("div");
+    week.className = "datePickerWeek";
+    for (const d of ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"]) {
+      const w = document.createElement("div");
+      w.textContent = d;
+      week.appendChild(w);
+    }
+    card.appendChild(week);
+    const grid = document.createElement("div");
+    grid.className = "datePickerGrid";
+    card.appendChild(grid);
+    const today = new Date();
+    const todayIso = fmtIso(today);
+
+    function render() {
+      const y = current.getFullYear();
+      const m = current.getMonth();
+      titleEl.textContent = current.toLocaleString("ru-RU", { month:"long", year:"numeric" });
+      grid.replaceChildren();
+      const first = new Date(y, m, 1);
+      const startIdx = (first.getDay() + 6) % 7;
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      for (let i = 0; i < startIdx; i++) grid.appendChild(document.createElement("div"));
+      for (let d = 1; d <= daysInMonth; d++) {
+        const date = new Date(y, m, d);
+        const iso = fmtIso(date);
+        if (maxIso && iso > maxIso) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "datePickerDay disabled";
+          btn.textContent = String(d);
+          btn.disabled = true;
+          grid.appendChild(btn);
+          continue;
+        }
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "datePickerDay";
+        if (iso === todayIso) btn.classList.add("today");
+        if (valueIso && iso === valueIso) btn.classList.add("selected");
+        btn.textContent = String(d);
+        btn.addEventListener("click", () => {
+          if (typeof onSelect === "function") onSelect(iso);
+          overlay.remove();
+        });
+        grid.appendChild(btn);
+      }
+    }
+    prevBtn.addEventListener("click", () => {
+      current = new Date(current.getFullYear(), current.getMonth() - 1, 1);
+      current = clampToMax(current, maxIso);
+      render();
+    });
+    nextBtn.addEventListener("click", () => {
+      current = new Date(current.getFullYear(), current.getMonth() + 1, 1);
+      current = clampToMax(current, maxIso);
+      render();
+    });
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
+    render();
+  }
+  return { open };
+})();
+
+const Signature = (() => {
+  const KEY = "signature_data_url";
+
+  function get() {
+    try { return localStorage.getItem(KEY) || ""; } catch { return ""; }
+  }
+  function set(v) {
+    try { if (v) localStorage.setItem(KEY, v); else localStorage.removeItem(KEY); } catch {}
+  }
+
+  function open({ onSave }) {
+    const overlay = el("div", { class:"sigOverlay" });
+    const title = el("div", { text:"Подпиши акт пальцем", style:"font-weight:700;" });
+    const canvas = el("canvas", { class:"sigCanvas" });
+    const row = el("div", { class:"sigActions" }, [
+      el("button", { type:"button", class:"ghost", text:"Отмена" }),
+      el("button", { type:"button", class:"ghost", text:"Очистить" }),
+      el("button", { type:"button", class:"primary", text:"Сохранить" }),
+    ]);
+    overlay.appendChild(title);
+    overlay.appendChild(canvas);
+    overlay.appendChild(row);
+    document.body.appendChild(overlay);
+
+    const [cancelBtn, clearBtn, saveBtn] = Array.from(row.querySelectorAll("button"));
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      const r = canvas.getBoundingClientRect();
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(r.width * dpr);
+      canvas.height = Math.floor(r.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.lineWidth = 3.2;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#111827";
+      ctx.setLineDash([]);
+      ctx.imageSmoothingEnabled = true;
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, r.width, r.height);
+    }
+    resize();
+    window.addEventListener("resize", resize, { once:true });
+
+    let drawing = false;
+    let hasInk = false;
+    let lastPt = null;
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    const pt = (e) => {
+      const r = canvas.getBoundingClientRect();
+      const t = e.touches ? e.touches[0] : e;
+      return { x: t.clientX - r.left, y: t.clientY - r.top };
+    };
+    const start = (e) => {
+      e.preventDefault();
+      drawing = true;
+      const p = pt(e);
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      lastPt = p;
+      hasInk = true;
+      minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
+      minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
+    };
+    const move = (e) => {
+      if (!drawing) return;
+      e.preventDefault();
+      const p = pt(e);
+      if (!lastPt) lastPt = p;
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      lastPt = p;
+      minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
+      minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
+    };
+    const end = () => { drawing = false; lastPt = null; };
+
+    if (window.PointerEvent) {
+      canvas.addEventListener("pointerdown", start);
+      canvas.addEventListener("pointermove", move);
+      canvas.addEventListener("pointerup", end);
+      canvas.addEventListener("pointercancel", end);
+      canvas.addEventListener("pointerleave", end);
+    } else {
+      canvas.addEventListener("mousedown", start);
+      canvas.addEventListener("mousemove", move);
+      canvas.addEventListener("mouseup", end);
+      canvas.addEventListener("mouseleave", end);
+      canvas.addEventListener("touchstart", start, { passive:false });
+      canvas.addEventListener("touchmove", move, { passive:false });
+      canvas.addEventListener("touchend", end);
+    }
+
+    cancelBtn.addEventListener("click", () => overlay.remove());
+    clearBtn.addEventListener("click", () => {
+      const r = canvas.getBoundingClientRect();
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
+      ctx.setTransform(Math.max(1, window.devicePixelRatio || 1), 0, 0, Math.max(1, window.devicePixelRatio || 1), 0, 0);
+      ctx.lineWidth = 3.2;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.setLineDash([]);
+      ctx.strokeStyle = "#111827";
+      hasInk = false;
+      lastPt = null;
+      minX = Infinity; minY = Infinity; maxX = -Infinity; maxY = -Infinity;
+    });
+    saveBtn.addEventListener("click", () => {
+      let dataUrl = "";
+      if (hasInk && Number.isFinite(minX) && Number.isFinite(minY)) {
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        const pad = 8;
+        const sx = Math.max(0, Math.floor((minX - pad) * dpr));
+        const sy = Math.max(0, Math.floor((minY - pad) * dpr));
+        const sw = Math.max(1, Math.ceil((maxX - minX + pad * 2) * dpr));
+        const sh = Math.max(1, Math.ceil((maxY - minY + pad * 2) * dpr));
+        const crop = document.createElement("canvas");
+        crop.width = sw;
+        crop.height = sh;
+        const cctx = crop.getContext("2d");
+        cctx.fillStyle = "#fff";
+        cctx.fillRect(0, 0, sw, sh);
+        cctx.drawImage(canvas, sx, sy, sw, sh, 0, 0, sw, sh);
+        dataUrl = crop.toDataURL("image/png");
+      }
+      set(dataUrl);
+      overlay.remove();
+      if (typeof onSave === "function") onSave(dataUrl);
+    });
+  }
+
+  function toBlob(dataUrl) {
+    if (!dataUrl) return null;
+    const [meta, b64] = dataUrl.split(",");
+    const mime = (meta.match(/data:(.*?);base64/) || [])[1] || "image/png";
+    const bin = atob(b64 || "");
+    const u8 = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    return new Blob([u8], { type: mime });
+  }
+
+  return { get, set, open, toBlob };
+})();
+
 window.addEventListener("pointerdown", __markUserPointer, { capture:true, passive:true });
 window.addEventListener("mousedown", __markUserPointer, { capture:true, passive:true });
 window.addEventListener("touchstart", __markUserPointer, { capture:true, passive:true });
-
-const CATEGORY_ICON_CANDIDATES = {
-  "Помещение": [
-    "./images/Gemini_Generated_Image_2vtzki2vtzki2vtz.png",
-    "./icons/pomeshchenie.svg", "./icons/pomeshchenie.png", "./icons/pomeshchenie.webp", "./icons/pomeshchenie.jpg", "./icons/pomeshchenie.jpeg",
-    "./icons/room.svg", "./icons/room.png", "./icons/room.webp", "./icons/room.jpg", "./icons/room.jpeg",
-    "./помещение.svg", "./помещение.png", "./помещение.webp", "./помещение.jpg", "./помещение.jpeg"
-  ],
-  "Здание": [
-    "./images/Gemini_Generated_Image_lqxfsdlqxfsdlqxf.png",
-    "./icons/zdanie.svg", "./icons/zdanie.png", "./icons/zdanie.webp", "./icons/zdanie.jpg", "./icons/zdanie.jpeg",
-    "./icons/building.svg", "./icons/building.png", "./icons/building.webp", "./icons/building.jpg", "./icons/building.jpeg",
-    "./здание.svg", "./здание.png", "./здание.webp", "./здание.jpg", "./здание.jpeg"
-  ],
-  "Мебель": [
-    "./images/Gemini_Generated_Image_96i9wk96i9wk96i9.png",
-    "./icons/mebel.svg", "./icons/mebel.png", "./icons/mebel.webp", "./icons/mebel.jpg", "./icons/mebel.jpeg",
-    "./icons/furniture.svg", "./icons/furniture.png", "./icons/furniture.webp", "./icons/furniture.jpg", "./icons/furniture.jpeg",
-    "./мебель.svg", "./мебель.png", "./мебель.webp", "./мебель.jpg", "./мебель.jpeg"
-  ],
-  "Остекление": [
-    "./images/Gemini_Generated_Image_mk5w7imk5w7imk5w.png",
-    "./icons/osteklenie.svg", "./icons/osteklenie.png", "./icons/osteklenie.webp", "./icons/osteklenie.jpg", "./icons/osteklenie.jpeg",
-    "./icons/glazing.svg", "./icons/glazing.png", "./icons/glazing.webp", "./icons/glazing.jpg", "./icons/glazing.jpeg",
-    "./остекление.svg", "./остекление.png", "./остекление.webp", "./остекление.jpg", "./остекление.jpeg"
-  ]
-};
-
-function buildCategoryIconNode(category, fallbackEmoji) {
-  const paths = CATEGORY_ICON_CANDIDATES[category] || [];
-  const wrap = el("div", { class: "catTileIconWrap" });
-  const img = el("img", { class: "catTileIcon", alt: category || "Категория", loading: "lazy", decoding: "async" });
-  const fallback = el("div", { class: "catTileIconFallback", text: fallbackEmoji || "•" });
-  wrap.appendChild(img);
-  wrap.appendChild(fallback);
-
-  if (!paths.length) {
-    img.style.display = "none";
-    fallback.style.display = "flex";
-    return wrap;
-  }
-
-  let idx = 0;
-  const tryNext = () => {
-    if (idx >= paths.length) {
-      img.style.display = "none";
-      fallback.style.display = "flex";
-      return;
-    }
-    const next = paths[idx++];
-    img.style.display = "block";
-    fallback.style.display = "none";
-    img.src = next;
-  };
-
-  img.addEventListener("error", tryNext);
-  img.addEventListener("load", () => {
-    fallback.style.display = "none";
-  });
-
-  tryNext();
-  return wrap;
-}
 
   function el(tag, props = {}, children = []) {
   const n = document.createElement(tag);
@@ -6847,6 +7500,37 @@ function buildCategoryIconNode(category, fallbackEmoji) {
   return n;
 }
 
+  function mountMdField({ parent, labelText, required, controlEl, starEl }) {
+    const wrap = el("div", { class:"mdField" });
+    const lab = el("div", { class:"mdLabel" }, [
+      document.createTextNode(labelText),
+      required ? document.createTextNode(" ") : null,
+      required ? starEl : null
+    ].filter(Boolean));
+
+    controlEl.classList.add("mdControl");
+    if (controlEl.tagName === "SELECT") wrap.classList.add("isSelect");
+
+    const sync = () => {
+      const hasVal = (controlEl.tagName === "SELECT")
+        ? !!controlEl.value
+        : !!String(controlEl.value || "").trim();
+      const focused = document.activeElement === controlEl;
+      wrap.classList.toggle("isActive", focused || hasVal);
+    };
+
+    controlEl.addEventListener("focus", sync);
+    controlEl.addEventListener("blur", sync);
+    controlEl.addEventListener("input", sync);
+    controlEl.addEventListener("change", sync);
+
+    wrap.appendChild(controlEl);
+    wrap.appendChild(lab);
+    parent.appendChild(wrap);
+    sync();
+    return wrap;
+  }
+
   // ===============================
   // Sticky Footer helpers
   // ===============================
@@ -6876,6 +7560,18 @@ function buildCategoryIconNode(category, fallbackEmoji) {
 
     window.addEventListener("resize", () => measure());
     return { set, clear, measure };
+  })();
+
+  const HeaderSticky = (() => {
+    const host = document.querySelector("header");
+    if (!host) return { measure: () => {} };
+    function measure() {
+      const h = host.offsetHeight || 0;
+      document.documentElement.style.setProperty("--headerH", `${h}px`);
+    }
+    window.addEventListener("resize", () => measure());
+    requestAnimationFrame(measure);
+    return { measure };
   })();
 
     // ===============================
@@ -6931,11 +7627,19 @@ if (changed) {
     window.visualViewport.addEventListener("scroll", updateKeyboardState);
   }
 
-  // Фолбэк (если visualViewport нет)
+  // Фолбэк (если visualViewport нет) + на Android прокрутка поля в видимую область при открытии клавиатуры
   window.addEventListener("focusin", (e) => {
     const t = e.target;
     if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT")) {
       setTimeout(updateKeyboardState, 50);
+      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      if (isTouch) {
+        setTimeout(() => {
+          if (document.activeElement === t && t.scrollIntoView) {
+            t.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 350);
+      }
     }
   });
   window.addEventListener("focusout", () => setTimeout(updateKeyboardState, 250));
@@ -7448,6 +8152,113 @@ function formatErr(e) {
   try { return JSON.stringify(e); } catch { return String(e); }
 }
 
+function isWorkerTimeoutErr(e) {
+  const code = String(e?.code || "");
+  const msg = String(e?.message || "");
+  return code === "E_WORKER_TIMEOUT" || /No response from img-worker/i.test(msg);
+}
+
+function getIOSMajorVersion() {
+  const ua = String(navigator.userAgent || "");
+  const isiPhoneIPadIPod = /iP(hone|ad|od)/i.test(ua);
+  const isIPadOSDesktopUA =
+    navigator.platform === "MacIntel" &&
+    typeof navigator.maxTouchPoints === "number" &&
+    navigator.maxTouchPoints > 1;
+  if (!isiPhoneIPadIPod && !isIPadOSDesktopUA) return null;
+
+  const m = ua.match(/OS (\d+)_/i);
+  if (!m) return null;
+  const major = Number(m[1]);
+  return Number.isFinite(major) ? major : null;
+}
+
+function shouldBypassWorkerForImages() {
+  const iosMajor = getIOSMajorVersion();
+  // iOS 15/16 и ниже чаще зависают в worker + OffscreenCanvas на тяжёлых фото — обходим воркер.
+  return iosMajor != null && iosMajor <= 16;
+}
+
+async function normalizeImageFallbackMainThread(file, cfg) {
+  if (!file) throw new Error("No file provided");
+
+  const isIOS = /iP(hone|ad|od)/i.test(navigator.userAgent || "");
+  const cfgMaxLong = Number(cfg?.constraints?.images?.max_long_side_px) || 2560;
+  const cfgTargetBytes = Number(cfg?.constraints?.images?.target_max_bytes) || 900000;
+
+  // На iOS при fallback слегка ужимаем лимиты, чтобы пройти по памяти стабильнее.
+  const maxLongSidePx = isIOS ? Math.min(cfgMaxLong, 1920) : cfgMaxLong;
+  const targetMaxBytes = isIOS ? Math.min(cfgTargetBytes, 700000) : cfgTargetBytes;
+
+  let src = null;
+  let srcW = 0;
+  let srcH = 0;
+  let srcClose = null;
+
+  try {
+    try {
+      src = await createImageBitmap(file, { imageOrientation: "from-image" });
+      srcW = src.width;
+      srcH = src.height;
+      srcClose = () => src?.close?.();
+    } catch {
+      const objectUrl = URL.createObjectURL(file);
+      try {
+        const img = await new Promise((resolve, reject) => {
+          const i = new Image();
+          i.onload = () => resolve(i);
+          i.onerror = () => reject(new Error("Image decode failed"));
+          i.src = objectUrl;
+        });
+        src = img;
+        srcW = img.naturalWidth || img.width;
+        srcH = img.naturalHeight || img.height;
+      } finally {
+        URL.revokeObjectURL(objectUrl);
+      }
+    }
+
+    if (!srcW || !srcH) throw new Error("Invalid source image size");
+
+    const longSide = Math.max(srcW, srcH);
+    const scale = longSide > maxLongSidePx ? (maxLongSidePx / longSide) : 1;
+    const outW = Math.max(1, Math.round(srcW * scale));
+    const outH = Math.max(1, Math.round(srcH * scale));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = outW;
+    canvas.height = outH;
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) throw new Error("Canvas 2D context unavailable");
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, outW, outH);
+    ctx.drawImage(src, 0, 0, outW, outH);
+
+    let quality = 0.9;
+    let blob = null;
+    for (let i = 0; i < 8; i++) {
+      blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
+      if (!blob) throw new Error("JPEG conversion failed");
+      if (blob.size <= targetMaxBytes || quality <= 0.6) break;
+      quality = Math.max(0.6, quality - 0.06);
+    }
+
+    if (!blob) throw new Error("JPEG conversion failed");
+    return {
+      normalized: {
+        blob,
+        mime: "image/jpeg",
+        bytes: blob.size,
+        width: outW,
+        height: outH
+      }
+    };
+  } finally {
+    try { srcClose && srcClose(); } catch {}
+  }
+}
+
 // ===============================
 // Image Pipeline (IDB images + thumbs)
 // ===============================
@@ -7514,7 +8325,29 @@ const ImagePipeline = (() => {
 
     for (const file of list) {
       try {
-        const r = await adapter.processFile({ file, photoId: "tmp", timeoutMs: 120000 });
+        let r = null;
+        if (shouldBypassWorkerForImages()) {
+          // На iOS 16 и ниже сразу обходим worker-path.
+          r = await normalizeImageFallbackMainThread(file, cfg);
+        } else {
+          try {
+            r = await adapter.processFile({ file, photoId: "tmp", timeoutMs: 120000 });
+          } catch (e1) {
+            if (!isWorkerTimeoutErr(e1)) throw e1;
+
+            // Retry после перезапуска worker.
+            try {
+              adapter.close();
+              await adapter.init(cfg);
+              r = await adapter.processFile({ file, photoId: "tmp", timeoutMs: 90000 });
+            } catch (e2) {
+              if (!isWorkerTimeoutErr(e2)) throw e2;
+              // Последний fallback: обработка на main thread для iOS/WebKit нестабильных кейсов.
+              r = await normalizeImageFallbackMainThread(file, cfg);
+            }
+          }
+        }
+
         const photoId = await saveNormalizedBlobToIdb({
           blob: r.normalized.blob,
           mime: r.normalized.mime || "image/jpeg",
@@ -8114,6 +8947,8 @@ function initRulesEngine(cfg) {
     const n = $("statusLine");
     n.className = kind === "err" ? "err" : kind === "ok" ? "ok" : "muted";
     n.textContent = text;
+    n.setAttribute("role", kind === "err" ? "alert" : "status");
+    n.setAttribute("aria-live", kind === "err" ? "assertive" : "polite");
   }
     // ===============================
   // Hidden debug mode (7 taps on "Анкета" in stepper)
@@ -8231,6 +9066,8 @@ function initRulesEngine(cfg) {
     const canNext = (StepGuards.canNextByStepId[st.stepId] !== false);
 
     btns.forEach((b, i) => {
+      const step = steps[i];
+      b.classList.toggle("active", step && step.id === st.stepId);
       if (i <= curIdx) b.disabled = false;               // назад всегда можно
       else if (i === curIdx + 1) b.disabled = !canNext;  // вперёд только на 1 шаг и только если валидно
       else b.disabled = true;                             // нельзя перепрыгивать через шаги
@@ -8375,6 +9212,34 @@ function __applyPendingFocusAfterRender() {
     return true;
   }
 
+
+  const UI_TEXT = Object.freeze({
+    flowTitle: "Самостоятельный осмотр страхового события",
+    steps: { step1: "Информация", step3: "Повреждения", step2: "Проверка", step4: "Отправка" },
+    screens: { step1: "Общая информация", step3: "Добавить повреждение", step2: "Проверка", step4: "Отправка" }
+  });
+
+  function getUiStepId(stepOrId) {
+    return typeof stepOrId === "string" ? stepOrId : (stepOrId?.id || "");
+  }
+
+  function getUiStepLabel(stepOrId, fallback = "") {
+    const id = getUiStepId(stepOrId);
+    return UI_TEXT.steps[id] || fallback || (typeof stepOrId === "object" ? stepOrId?.title : "") || "";
+  }
+
+  function getUiScreenTitle(stepOrId, fallback = "") {
+    const id = getUiStepId(stepOrId);
+    return UI_TEXT.screens[id] || fallback || getUiStepLabel(stepOrId, fallback);
+  }
+
+  function getUiStepNumber(stepOrId) {
+    const id = getUiStepId(stepOrId);
+    const order = ["step1", "step3", "step2", "step4"];
+    const idx = order.indexOf(id);
+    return idx >= 0 ? String(idx + 1) : "";
+  }
+
   function render() {
     const st = Store.get();
     const __prevKeep = __captureRenderKeep();
@@ -8383,6 +9248,7 @@ function __applyPendingFocusAfterRender() {
 
     StickyFooter.clear();
     updateKeyboardState();
+    HeaderSticky.measure();
 
     // Debug (показываем только в режиме диагностики)
     const dbgOn = DebugMode.isEnabled();
@@ -8410,6 +9276,7 @@ function __applyPendingFocusAfterRender() {
 
       // если встроенного конфига нет/битый — покажем короткую ошибку (не инструкцию про выбор файла)
       $("stepperCard").style.display = "none";
+      document.documentElement.style.setProperty("--stepperH", "14px");
       screen.appendChild(el("div", { class:"muted hint", text:"Для начала работы в сервисе самоосмотра перезагрузите страницу. После перезагрузки страницы сервис может работать офлайн." }));
       return;
     }
@@ -8424,12 +9291,12 @@ function __applyPendingFocusAfterRender() {
     for (const s of steps) {
       stepsWrap.appendChild(el("button", {
         type:"button",
-        class:"stepBtn",
+        class:"stepBtn" + (s.id === st.stepId ? " active" : ""),
         "aria-current": String(s.id === st.stepId),
-        text: s.title,
+        "aria-label": getUiStepLabel(s, s.title),
         onclick: () => {
                 // Секрет: 7 тапов по шагу "Анкета" (step1) включает/выключает диагностику
-      if (s.id === "step1" && s.title === "Анкета") DebugUnlock.tap();
+      if (s.id === "step1") DebugUnlock.tap();
       
   const stNow = Store.get();
   const stepsNow = stNow.config.ui.steps;
@@ -8457,7 +9324,7 @@ requestAnimationFrame(() => {
   if (tgtIdx === curIdx + 1) {
     const ok = (StepGuards.canNextByStepId[stNow.stepId] !== false);
     if (!ok) {
-      setStatus("Сначала заполни обязательные поля текущего шага.", "err");
+      setStatus("Сначала заполните обязательные поля текущего шага.", "err");
       const damageId = (stNow.stepId === "step3" && stNow.current_damage_index != null) ? stNow.current_damage_index : null;
       UIValidation.markAttempt(stNow.stepId, damageId);
       render();
@@ -8472,8 +9339,16 @@ requestAnimationFrame(() => {
   setStatus("Нельзя пропускать шаги. Перейди на следующий шаг по порядку.", "err");
   refreshStepperAvailability();
 }
-      }));
+      }, [
+        el("span", { class:"stepBtnIndex", text:getUiStepNumber(s) }),
+        el("span", { class:"stepBtnLabel", text:getUiStepLabel(s, s.title) })
+      ]));
     }
+
+    requestAnimationFrame(() => {
+      const sc = $("stepperCard");
+      if (sc && sc.offsetHeight) document.documentElement.style.setProperty("--stepperH", sc.offsetHeight + "px");
+    });
 
     // Render current step
     const step = steps.find(x => x.id === st.stepId) || steps[0];
@@ -8488,12 +9363,19 @@ requestAnimationFrame(() => {
     else if (step.id === "step4") renderStep4(screen, cfg, st);
     else renderUnknownStep(screen, step);
     refreshStepperAvailability();
+    if (__renderPrevStepId !== st.stepId) {
+      __renderPrevStepId = st.stepId;
+      requestAnimationFrame(() => {
+        const h = document.querySelector(".stepH1");
+        if (h) { try { h.focus({ preventScroll: true }); } catch (e) { h.focus(); } }
+      });
+    }
     // Restore scroll position to avoid “jump to top” after selecting values
 __restoreRenderKeep(__prevKeep);
 __applyPendingFocusAfterRender();
   }
 
-  function navButtons({ canPrev=true, canNext=true, nextDisabled=false, onPrev, onNext, nextText="Далее" }) {
+  function navButtons({ canPrev=true, canNext=true, nextDisabled=false, onPrev, onNext, nextText="Продолжить" }) {
     const row = el("div", { class:"actions" }, [
       el("button", { type:"button", text:"Назад", disabled: !canPrev, onclick: onPrev }),
       el("button", { type:"button", class:"primary", text: nextText, disabled: !canNext || nextDisabled, onclick: onNext }),
@@ -8507,6 +9389,19 @@ __applyPendingFocusAfterRender();
   }
 
   function goNext(cfg, currentId) {
+    const stNow = Store.get();
+    if (currentId === "step1") {
+      const step = cfg?.ui?.steps?.find(s => s.id === "step1");
+      const required = step?.required_fields || [];
+      const miss = required.filter(fid => !String(stNow?.form?.[fid] ?? "").trim());
+      StepGuards.canNextByStepId.step1 = (miss.length === 0);
+      if (miss.length) {
+        setStatus("Сначала заполните обязательные поля.", "err");
+        UIValidation.markAttempt("step1");
+        return;
+      }
+    }
+
     const steps = cfg.ui.steps;
     const idx = steps.findIndex(s => s.id === currentId);
     if (idx < 0 || idx === steps.length - 1) return;
@@ -8529,6 +9424,9 @@ __applyPendingFocusAfterRender();
     const step = cfg.ui.steps.find(s => s.id === "step1");
     const required = step?.required_fields || [];
 
+    const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getUiScreenTitle(step, "Общая информация") });
+    root.appendChild(h1);
+
     const _now = new Date();
     // Локальная "сегодня" дата (без сдвига из-за UTC)
     const todayIso = new Date(_now.getTime() - _now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
@@ -8541,8 +9439,24 @@ __applyPendingFocusAfterRender();
       st = Store.get();
     }
 
-    root.appendChild(el("div", { text:"Шаг 1: Анкета" , style:"font-weight:800; font-size:16px;" }));
-    root.appendChild(el("div", { class:"muted", text:"Заполни обязательные поля." }));
+
+    function isoToUiDate(iso) {
+      if (!iso) return "";
+      const s = String(iso);
+      const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (!m) return s;
+      const [, y, mm, dd] = m;
+      return `${dd}.${mm}.${y}`;
+    }
+    function uiToIsoDate(raw) {
+      const s = String(raw || "").trim();
+      if (!s) return "";
+      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+      const m = s.match(/^(\d{2})[.\-/](\d{2})[.\-/](\d{4})$/);
+      if (!m) return "";
+      const [, dd, mm, y] = m;
+      return `${y}-${mm}-${dd}`;
+    }
 
     const fieldUi = new Map(); // fid -> { starEl, errEl }
 
@@ -8563,7 +9477,7 @@ __applyPendingFocusAfterRender();
       const stNow = Store.get();
       const missing = step1MissingIds(stNow.form);
 
-      if (nextBtn) nextBtn.disabled = false;
+      if (nextBtn) nextBtn.disabled = (missing.length !== 0);
 
       // Обновляем debug без перерендера всего экрана
       $("debugPre").textContent = JSON.stringify({
@@ -8591,7 +9505,7 @@ __applyPendingFocusAfterRender();
         // показываем текст ошибки: если поле пустое и (его трогали или была попытка перейти дальше)
         const showErrorText = isMissing && (touched || attempted);
 
-        ui.errEl.textContent = showErrorText ? "Заполни обязательное поле." : "";
+        ui.errEl.textContent = showErrorText ? "Заполните обязательное поле." : "";
         ui.errEl.style.display = showErrorText ? "block" : "none";
 
         // звёздочка красная ТОЛЬКО после попытки перейти дальше
@@ -8607,27 +9521,27 @@ __applyPendingFocusAfterRender();
         continue;
       }
 
+      if (fid === "f_inspection_date") continue; // скрываем из UI (автозаполнение остаётся)
+
       const val = st.form?.[fid];
 
       // Точечные переименования (по запросу) — только отображение на шаге 1.
       // Нормативно лучше менять label в Config.DB, но здесь делаем минимальную правку в UI.
       let labelText = def.label;
       const starEl = el("span", { class: "reqStar", text: "*" });
-      const labelEl = el("label", {}, [
-        document.createTextNode(labelText),
-        document.createTextNode(" "),
-        starEl,
-      ]);
-      root.appendChild(labelEl);
 
       if (def.type === "text") {
-        const input = el("input", { type:"text", value: val ?? "" });
+        const input = el("input", { type:"text", value: val ?? "", "data-fid": `step1:${fid}` });
         input.addEventListener("input", () => {
           const v = input.value;
           Store.update(d => { d.form[fid] = v; }, { skipRender: true });
           refreshStep1Ui();
         });
-        root.appendChild(input);
+        const dateWrap = mountMdField({ parent: root, labelText, required: true, controlEl: input, starEl });
+        if (fid === "f_policy_date" || fid === "f_event_date") {
+          dateWrap.style.width = "100%";
+          dateWrap.style.maxWidth = "100%";
+        }
         const errEl = el("div", { class: "fieldError", text: "" });
         root.appendChild(errEl);
         fieldUi.set(fid, { starEl, errEl });
@@ -8639,13 +9553,14 @@ __applyPendingFocusAfterRender();
         });
       }
       else if (def.type === "textarea") {
-        const ta = el("textarea", {});
+        const ta = el("textarea", { "data-fid": `step1:${fid}` });
         ta.value = val ?? "";
+        ta.classList.add("mdTextarea");
         ta.addEventListener("input", () => {
           Store.update(d => { d.form[fid] = ta.value; }, { skipRender: true });
           refreshStep1Ui();
         });
-        root.appendChild(ta);
+        mountMdField({ parent: root, labelText, required: true, controlEl: ta, starEl });
         const errEl = el("div", { class: "fieldError", text: "" });
         root.appendChild(errEl);
         fieldUi.set(fid, { starEl, errEl });
@@ -8657,31 +9572,50 @@ __applyPendingFocusAfterRender();
         });
       }
       else if (def.type === "date") {
-        const input = el("input", { type:"date", value: val ?? "" });
-
-        // Запрет на дату события в будущем
-        if (fid === "f_event_date" || fid === "f_policy_date" || fid === "f_inspection_date") {
-  input.max = todayIso;
-}
-
-        input.addEventListener("change", () => {
-          // HTML date input already gives YYYY-MM-DD
-          let v = input.value || "";
-          if (fid === "f_event_date" && v && v > todayIso) {
-            // Жёстко "не даём" поставить будущую дату: возвращаем на сегодня.
-            v = todayIso;
-            input.value = v;
-            alert("Дата события не может быть позже текущей даты.");
-          }
-          Store.update(d => { d.form[fid] = v; }, { skipRender: true });
-          refreshStep1Ui();
+        const isoVal = typeof val === "string" ? val : "";
+        const input = el("input", {
+          type:"text",
+          value: isoToUiDate(isoVal),
+          "data-fid": `step1:${fid}`,
+          inputmode:"numeric",
         });
-        root.appendChild(input);
+
+        function applyIsoFromUi(uiVal) {
+          let iso = uiToIsoDate(uiVal);
+          if (iso && iso > todayIso && (fid === "f_event_date" || fid === "f_policy_date")) {
+            iso = todayIso;
+            input.value = isoToUiDate(iso);
+            alert(fid === "f_event_date"
+              ? "Дата события не может быть позже текущей даты."
+              : "Дата заключения договора не может быть позже текущей даты.");
+          }
+          Store.update(d => { d.form[fid] = iso; }, { skipRender: true });
+          refreshStep1Ui();
+        }
+
+        input.addEventListener("change", () => { applyIsoFromUi(input.value || ""); });
+        input.addEventListener("input", () => { refreshStep1Ui(); });
+
+        input.addEventListener("click", () => {
+          DatePicker.open({
+            valueIso: isoVal || todayIso,
+            maxIso: todayIso,
+            onSelect: (iso) => {
+              const d = (iso && iso > todayIso && (fid === "f_event_date" || fid === "f_policy_date")) ? todayIso : iso;
+              input.value = isoToUiDate(d);
+              Store.update(s => { s.form[fid] = d; }, { skipRender: true });
+              input.dispatchEvent(new Event("input", { bubbles: true }));
+              refreshStep1Ui();
+            }
+          });
+        });
+
+        const dateWrap = mountMdField({ parent: root, labelText, required: true, controlEl: input, starEl });
+        dateWrap.classList.add("isDate");
         const errEl = el("div", { class: "fieldError", text: "" });
         root.appendChild(errEl);
         fieldUi.set(fid, { starEl, errEl });
 
-        // Валидация onBlur (как в ТЗ), но звёздочку красим только после попытки перейти дальше
         input.addEventListener("blur", () => {
           UIValidation.markTouched("step1", fid);
           refreshStep1Ui();
@@ -8697,10 +9631,20 @@ __applyPendingFocusAfterRender();
 nextBtn = el("button", {
       type:"button",
       class:"primary",
-      text:"Далее",
-      onclick: () => goNext(cfg, "step1")
+      text:"Продолжить",
+      onclick: () => {
+        const stNow = Store.get();
+        const missing = step1MissingIds(stNow.form);
+        if (missing.length) {
+          UIValidation.markAttempt("step1");
+          setStatus("Сначала заполните обязательные поля.", "err");
+          refreshStep1Ui();
+          return;
+        }
+        goNext(cfg, "step1");
+      }
     });
-    const row = el("div", { class:"actions" }, [nextBtn]);
+    const row = el("div", { class:"actions single" }, [nextBtn]);
     StickyFooter.set(row);
     root.appendChild(document.createComment("actions-mounted-in-stickyFooter"));
 
@@ -8822,14 +9766,16 @@ function computeDamageItemMissing(cfg, item) {
       const o = (v && typeof v === "object") ? v : {};
       const xOk = typeof o.x === "number" && !Number.isNaN(o.x);
       const yOk = typeof o.y === "number" && !Number.isNaN(o.y);
-      return xOk && yOk;
+      const unitOk = def?.unit_options_dictionary_id ? !!String(o.unit ?? "").trim() : true;
+      return xOk && yOk && unitOk;
     }
     if (def?.type === "group_xyz") {
       const o = (v && typeof v === "object") ? v : {};
       const xOk = typeof o.x === "number" && !Number.isNaN(o.x);
       const yOk = typeof o.y === "number" && !Number.isNaN(o.y);
       const zOk = typeof o.z === "number" && !Number.isNaN(o.z);
-      return xOk && yOk && zOk;
+      const unitOk = def?.unit_options_dictionary_id ? !!String(o.unit ?? "").trim() : true;
+      return xOk && yOk && zOk && unitOk;
     }
     if (def?.type === "select") {
       const choice = getChoice(v);
@@ -8902,7 +9848,10 @@ function hasAnyIncompleteDamage(cfg, items) {
   // Step2 (список повреждений)
   // ===============================
   function renderStep2(root, cfg, st) {
-    root.appendChild(el("div", { text:"Шаг 3: Список повреждений" , style:"font-weight:800; font-size:16px;" }));
+    const step = cfg.ui.steps.find(s => s.id === "step2");
+    const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getUiScreenTitle(step, "Проверка") });
+    root.appendChild(h1);
+    root.appendChild(el("div", { class:"sectionLead", text:"Список повреждений" }));
 
     const list = el("div", { class:"list" });
 
@@ -8910,6 +9859,10 @@ function hasAnyIncompleteDamage(cfg, items) {
       list.appendChild(el("div", { class:"muted", text:"Пока нет повреждений." }));
     } else {
       const fieldsById = indexFieldsById(cfg);
+      const sel = cfg?.inventory?.damage_item?.selectors;
+      const F_CAT = sel?.category?.field_id;
+      const F_EL  = sel?.element?.field_id;
+      const F_SUB = sel?.subelement?.field_id;
 
 let anyIncomplete = false;
 
@@ -8921,6 +9874,14 @@ st.damage_items.forEach((it, idx) => {
   const leftKids = [
     el("div", { text: `Повреждение ${idx + 1}`, style:"font-weight:700;" })
   ];
+
+  const cat = F_CAT ? getChoice(it?.[F_CAT]) : "";
+  const elv = F_EL ? getChoice(it?.[F_EL]) : "";
+  const sub = F_SUB ? getChoice(it?.[F_SUB]) : "";
+  const parts = [cat, elv, sub].filter(Boolean);
+  if (parts.length) {
+    leftKids.push(el("div", { class:"muted", style:"font-size:12px; margin-top:4px;", text: parts.join(" / ") }));
+  }
 
   if (incomplete) {
     // короткая подсказка + что именно не заполнено
@@ -8941,38 +9902,53 @@ st.damage_items.forEach((it, idx) => {
   const btns = el("div", { class:"row" }, [
     el("button", {
       type:"button",
-      text:"Редактировать",
+      class:"ghost miniBtn",
       onclick: () => Store.update(d => { d.current_damage_index = idx; d.stepId = "step3"; })
-    }),
+    }, [
+      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
+        el("path", { d:"M12 20h9" }),
+        el("path", { d:"M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" })
+      ]),
+      el("span", { text:"Редактировать" })
+    ]),
     el("button", {
       type:"button",
-      text:"Удалить",
+      class:"ghost miniBtn",
       onclick: () => Store.update(d => {
         d.damage_items.splice(idx, 1);
         if (d.current_damage_index === idx) d.current_damage_index = null;
       })
-    }),
+    }, [
+      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
+        el("path", { d:"M3 6h18" }),
+        el("path", { d:"M8 6V4h8v2" }),
+        el("path", { d:"M19 6l-1 14H6L5 6" }),
+        el("path", { d:"M10 11v6" }),
+        el("path", { d:"M14 11v6" })
+      ]),
+      el("span", { text:"Удалить" })
+    ]),
   ]);
 
   list.appendChild(el("div", { class:"card item" + (incomplete ? " incomplete" : "") }, [left, btns]));
 }); 
     }
 
+    root.appendChild(list);
+
     root.appendChild(el("div", { class:"actions" }, [
       el("button", {
         type:"button",
-        class:"primary",
-        text:"＋ Добавить повреждение",
+        class:"softBtn",
+        text:"Добавить повреждение",
         onclick: () => Store.update(d => {
   if (!Array.isArray(d.damage_items)) d.damage_items = [];
   d.damage_items.push({});
   d.current_damage_index = d.damage_items.length - 1;
-  d.stepId = "step2";
+  d.stepId = "step3";
 })
       }),
     ]));
-
-    root.appendChild(list);
 
     const nextBlocked = (st.damage_items.length === 0) || hasAnyIncompleteDamage(cfg, st.damage_items);
 
@@ -8982,7 +9958,7 @@ root.appendChild(navButtons({
   nextDisabled: nextBlocked,
   onPrev: () => goPrev(cfg, "step2"),
   onNext: () => goNext(cfg, "step2"),
-  nextText: "Далее → Финализация"
+  nextText: "Продолжить"
 }));
 
 StepGuards.canNextByStepId.step2 = !nextBlocked;
@@ -8992,6 +9968,9 @@ refreshStepperAvailability();
 
   function renderStep3(root, cfg, st) {
   const fieldsById = indexFieldsById(cfg);
+  const step = cfg.ui.steps.find(s => s.id === "step3");
+  const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getUiScreenTitle(step, "Добавить повреждение") });
+  root.appendChild(h1);
 
   const sel = cfg?.inventory?.damage_item?.selectors;
   if (!sel?.category?.field_id || !sel?.element?.field_id || !sel?.subelement?.field_id) {
@@ -9002,14 +9981,14 @@ refreshStepperAvailability();
       onNext: () => {
   const missing = computeMissing();
   if (missing.length) {
-    setStatus("Сначала заполни обязательные поля.", "err");
+    setStatus("Сначала заполните обязательные поля.", "err");
     UIValidation.markAttempt("step3", idx);
     refreshStep3Ui();
     return;
   }
   goNext(cfg, "step3");
 },
-      nextText: "Далее"
+      nextText: "Продолжить"
     }));
     return;
   }
@@ -9142,8 +10121,6 @@ if (idx == null) {
 
 const item = st.damage_items[idx] || {};
 
-root.appendChild(el("div", { text:"Шаг 2: Добавление повреждений", style:"font-weight:800; font-size:16px;" }));
-
   // rules-engine health
   if (!__rulesEngine) {
     root.appendChild(el("div", { class:"err", text:"Rules engine не инициализирован. Проверь, что ты вставил initRulesEngine(cfg) и вызываешь его после загрузки Config.DB и при восстановлении из IDB." }));
@@ -9218,18 +10195,11 @@ const showSubelement = !!subDictId; // как и было: только если
     const otherChoiceValue = String(def.other_choice_value || "Иное");
 
     const starEl = el("span", { class: "reqStar", text: "*" });
-    // тут required для селекторов всегда true, потому что они участвуют в requiredSelectors в computeMissing
-    selectorsCard.appendChild(el("label", {}, [
-      document.createTextNode(label),
-      document.createTextNode(" "),
-      starEl,
-    ]));
-
     const opts = dictId ? buildOrderedValues(dictId) : [];
     const select = el("select", { disabled: !!disabled, "data-fid": `step3:${idx}:${fid}` });
 
     // empty
-    select.appendChild(el("option", { value:"", text:"— выбери —" }));
+    select.appendChild(el("option", { value:"", text:"", disabled:true, hidden:true }));
 
     // options from dictionary
     for (const v of opts) select.appendChild(el("option", { value:v, text:v }));
@@ -9254,7 +10224,8 @@ const showSubelement = !!subDictId; // как и было: только если
         return;
       }
       if (!otherInput) {
-        otherInput = el("input", { type:"text", value: getOther(vNow) || "", placeholder:"Укажи своё значение (Иное)", "data-fid": `step3:${idx}:${fid}:other` });
+        const otherStar = el("span", { class: "reqStar", text: "*" });
+        otherInput = el("input", { type:"text", value: getOther(vNow) || "", "data-fid": `step3:${idx}:${fid}:other` });
         otherInput.addEventListener("input", () => {
           const valText = otherInput.value;
           Store.update(d => {
@@ -9271,7 +10242,7 @@ const showSubelement = !!subDictId; // как и было: только если
           UIValidation.markTouched("step3", fid, idx);
           refreshStep3Ui();
         });
-        selectorsCard.appendChild(otherInput);
+        mountMdField({ parent: selectorsCard, labelText: "Иное", required: true, controlEl: otherInput, starEl: otherStar });
       } else {
         otherInput.value = getOther(vNow) || "";
       }
@@ -9326,7 +10297,7 @@ const showSubelement = !!subDictId; // как и было: только если
       refreshStep3Ui();
     });
 
-    selectorsCard.appendChild(select);
+    mountMdField({ parent: selectorsCard, labelText: label, required, controlEl: select, starEl });
     const errEl = el("div", { class: "fieldError", text: "" });
     selectorsCard.appendChild(errEl);
     fieldUi.set(fid, { starEl, errEl });
@@ -9335,7 +10306,7 @@ const showSubelement = !!subDictId; // как и было: только если
 
 // Category tiles (4 крупных значка)
 {
-  const catLabel = (fieldsById.get(F_CAT)?.label || "Категория");
+  const catLabel = "Где повреждение";
   const starEl = el("span", { class:"reqStar", text:"*" });
 
   selectorsCard.appendChild(el("label", {}, [
@@ -9346,10 +10317,16 @@ const showSubelement = !!subDictId; // как и было: только если
 
   const tiles = el("div", { class:"catTiles" });
   const iconByCat = {
-    "Помещение":"🏠",
-    "Здание":"🏢",
-    "Мебель":"🛋️",
-    "Остекление":"🪟"
+    "Здание":"images/Gemini_Generated_Image_lqxfsdlqxfsdlqxf.png",
+    "Помещение":"images/Gemini_Generated_Image_2vtzki2vtzki2vtz.png",
+    "Остекление":"images/Gemini_Generated_Image_mk5w7imk5w7imk5w.png",
+    "Мебель":"images/Gemini_Generated_Image_96i9wk96i9wk96i9.png"
+  };
+  const fallbackIconByCat = {
+    "Здание":"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='200' viewBox='0 0 220 200'%3E%3Crect width='220' height='200' fill='%23ffffff'/%3E%3Ctext x='110' y='112' text-anchor='middle' font-size='64'%3E%F0%9F%8F%A2%3C/text%3E%3C/svg%3E",
+    "Помещение":"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='200' viewBox='0 0 220 200'%3E%3Crect width='220' height='200' fill='%23ffffff'/%3E%3Ctext x='110' y='112' text-anchor='middle' font-size='64'%3E%F0%9F%8F%A0%3C/text%3E%3C/svg%3E",
+    "Остекление":"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='200' viewBox='0 0 220 200'%3E%3Crect width='220' height='200' fill='%23ffffff'/%3E%3Ctext x='110' y='112' text-anchor='middle' font-size='64'%3E%F0%9F%AA%9F%3C/text%3E%3C/svg%3E",
+    "Мебель":"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='200' viewBox='0 0 220 200'%3E%3Crect width='220' height='200' fill='%23ffffff'/%3E%3Ctext x='110' y='112' text-anchor='middle' font-size='64'%3E%F0%9F%9B%8B%EF%B8%8F%3C/text%3E%3C/svg%3E"
   };
 
   for (const v of buildOrderedValues(catDictId)) {
@@ -9382,7 +10359,24 @@ const showSubelement = !!subDictId; // как и было: только если
         });
       }
     }, [
-      buildCategoryIconNode(v, iconByCat[v]),
+      el("div", { class:"catTileIcon" }, [
+        el("img", {
+          class:"catTileImg",
+          src: iconByCat[v],
+          alt: v,
+          decoding:"async",
+          loading:"eager",
+          fetchpriority:"high",
+          width:"44",
+          height:"44",
+          onerror: (e) => {
+            const img = e.currentTarget;
+            if (!img || img.dataset.fbApplied === "1") return;
+            img.dataset.fbApplied = "1";
+            img.src = fallbackIconByCat[v] || "";
+          }
+        })
+      ]),
       el("div", { class:"catTileLabel", text: v })
     ]));
   }
@@ -9472,7 +10466,7 @@ if (c && (!showElement || e) && (!showSubelement || s)) {
       nextDisabled:true,
       onPrev: () => goPrev(cfg, "step3"),
       onNext: () => goNext(cfg, "step3"),
-      nextText: "Далее"
+      nextText: "Продолжить"
     }));
     return;
   }
@@ -9506,14 +10500,16 @@ if (c && (!showElement || e) && (!showSubelement || s)) {
       const o = (v && typeof v === "object") ? v : {};
       const xOk = typeof o.x === "number" && !Number.isNaN(o.x);
       const yOk = typeof o.y === "number" && !Number.isNaN(o.y);
-      return xOk && yOk;
+      const unitOk = def?.unit_options_dictionary_id ? !!String(o.unit ?? "").trim() : true;
+      return xOk && yOk && unitOk;
     }
     if (def?.type === "group_xyz") {
       const o = (v && typeof v === "object") ? v : {};
       const xOk = typeof o.x === "number" && !Number.isNaN(o.x);
       const yOk = typeof o.y === "number" && !Number.isNaN(o.y);
       const zOk = typeof o.z === "number" && !Number.isNaN(o.z);
-      return xOk && yOk && zOk;
+      const unitOk = def?.unit_options_dictionary_id ? !!String(o.unit ?? "").trim() : true;
+      return xOk && yOk && zOk && unitOk;
     }
     if (def?.type === "select") {
       const choice = getChoice(v);
@@ -9615,8 +10611,8 @@ StepGuards.canNextByStepId.step3 = canProceed;
 
       const showErrorText = isMissing && (touched || attempted);
 
-      let msg = "Заполни обязательное поле.";
-      if (fid === "f_photos") msg = `Добавь минимум ${minPhotos} фото.`;
+      let msg = "Заполните обязательное поле.";
+      if (fid === "f_photos") msg = `Добавьте минимум ${minPhotos} фото.`;
       ui.errEl.textContent = showErrorText ? msg : "";
       ui.errEl.style.display = showErrorText ? "block" : "none";
 
@@ -9711,67 +10707,53 @@ StepGuards.canNextByStepId.step3 = canProceed;
 
   const renderTextField = (fid, def, required) => {
     const starEl = el("span", { class: "reqStar", text: "*" });
-    const labelEl = required
-      ? el("label", {}, [document.createTextNode(def.label), document.createTextNode(" "), starEl])
-      : el("label", { text: def.label });
-    fieldsCard.appendChild(labelEl);
     const inp = el("input", { type:"text", value: (Store.get().damage_items[idx]?.[fid] ?? ""), "data-fid": `step3:${idx}:${fid}` });
     inp.addEventListener("input", () => setValueNoRender(fid, inp.value));
     inp.addEventListener("change", () => commitValueWithRules(fid, inp.value, def, required));
-    fieldsCard.appendChild(inp);
-    const errEl = el("div", { class: "fieldError", text: "" });
-    fieldsCard.appendChild(errEl);
-    if (required) fieldUi.set(fid, { starEl, errEl });
     inp.addEventListener("blur", () => {
       UIValidation.markTouched("step3", fid, idx);
       refreshStep3Ui();
     }, true);
+    const dateWrap = mountMdField({ parent: fieldsCard, labelText: def.label, required, controlEl: inp, starEl });
+    dateWrap.classList.add("isDate");
+    const errEl = el("div", { class: "fieldError", text: "" });
+    fieldsCard.appendChild(errEl);
+    if (required) fieldUi.set(fid, { starEl, errEl });
   };
 
   const renderTextareaField = (fid, def, required) => {
     const starEl = el("span", { class: "reqStar", text: "*" });
-    const labelEl = required
-      ? el("label", {}, [document.createTextNode(def.label), document.createTextNode(" "), starEl])
-      : el("label", { text: def.label });
-    fieldsCard.appendChild(labelEl);
     const ta = el("textarea", { "data-fid": `step3:${idx}:${fid}` });
     ta.value = (Store.get().damage_items[idx]?.[fid] ?? "");
+    ta.classList.add("mdTextarea");
     ta.addEventListener("input", () => setValueNoRender(fid, ta.value));
     ta.addEventListener("change", () => commitValueWithRules(fid, ta.value, def, required));
-    fieldsCard.appendChild(ta);
-    const errEl = el("div", { class: "fieldError", text: "" });
-    fieldsCard.appendChild(errEl);
-    if (required) fieldUi.set(fid, { starEl, errEl });
     ta.addEventListener("blur", () => {
       UIValidation.markTouched("step3", fid, idx);
       refreshStep3Ui();
     }, true);
+    mountMdField({ parent: fieldsCard, labelText: def.label, required, controlEl: ta, starEl });
+    const errEl = el("div", { class: "fieldError", text: "" });
+    fieldsCard.appendChild(errEl);
+    if (required) fieldUi.set(fid, { starEl, errEl });
   };
 
   const renderDateField = (fid, def, required) => {
     const starEl = el("span", { class: "reqStar", text: "*" });
-    const labelEl = required
-      ? el("label", {}, [document.createTextNode(def.label), document.createTextNode(" "), starEl])
-      : el("label", { text: def.label });
-    fieldsCard.appendChild(labelEl);
     const inp = el("input", { type:"date", value: (Store.get().damage_items[idx]?.[fid] ?? ""), "data-fid": `step3:${idx}:${fid}` });
     inp.addEventListener("change", () => commitValueWithRules(fid, inp.value, def, required));
-    fieldsCard.appendChild(inp);
-    const errEl = el("div", { class: "fieldError", text: "" });
-    fieldsCard.appendChild(errEl);
-    if (required) fieldUi.set(fid, { starEl, errEl });
     inp.addEventListener("blur", () => {
       UIValidation.markTouched("step3", fid, idx);
       refreshStep3Ui();
     }, true);
+    mountMdField({ parent: fieldsCard, labelText: def.label, required, controlEl: inp, starEl });
+    const errEl = el("div", { class: "fieldError", text: "" });
+    fieldsCard.appendChild(errEl);
+    if (required) fieldUi.set(fid, { starEl, errEl });
   };
 
   const renderNumberField = (fid, def, required) => {
     const starEl = el("span", { class: "reqStar", text: "*" });
-    const labelEl = required
-      ? el("label", {}, [document.createTextNode(def.label), document.createTextNode(" "), starEl])
-      : el("label", { text: def.label });
-    fieldsCard.appendChild(labelEl);
     const cur = Store.get().damage_items[idx]?.[fid];
     const inp = el("input", { type:"number", value: (typeof cur === "number" ? String(cur) : ""), "data-fid": `step3:${idx}:${fid}` });
     inp.addEventListener("input", () => {
@@ -9782,26 +10764,21 @@ StepGuards.canNextByStepId.step3 = canProceed;
       else setValueNoRender(fid, undefined);
     });
     inp.addEventListener("change", () => commitValueWithRules(fid, inp.value, def, required));
-    fieldsCard.appendChild(inp);
-    const errEl = el("div", { class: "fieldError", text: "" });
-    fieldsCard.appendChild(errEl);
-    if (required) fieldUi.set(fid, { starEl, errEl });
     inp.addEventListener("blur", () => {
       UIValidation.markTouched("step3", fid, idx);
       refreshStep3Ui();
     }, true);
+    mountMdField({ parent: fieldsCard, labelText: def.label, required, controlEl: inp, starEl });
+    const errEl = el("div", { class: "fieldError", text: "" });
+    fieldsCard.appendChild(errEl);
+    if (required) fieldUi.set(fid, { starEl, errEl });
   };
 
   const renderSelectField = (fid, def, required, dictId) => {
     const otherChoiceValue = String(def.other_choice_value || "Иное");
     const starEl = el("span", { class: "reqStar", text: "*" });
-    const labelEl = required
-      ? el("label", {}, [document.createTextNode(def.label), document.createTextNode(" "), starEl])
-      : el("label", { text: def.label });
-    fieldsCard.appendChild(labelEl);
-
     const select = el("select", { disabled: !dictId, "data-fid": `step3:${idx}:${fid}` });
-    select.appendChild(el("option", { value:"", text:"— выбери —" }));
+    select.appendChild(el("option", { value:"", text:"", disabled:true, hidden:true }));
 
     const opts = dictId ? buildOrderedValues(dictId) : [];
     for (const v of opts) select.appendChild(el("option", { value:v, text:v }));
@@ -9827,7 +10804,8 @@ StepGuards.canNextByStepId.step3 = canProceed;
       }
 
       if (!otherInput) {
-        otherInput = el("input", { type:"text", value: getOther(vNow) || "", placeholder:"Укажи своё значение (Иное)" });
+        const otherStar = el("span", { class: "reqStar", text: "*" });
+        otherInput = el("input", { type:"text", value: getOther(vNow) || "", "data-fid": `step3:${idx}:${fid}:other` });
         otherInput.addEventListener("input", () => {
           const textV = otherInput.value;
           Store.update(d => {
@@ -9841,7 +10819,7 @@ StepGuards.canNextByStepId.step3 = canProceed;
           UIValidation.markTouched("step3", fid, idx);
           refreshStep3Ui();
         });
-        fieldsCard.appendChild(otherInput);
+        mountMdField({ parent: fieldsCard, labelText: "Иное", required: true, controlEl: otherInput, starEl: otherStar });
       } else {
         otherInput.value = getOther(vNow) || "";
       }
@@ -9859,7 +10837,7 @@ StepGuards.canNextByStepId.step3 = canProceed;
       refreshStep3Ui();
     });
 
-    fieldsCard.appendChild(select);
+    mountMdField({ parent: fieldsCard, labelText: def.label, required, controlEl: select, starEl });
     const errEl = el("div", { class: "fieldError", text: "" });
     fieldsCard.appendChild(errEl);
     if (required) fieldUi.set(fid, { starEl, errEl });
@@ -9868,21 +10846,23 @@ StepGuards.canNextByStepId.step3 = canProceed;
 
   const renderGroupField = (fid, def, required) => {
     const starEl = el("span", { class: "reqStar", text: "*" });
-    const labelEl = required
-      ? el("label", {}, [document.createTextNode(def.label), document.createTextNode(" "), starEl])
-      : el("label", { text: def.label });
-    fieldsCard.appendChild(labelEl);
+    fieldsCard.appendChild(el("div", { class:"groupTitle" }, [
+      document.createTextNode(def.label),
+      required ? document.createTextNode(" ") : null,
+      required ? starEl : null
+    ].filter(Boolean)));
 
     const cur = Store.get().damage_items[idx]?.[fid];
     const obj = (cur && typeof cur === "object") ? cur : {};
 
-    const row = el("div", { class:"row", style:"gap:10px; align-items:flex-end; flex-wrap:wrap;" });
+    const labels = def.axis_labels || {};
+    const isXYZ = def.type === "group_xyz";
+    const grid = el("div", { class:"groupGrid " + (isXYZ ? "groupXYZ" : "groupXY") });
 
     const makeAxis = (axisKey, axisLabel) => {
-      const wrap = el("div", {}, [
-        el("div", { class:"muted", text: axisLabel || axisKey })
-      ]);
-      const inp = el("input", { type:"number", value: (typeof obj[axisKey] === "number" ? String(obj[axisKey]) : "") });
+      const axisStar = el("span", { class: "reqStar", text: "*" });
+      const inp = el("input", { type:"number", value: (typeof obj[axisKey] === "number" ? String(obj[axisKey]) : ""), "data-fid": `step3:${idx}:${fid}:${axisKey}` });
+
       inp.addEventListener("input", () => {
         const s = inp.value;
         Store.update(d => {
@@ -9890,20 +10870,19 @@ StepGuards.canNextByStepId.step3 = canProceed;
           if (!it) return;
           const curV = it[fid];
           const o = (curV && typeof curV === "object") ? curV : {};
-          if (!s.trim()) {
-            delete o[axisKey];
-          } else {
+          if (!s.trim()) delete o[axisKey];
+          else {
             const n = Number(s);
             if (Number.isFinite(n)) o[axisKey] = n;
             else delete o[axisKey];
           }
-          // если пусто — удаляем поле целиком
           const hasAny = ["x","y","z"].some(k => typeof o[k] === "number" && Number.isFinite(o[k]));
           if (!hasAny && !o.unit) delete it[fid];
           else it[fid] = o;
         }, { skipRender:true });
         refreshStep3Ui();
       });
+
       inp.addEventListener("change", () => {
         commitValueWithRules(it => {
           const curV = it[fid];
@@ -9920,23 +10899,22 @@ StepGuards.canNextByStepId.step3 = canProceed;
           else it[fid] = o;
         });
       });
+
       inp.addEventListener("blur", () => {
         UIValidation.markTouched("step3", fid, idx);
         refreshStep3Ui();
       }, true);
-      wrap.appendChild(inp);
-      return wrap;
+
+      mountMdField({ parent: grid, labelText: axisLabel || axisKey, required: false, controlEl: inp, starEl: axisStar });
     };
 
-    const labels = def.axis_labels || {};
-    row.appendChild(makeAxis("x", labels.x));
-    row.appendChild(makeAxis("y", labels.y));
-    if (def.type === "group_xyz") row.appendChild(makeAxis("z", labels.z));
+    makeAxis("x", labels.x || "Длина");
+    makeAxis("y", labels.y || "Ширина");
+    if (isXYZ) makeAxis("z", labels.z || "Высота");
 
     // unit
     if (def.unit_static) {
-      row.appendChild(el("div", { class:"muted", text:`Ед.: ${def.unit_static}` }));
-      // записываем unit_static в state при первом рендере, если уже есть объект
+      grid.appendChild(el("div", { class:"muted", style:"align-self:center;", text:`Ед.: ${def.unit_static}` }));
       if (Store.get().damage_items[idx]?.[fid] && typeof Store.get().damage_items[idx][fid] === "object") {
         const cur2 = Store.get().damage_items[idx][fid];
         if (!cur2.unit) {
@@ -9950,12 +10928,10 @@ StepGuards.canNextByStepId.step3 = canProceed;
         }
       }
     } else if (def.unit_options_dictionary_id) {
-      const uWrap = el("div", {}, [ el("div", { class:"muted", text:"Ед." }) ]);
-      const uSel = el("select", {});
-      uSel.appendChild(el("option", { value:"", text:"—" }));
-      for (const u of buildOrderedValues(def.unit_options_dictionary_id)) {
-        uSel.appendChild(el("option", { value:u, text:u }));
-      }
+      const uStar = el("span", { class: "reqStar", text: "*" });
+      const uSel = el("select", { "data-fid": `step3:${idx}:${fid}:unit` });
+      uSel.appendChild(el("option", { value:"", text:"", disabled:true, hidden:true }));
+      for (const u of buildOrderedValues(def.unit_options_dictionary_id)) uSel.appendChild(el("option", { value:u, text:u }));
       uSel.value = String(obj.unit ?? "");
       uSel.addEventListener("change", () => {
         const u = uSel.value || "";
@@ -9972,11 +10948,10 @@ StepGuards.canNextByStepId.step3 = canProceed;
         }, { skipRender:true });
         refreshStep3Ui();
       });
-      uWrap.appendChild(uSel);
-      row.appendChild(uWrap);
+      mountMdField({ parent: grid, labelText: "Ед.", required: !!required, controlEl: uSel, starEl: uStar });
     }
 
-    fieldsCard.appendChild(row);
+    fieldsCard.appendChild(grid);
     const errEl = el("div", { class: "fieldError", text: "" });
     fieldsCard.appendChild(errEl);
     if (required) fieldUi.set(fid, { starEl, errEl });
@@ -10013,7 +10988,12 @@ StepGuards.canNextByStepId.step3 = canProceed;
 
     fieldsCard.appendChild(input);
 
-    const btn = el("button", { type:"button", class:"primary", text:"Добавить фото", style:"margin-top:10px;" });
+    const btn = el("button", { type:"button", class:"ghost miniBtn", style:"margin-top:10px;" }, [
+      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
+        el("path", { d:"M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48" })
+      ]),
+      el("span", { text:"Загрузить фото" })
+    ]);
     btn.disabled = (cur.length >= max);
     fieldsCard.appendChild(btn);
 
@@ -10119,7 +11099,7 @@ btn.addEventListener("click", () => {
   const remaining = Math.max(0, max - arr.length);
 
   alert(
-    "Сделай/загрузи фото в горизонтальной ориентации. Один ракурс — одно фото. " +
+    "Сделайте/загрузите фото в горизонтальной ориентации. Один ракурс — одно фото. " +
     `Лимит: максимум ${max} фото на повреждение (осталось ${remaining}).`
   );
 
@@ -10169,13 +11149,14 @@ btn.addEventListener("click", () => {
 
   root.appendChild(fieldsCard);
 
-  // actions: добавить новое повреждение, не уходя на Step2
+    // actions: добавить новое повреждение и сразу открыть его редактирование
   const addMoreRow = el("div", { class:"actions" }, [
     el("button", {
       type:"button",
-      class:"primary",
-      text:"＋ Добавить новое повреждение",
+      class:"softBtn",
+      text:"Добавить новое повреждение",
       onclick: () => Store.update(d => {
+        if (!Array.isArray(d.damage_items)) d.damage_items = [];
         d.damage_items.push({});
         d.current_damage_index = d.damage_items.length - 1;
         d.stepId = "step3";
@@ -10205,7 +11186,7 @@ btn.addEventListener("click", () => {
   // Иначе можно перейти к списку (даже если текущее — черновик)
   goNext(cfg, "step3");
 },
-    nextText: "Далее"
+    nextText: "Продолжить"
   });
 
   // получить ссылку на next button (кнопки в StickyFooter, nav — это comment-заглушка)
@@ -10804,6 +11785,56 @@ cursorY += afterPhotosGap;
 
 
 if (canvas && pageHasContent) {
+  // подпись внизу последней страницы: слева ФИО представителя, справа линия + графическая подпись (если есть)
+  try {
+    const rep = String(state?.f_insurer_rep ?? "").trim();
+    const sigDataUrl = String(state?.f_signature_png || "").trim();
+    if (rep || sigDataUrl) {
+      const y = pageHpx - bottom - mmToPx(6);
+      ctx.save();
+      ctx.fillStyle = "#000";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "alphabetic";
+      ctx.font = `700 ${font12}px Arial, sans-serif`;
+      if (rep) ctx.fillText(rep, left, y);
+
+      const lineW = mmToPx(35); // в 2 раза короче
+      const x2 = left + contentW;
+      const x1 = x2 - lineW;
+      const tm = ctx.measureText(rep || "Ag");
+      const descent = (typeof tm.actualBoundingBoxDescent === "number")
+        ? tm.actualBoundingBoxDescent
+        : Math.round(font12 * 0.22);
+      // линия подписи — по нижней границе текста (чуть ниже baseline)
+      const yLine = y + descent + mmToPx(0.6);
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = Math.max(1, Math.round(pxPerMm * 0.2));
+      ctx.beginPath();
+      ctx.moveTo(x1, yLine);
+      ctx.lineTo(x2, yLine);
+      ctx.stroke();
+
+      if (sigDataUrl) {
+        try {
+          const sigBlob = Signature.toBlob(sigDataUrl);
+          if (sigBlob) {
+            const bmp = await blobToImageBitmap(sigBlob);
+            const boxW = lineW;
+            const boxH = mmToPx(18);
+            const scale = Math.min(boxW / bmp.width, boxH / bmp.height);
+            const dw = Math.max(1, Math.round(bmp.width * scale));
+            const dh = Math.max(1, Math.round(bmp.height * scale));
+            const dx = x1 + Math.round((lineW - dw) / 2) + mmToPx(1); // чуть правее + по центру
+            const dy = yLine - dh - mmToPx(0.2); // ближе к линии подписи
+            ctx.drawImage(bmp, dx, dy, dw, dh);
+          }
+        } catch {}
+      }
+
+      ctx.restore();
+      pageHasContent = true;
+    }
+  } catch {}
   drawPageNumberIfNeeded();
   canvases.push(canvas);
 }
@@ -10934,18 +11965,23 @@ function buildPdfFromJpegs(jpegPages, A4, dpi) {
 }
 
 function renderStep4(root, cfg, st) {
-  root.appendChild(el("div", { text:"Шаг 4: Финализация", style:"font-weight:800; font-size:16px;" }));
+  const step = cfg.ui.steps.find(s => s.id === "step4");
+  const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getUiScreenTitle(step, "Отправка") });
+  root.appendChild(h1);
 
   const items = Array.isArray(st?.damage_items) ? st.damage_items : [];
   const totalPhotos = items.reduce((acc, di) => acc + (Array.isArray(di?.f_photos) ? di.f_photos.length : 0), 0);
 
-  root.appendChild(el("div", { class:"muted", style:"margin-top:6px;", text:`Повреждений: ${items.length}, Фото: ${totalPhotos}` }));
 
     // -------------------------------
   // Кратко по акту (на Финализации)
   // -------------------------------
   const fieldsById = indexFieldsById(cfg);
   const form = st?.form || {};
+  const sigLocal = Signature.get();
+  if (!form.f_signature_png && sigLocal) {
+    Store.update(d => { d.form.f_signature_png = sigLocal; }, { skipRender:true });
+  }
 
   const fmtChoice = (v) => {
     if (v == null) return "";
@@ -10961,13 +11997,14 @@ function renderStep4(root, cfg, st) {
 
   const summaryCard = el("div", { class:"card", style:"margin-top:10px;" });
   summaryCard.appendChild(el("div", {
-    text:"Кратко по акту",
+    text:"Акт осмотра",
     style:"font-weight:800; margin-bottom:8px;"
   }));
 
-  const row = (label, value) => el("div", { class:"row" }, [
-    el("div", { style:"font-weight:700;", text: label + ":" }),
-    el("div", { text: value || "—" })
+  const row = (label, value) => el("div", { class:"summaryLine" }, [
+    el("span", { class:"summaryLabel", text: label + ":" }),
+    document.createTextNode(" "),
+    el("span", { text: value || "—" })
   ]);
 
   const insurerLabel = fieldsById.get("f_insurer")?.label || "Страхователь";
@@ -11008,12 +12045,47 @@ function renderStep4(root, cfg, st) {
 
   // быстрые кнопки, чтобы вернуться и исправить
   summaryCard.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [
-    el("button", { type:"button", text:"✎ Редактировать анкету (Шаг 1)", onclick: () => Store.update(d => { d.stepId = "step1"; }) }),
-    el("button", { type:"button", text:"＋ Добавить повреждение (Шаг 2)", onclick: () => Store.update(d => { d.stepId = "step3"; }) }),
-    el("button", { type:"button", text:"☰ Список повреждений (Шаг 3)", onclick: () => Store.update(d => { d.stepId = "step2"; }) })
+    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.stepId = "step1"; }) }, [
+      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
+        el("path", { d:"M12 20h9" }),
+        el("path", { d:"M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" })
+      ]),
+      el("span", { text:"Общая информация" })
+    ]),
+    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.damage_items.push({}); d.current_damage_index = d.damage_items.length - 1; d.stepId = "step3"; }) }, [
+      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
+        el("path", { d:"M12 5v14" }),
+        el("path", { d:"M5 12h14" })
+      ]),
+      el("span", { text:"Добавить повреждение" })
+    ]),
+    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.stepId = "step2"; }) }, [
+      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
+        el("path", { d:"M4 6h16" }),
+        el("path", { d:"M4 12h16" }),
+        el("path", { d:"M4 18h16" })
+      ]),
+      el("span", { text:"Проверка повреждений" })
+    ])
   ]));
 
   root.appendChild(summaryCard);
+
+  const signBtn = el("button", {
+    type:"button",
+    class:"primary",
+    text: (Store.get().form?.f_signature_png ? "Подпись добавлена" : "Подписать акт")
+  });
+  signBtn.addEventListener("click", () => {
+    Signature.open({
+      onSave: (dataUrl) => {
+        Store.update(d => { d.form.f_signature_png = dataUrl || ""; }, { skipRender:true });
+        setStatus(dataUrl ? "Подпись сохранена." : "Подпись очищена.", dataUrl ? "ok" : "muted");
+        render();
+      }
+    });
+  });
+  root.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [signBtn]));
 
   
   // -------------------------------
@@ -11088,7 +12160,9 @@ function renderStep4(root, cfg, st) {
     }
   };
 
-  const dlBtn = el("button", { type:"button", class:"primary", text:"Скачать Акт осмотра" });
+  const dlBtn = el("button", { type:"button", class:"ghost", text:"Скачать акт" });
+  const hasSignatureNow = !!String(Store.get().form?.f_signature_png || "").trim();
+  dlBtn.disabled = !hasSignatureNow;
   dlBtn.addEventListener("click", async () => {
     try {
       const { pdfBlob, fileName } = await makePdf(dlBtn);
@@ -11096,7 +12170,8 @@ function renderStep4(root, cfg, st) {
     } catch {}
   });
 
-  const shBtn = el("button", { type:"button", text:"Направить Акт осмотра в АО \"СОГАЗ\"" });
+  const shBtn = el("button", { type:"button", text:"Направить Акт в АО \"СОГАЗ\"" });
+  shBtn.disabled = !hasSignatureNow;
   shBtn.addEventListener("click", async () => {
     try {
       const { pdfBlob, fileName } = await makePdf(shBtn);
@@ -11142,6 +12217,7 @@ function renderUnknownStep(root, step) {
 
   await Persistence.clearInspectionData();
   ImagePipeline.clearThumbs();
+  Signature.set("");
 
   Store.set(Object.freeze({
     config: cfg,
@@ -11166,6 +12242,7 @@ $("configFile").addEventListener("change", async () => {
 
     await Persistence.saveConfig(cfg);
     await Persistence.clearInspectionData();
+    Signature.set("");
 
     Store.set(Object.freeze({
       config: cfg,
@@ -11192,6 +12269,51 @@ $("configFile").addEventListener("change", async () => {
     console.error(e);
   }
 });
+
+// ===============================
+// Hard boot from embeddedConfig (no waiting, no "Loading...")
+// ===============================
+let __bootEmbeddedOnce = false;
+
+function bootFromEmbeddedConfig() {
+  if (__bootEmbeddedOnce) return false;
+
+  const raw = document.getElementById("embeddedConfig")?.value?.trim();
+  if (!raw) return false;
+
+  let cfg;
+  try {
+    cfg = JSON.parse(raw);
+  } catch (e) {
+    console.error("embeddedConfig JSON parse failed:", e);
+    return false;
+  }
+
+  const errs = validateConfigBasic(cfg);
+  if (errs.length) {
+    console.error("embeddedConfig validation errors:", errs);
+    return false;
+  }
+
+  __bootEmbeddedOnce = true;
+
+  // rules engine
+  initRulesEngine(cfg);
+
+  // стартуем сразу с анкеты
+  Store.set(Object.freeze({
+    config: cfg,
+    stepId: cfg?.ui?.steps?.[0]?.id || "step1",
+    form: {},
+    damage_items: [],
+    current_damage_index: null,
+  }), { skipRender:true });
+
+  // pipeline — не должен ломать запуск
+  try { ImagePipeline.init(cfg).catch(() => {}); } catch {}
+
+  return true;
+}
 
 // ===============================
 // Embedded config loader (silent, no UI messages)
@@ -11235,17 +12357,18 @@ try {
   console.warn("Persistence init/restore failed:", e);
 }
 
-// 2) Если из IDB нет конфига — берём встроенный (на мобильных textarea может быть не готов с первого раза)
-if (!cfg) {
-  cfg = loadEmbeddedConfigOrNull();
-  if (!cfg && document.readyState !== "complete") {
+// 2) Всегда приоритет встроенного конфига (чтобы не тянулся старый порядок шагов из IDB)
+{
+  let embeddedCfg = loadEmbeddedConfigOrNull();
+  if (!embeddedCfg && document.readyState !== "complete") {
     await new Promise(r => {
       if (document.readyState === "complete") { r(); return; }
       window.addEventListener("load", r, { once: true });
     });
-    cfg = loadEmbeddedConfigOrNull();
+    embeddedCfg = loadEmbeddedConfigOrNull();
   }
-  // если IDB доступен — можно сохранить, но не обязательно
+  if (embeddedCfg) cfg = embeddedCfg;
+  // если IDB доступен — синхронизируем актуальный config в хранилище
   try { if (cfg) await Persistence.saveConfig(cfg); } catch {}
 }
 
