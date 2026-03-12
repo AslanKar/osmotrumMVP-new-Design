@@ -579,7 +579,7 @@
       min-height:44px;
     }
     .brandLogo{ display:flex; align-items:center; }
-    .brandLogoSvg{ display:block; width:128px; height:auto; }
+    .brandLogoSvg{ display:block; width:148px; height:auto; }
     .wrap{ padding-top:6px; }
     .pageHero{ padding:8px 4px 4px; }
     .pageHeroTitle{
@@ -615,46 +615,47 @@
       align-items:center;
     }
     #steps .stepBtn{
-      height:34px;
-      min-width:0;
-      padding:0 4px;
-      border:0;
-      border-radius:999px;
-      background:transparent;
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      gap:6px;
-      color:#A2A8B6;
-      font-size:11px;
-      line-height:1;
-      white-space:nowrap;
-      overflow:hidden;
-    }
+  height:32px;
+  min-width:0;
+  padding:0 1px;
+  border:0;
+  border-radius:999px;
+  background:transparent;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:4px;
+  color:#A2A8B6;
+  font-size:10px;
+  line-height:1;
+  white-space:nowrap;
+  overflow:hidden;
+}
     #steps .stepBtn::after{ display:none; }
     #steps .stepBtn .stepNo{
-      width:22px;
-      height:22px;
-      flex:0 0 22px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid #E1E5EE;
-      color:#A2A8B6;
-      font-size:12px;
-      font-weight:700;
-      box-sizing:border-box;
-    }
-    #steps .stepBtn .stepTxt{
-      min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      font-size:11px;
-      font-weight:700;
-    }
+  width:20px;
+  height:20px;
+  flex:0 0 20px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid #E1E5EE;
+  color:#A2A8B6;
+  font-size:11px;
+  font-weight:700;
+  box-sizing:border-box;
+}
+#steps .stepBtn .stepTxt{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:clip;
+  white-space:nowrap;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:-0.01em;
+} 
     #steps .stepBtn.done{ color:#56B57B; }
     #steps .stepBtn.done .stepNo{ background:#EAF8EF; border-color:#CEE7D7; color:#56B57B; }
     #steps .stepBtn.active{ color:var(--primary); background:transparent; }
@@ -695,6 +696,20 @@
       min-width:56px;
       padding:0;
     }
+    button.iconOnly svg,
+.stickyFooter .actions button.iconOnly svg{
+  width:24px;
+  height:24px;
+  display:block;
+  flex:0 0 24px;
+  stroke:currentColor;
+  stroke-width:2.5;
+}
+
+button.iconOnly,
+.stickyFooter .actions button.iconOnly{
+  line-height:0;
+}
     .mdField{ overflow:visible; }
     .mdControl{
       height:60px;
@@ -883,11 +898,19 @@
       justify-content:center;
       padding:0;
     }
+    .imageLightboxClose svg{
+  width:24px;
+  height:24px;
+  display:block;
+  flex:0 0 24px;
+  stroke:currentColor;
+  stroke-width:2.5;
+}
     @media (max-width:420px){
-      .brandLogoSvg{ width:96px; }
+      .brandLogoSvg{ width:112px; }
       .pageHeroTitle{ font-size:18px; }
-      #steps .stepBtn{ gap:4px; padding:0 2px; }
-      #steps .stepBtn .stepTxt{ font-size:10px; }
+      #steps .stepBtn{ gap:3px; padding:0 1px; }
+#steps .stepBtn .stepTxt{ font-size:8.5px; }
       .stepH1{ font-size:18px; }
     }
 
@@ -7831,7 +7854,7 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
     if (!src) return;
     const prevOverflow = document.body.style.overflow;
     const overlay = el("div", { class:"imageLightbox" });
-    const closeBtn = el("button", { type:"button", class:"imageLightboxClose", "aria-label":"Закрыть" }, [makeIcon("close")]);
+    const closeBtn = el("button", { type:"button", class:"imageLightboxClose", "aria-label":"Закрыть" }, [makeIcon("close", 24)]);
     const img = el("img", { src, alt:"Фото повреждения" });
     const close = () => {
       try { document.removeEventListener("keydown", onKey); } catch {}
@@ -9667,7 +9690,7 @@ __applyPendingFocusAfterRender();
   function navButtons({ canPrev=true, canNext=true, nextDisabled=false, onPrev, onNext, nextText="Продолжить" }) {
     const row = canPrev
       ? el("div", { class:"actions iconPrev" }, [
-          el("button", { type:"button", class:"soft iconOnly", disabled: !canPrev, onclick: onPrev, "aria-label":"Назад" }, [makeIcon("back")]),
+      el("button", { type:"button", class:"soft iconOnly", disabled: !canPrev, onclick: onPrev, "aria-label":"Назад" }, [makeIcon("back", 24)]),  
           el("button", { type:"button", class:"primary", text: nextText, disabled: !canNext || nextDisabled, onclick: onNext })
         ])
       : el("div", { class:"actions single" }, [
