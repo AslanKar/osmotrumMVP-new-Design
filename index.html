@@ -555,459 +555,340 @@
       line-height:1.15;
       padding:0 14px;
     }
-      /* ===== 2026 review fixes ===== */
+  
+
     :root{
-      --bg:#F5F7FB;
-      --card:#FFFFFF;
-      --cardSoft:#FAFBFF;
       --primary:#000078;
-      --text:#20274A;
-      --muted:#7B849C;
-      --line:#E4EAF3;
-      --wrapMax:430px;
-      --shadowTop:0 14px 36px rgba(15,23,42,0.08);
+      --primaryPress:#1749D9;
+      --primarySoft:#F3F6FD;
+      --cardSoft:#F3F5FA;
+      --heroText:#1E2757;
     }
-    body{
-      background:var(--bg);
-      color:var(--text);
-    }
+    body{ background:#F5F6FA; }
     header{
       background:#fff;
-      border-bottom:0;
-      box-shadow:0 1px 0 rgba(15,23,42,.06);
-      padding:12px var(--padX) 10px;
+      padding:18px 16px 14px;
+      border-bottom:1px solid #E8EBF2;
+      box-shadow:none;
     }
     .headerBar{
+      max-width:var(--wrapMax);
+      margin:0 auto;
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:nowrap;
+      min-height:44px;
     }
-    .brandLogo{
-      display:block;
-      width:92px;
-      height:auto;
-      flex:0 0 auto;
+    .brandLogo{ display:flex; align-items:center; }
+    .brandLogoSvg{ display:block; width:128px; height:auto; }
+    .wrap{ padding-top:6px; }
+    .pageHero{ padding:8px 4px 4px; }
+    .pageHeroTitle{
+      margin:0;
+      color:var(--heroText);
+      font-size:22px;
+      line-height:1.14;
+      letter-spacing:-0.02em;
+      font-weight:800;
     }
-    #brandTitle,
-    #resetBtn{
-      display:none !important;
-    }
-    .wrap{
-      max-width:var(--wrapMax);
-      padding:12px var(--padX) 0;
+    #screen{ padding-top:8px; }
+    .stepH1{
+      margin:0 0 14px;
+      color:var(--heroText);
+      font-size:20px;
+      line-height:1.14;
+      font-weight:800;
     }
     #stepperCard{
-      background:var(--bg);
+      top:var(--headerH, 72px);
+      padding:6px 0 2px;
+      margin:0;
       border:0;
-      border-radius:0;
-      padding:10px 0 8px;
-      position:sticky;
-      top:var(--headerH,56px);
-      z-index:20;
+      background:var(--bg);
     }
-    .stepperHero{
-      margin-bottom:10px;
-    }
-    .pageHeroTitle{
-      max-width:320px;
-      font-size:18px;
-      line-height:1.24;
-      font-weight:800;
-      letter-spacing:-.02em;
-      color:var(--text);
-    }
-    #stepperCard .row{
-      gap:0;
-      flex-direction:column;
-    }
-    #configMeta{
-      display:none;
-    }
+    #stepperCard .row{ gap:0; flex-direction:row; }
+    #configMeta{ display:none; }
     #steps{
-      display:flex;
-      gap:4px;
-      align-items:center;
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:6px;
       width:100%;
-      overflow:visible;
-      flex-wrap:nowrap;
+      align-items:center;
     }
     #steps .stepBtn{
-      flex:1 1 0;
+      height:34px;
       min-width:0;
-      height:auto;
+      padding:0 4px;
       border:0;
+      border-radius:999px;
       background:transparent;
-      border-radius:0;
-      padding:0;
       display:flex;
       align-items:center;
       justify-content:flex-start;
-      text-align:left;
-      gap:4px;
+      gap:6px;
+      color:#A2A8B6;
+      font-size:11px;
+      line-height:1;
+      white-space:nowrap;
       overflow:hidden;
     }
-    #steps .stepBtn::after{
-      display:none;
-    }
-    #steps .stepBtn .stepBtnInner{
-      display:flex;
-      align-items:center;
-      gap:4px;
-      min-width:0;
-    }
-    #steps .stepBtn .stepCircle{
+    #steps .stepBtn::after{ display:none; }
+    #steps .stepBtn .stepNo{
       width:22px;
       height:22px;
       flex:0 0 22px;
-      border-radius:999px;
-      border:1px solid #D9E0EC;
-      background:#fff;
-      color:#AAB3C4;
       display:inline-flex;
       align-items:center;
       justify-content:center;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid #E1E5EE;
+      color:#A2A8B6;
+      font-size:12px;
+      font-weight:700;
       box-sizing:border-box;
+    }
+    #steps .stepBtn .stepTxt{
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
       font-size:11px;
       font-weight:700;
     }
-    #steps .stepBtn .stepLabel{
-      min-width:0;
-      font-size:10px;
-      line-height:1.1;
-      font-weight:700;
-      color:inherit;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    #steps .stepBtn.completed .stepCircle{
-      background:#EAF8EF;
-      border-color:#CFE8D8;
-      color:#42B36D;
-    }
-    #steps .stepBtn.completed .stepLabel{
-      color:#42B36D;
-    }
-    #steps .stepBtn.active .stepCircle{
-      background:#EEF2FF;
-      border-color:#D4DCFF;
-      color:var(--primary);
-    }
-    #steps .stepBtn.active .stepLabel{
-      color:var(--primary);
-    }
-    #steps .stepBtn:disabled .stepCircle{
-      color:#B8C1D2;
-      border-color:#E3E8F2;
-    }
-    #steps .stepBtn:disabled .stepLabel{
-      color:#B8C1D2;
-    }
-    #screen{
-      background:#fff;
-      border:1px solid #EDF1F7;
-      border-radius:30px;
-      box-shadow:0 14px 34px rgba(15,23,42,0.04);
-      padding:18px 14px calc(var(--footerH) + 18px);
-    }
-    .stepH1{
-      margin:2px 0 14px;
-      font-size:18px;
-      line-height:1.25;
-      font-weight:800;
-      letter-spacing:-.02em;
-      color:var(--text);
-    }
-    .muted{
-      color:var(--muted);
-    }
-    .card{
-      background:var(--cardSoft);
-      border:1px solid #EDF1F7;
-      border-radius:24px;
-      box-shadow:none;
-    }
-    .list{
-      gap:12px;
-      margin-top:4px;
-    }
-    .card.item{
-      background:#fff;
-      border-color:var(--line);
-      border-radius:20px;
-      padding:16px;
-    }
+    #steps .stepBtn.done{ color:#56B57B; }
+    #steps .stepBtn.done .stepNo{ background:#EAF8EF; border-color:#CEE7D7; color:#56B57B; }
+    #steps .stepBtn.active{ color:var(--primary); background:transparent; }
+    #steps .stepBtn.active .stepNo{ background:#EAEFFD; border-color:#CDD7FF; color:var(--primary); }
     .stickyFooter{
-      background:transparent;
-      box-shadow:none;
-      padding:12px var(--padX) calc(env(safe-area-inset-bottom, 0) + 8px);
+      padding:10px var(--padX) calc(10px + env(safe-area-inset-bottom, 0px));
+      background:rgba(245,246,250,0.96);
+      backdrop-filter:blur(10px);
     }
-    .stickyFooterInner{
-      width:min(var(--wrapMax), 100%);
-      margin:0 auto;
-      background:#fff;
-      border-radius:26px;
-      box-shadow:0 14px 36px rgba(15,23,42,0.08);
-      padding:12px;
-      box-sizing:border-box;
-    }
-    .stickyFooter .actions{
-      width:100%;
-      margin:0;
-      gap:10px;
-    }
-    .stickyFooter .actions.single{
-      grid-template-columns:1fr;
-    }
-    .stickyFooter .actions.iconPrev{
-      grid-template-columns:52px 1fr;
-    }
-    button,
-    .actions button,
-    .stickyFooter .actions button{
-      height:52px;
-      border-radius:16px;
-      font-weight:700;
-      font-size:15px;
-      box-shadow:none;
+    .stickyFooter .actions,
+    .actions.iconPrev{ grid-template-columns:72px 1fr; }
+    .stickyFooter .actions.single{ grid-template-columns:1fr; }
+    .stickyFooter .actions button,
+    .actions button{
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:8px;
-      transition:background-color .16s ease, color .16s ease, transform .16s ease;
-    }
-    button:hover,
-    .actions button:hover,
-    .stickyFooter .actions button:hover{
-      transform:translateY(-1px);
+      gap:10px;
     }
     button.primary,
-    .actions button.primary,
     .stickyFooter .actions button.primary{
       background:var(--primary);
       color:#fff;
-      border:0;
       box-shadow:none;
     }
-    button.ghost,
     button.soft,
-    .actions button.ghost,
-    .actions button.soft,
-    .stickyFooter .actions button:not(.primary){
-      background:#F3F6FD;
-      color:var(--primary);
-      border:1px solid transparent;
-      box-shadow:none;
-    }
-    button.outline{
-      background:#fff;
-      color:var(--text);
-      border:1px solid var(--line);
+    .stickyFooter .actions button.soft,
+    button.iconOnly,
+    .stickyFooter .actions button.iconOnly{
+      background:var(--primarySoft) !important;
+      color:var(--primary) !important;
+      border:0 !important;
+      box-shadow:none !important;
     }
     button.iconOnly,
     .stickyFooter .actions button.iconOnly{
-      width:52px;
-      min-width:52px;
+      width:56px;
+      min-width:56px;
       padding:0;
     }
-    .actions button{
-      padding:0 16px;
+    .mdField{ overflow:visible; }
+    .mdControl{
+      height:60px;
+      padding:28px 16px 10px;
+      background:#fff !important;
+      font-size:17px;
+      text-align:left;
     }
-    .miniBtn{
-      height:48px;
-      font-size:15px;
-      padding:0 14px;
-      border-radius:16px;
-      white-space:nowrap;
+    .mdTextarea{
+      min-height:116px;
+      padding-top:32px;
+      background:#fff !important;
     }
-    .itemActions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      width:100%;
+    .mdLabel{
+      left:16px;
+      right:16px;
+      top:20px;
+      padding:0;
+      background:transparent;
+      color:#8D95A8;
+      font-size:18px;
+      line-height:1;
     }
-    .itemActions .miniBtn{
-      width:100%;
+    .mdField.isActive .mdLabel{
+      top:8px;
+      font-size:11px;
+      background:#fff;
+      color:var(--primary);
     }
+    .mdField.isSelect .mdLabel{
+      right:44px;
+      max-width:calc(100% - 60px);
+    }
+    .groupTitle{
+      margin-top:18px;
+      margin-bottom:10px;
+      color:var(--heroText);
+      font-weight:800;
+      font-size:16px;
+      line-height:1.2;
+    }
+    .groupUnit{ margin-bottom:10px; }
+    .groupGrid{ margin-top:0; grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .groupGrid.groupXY{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .groupGrid.groupXYZ{ grid-template-columns:repeat(3, minmax(0,1fr)); }
     .catTiles{
-      gap:10px;
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:12px;
       margin-top:10px;
     }
     .catTile{
       background:#F3F5FA;
-      border:1px solid transparent;
-      border-radius:18px;
-      padding:12px;
-      min-height:112px;
+      border:0;
+      border-radius:24px;
+      padding:12px 12px 14px;
+      min-height:146px;
       display:flex;
       flex-direction:column;
-      justify-content:flex-end;
-      text-align:left;
-    }
-    .catTile.active{
-      background:linear-gradient(135deg,#2550F6 0%,#1749D9 100%);
+      justify-content:flex-start;
+      align-items:center;
       box-shadow:none;
     }
-    .catTile.active .catTileLabel{
-      color:#fff;
+    .catTile.active{
+      background:linear-gradient(135deg, #2550F6 0%, #1749D9 100%);
+      box-shadow:none;
+      border:0;
     }
-    .catTile.active .catTileIcon{
-      background:rgba(255,255,255,.2);
-    }
+    .catTile.active .catTileLabel{ color:#fff; }
+    .catTile.active .catTileIcon{ background:rgba(255,255,255,0.18); }
     .catTileIcon{
       width:100%;
       height:72px;
-      border-radius:14px;
+      border-radius:18px;
       background:#fff;
       display:flex;
       align-items:flex-start;
       justify-content:center;
+      padding-top:6px;
+      box-sizing:border-box;
       overflow:hidden;
-      margin-bottom:8px;
+      margin-bottom:14px;
     }
     .catTileImg{
       width:100%;
-      height:100%;
+      height:64px;
       object-fit:contain;
       object-position:center top;
-      transform:translateY(-8px) scale(1.08);
       background:transparent;
     }
     .catTileLabel{
       font-size:15px;
+      line-height:1.1;
       font-weight:700;
-      color:var(--text);
+      text-align:center;
+      color:var(--heroText);
     }
-    .groupGrid{
-      margin-top:0;
-      display:grid;
-      gap:10px;
-      align-items:start;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:12px;
-    }
-    .groupGrid.groupXY{
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-    }
-    .groupGrid.groupXYZ{
-      grid-template-columns:repeat(3, minmax(0, 1fr));
-    }
-    .groupGrid .mdField{
-      margin-top:0;
-    }
-    .mdControl{
-      height:56px;
-      border-radius:14px;
-      border:0;
-      background:#F3F5FA;
-      padding:28px 12px 8px;
-      color:var(--text);
-      box-shadow:inset 0 0 0 1px transparent;
-    }
-    .mdLabel{
-      top:10px;
-      left:12px;
-      right:12px;
-      padding:0;
-      background:transparent;
-      color:#7D869C;
-      font-size:13px;
-    }
-    .mdField.isActive .mdLabel{
-      top:7px;
-      font-size:10px;
-      color:var(--primary);
+    .categoryHint{
+      margin:2px 0 2px;
+      font-size:15px;
+      color:#7F879B;
     }
     .thumbGrid{
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:10px;
-      margin-top:10px;
+      grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+      gap:12px;
+      margin-top:12px;
     }
     .thumbCard{
-      border:1px solid var(--line);
-      border-radius:16px;
       padding:10px;
+      border-radius:18px;
+      border:1px solid #E5E8EF;
       background:#fff;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      overflow:hidden;
     }
     .thumbImg{
       width:100%;
-      height:auto;
-      aspect-ratio:1 / 1;
-      object-fit:cover;
+      height:148px;
+      object-fit:contain;
       border-radius:12px;
-      border:1px solid var(--line);
-      background:#f3f4f6;
+      border:1px solid #E5E8EF;
+      background:#F7F8FC;
+      cursor:zoom-in;
     }
     .thumbMeta{
+      margin-top:8px;
       display:flex;
       flex-direction:column;
-      align-items:stretch;
+      align-items:flex-start;
+      justify-content:flex-start;
       gap:8px;
-      margin-top:0;
-      min-width:0;
       font-size:12px;
       color:var(--muted);
     }
-    .thumbFile{
-      min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-    .thumbActions{
-      display:flex;
-      justify-content:flex-end;
-    }
     .thumbBtn{
-      height:36px;
+      height:38px;
       padding:0 14px;
-      border-radius:12px;
-      white-space:nowrap;
+      border-radius:14px;
+      border:0;
+      background:#F3F6FD;
+      color:var(--primary);
+      font-weight:700;
     }
     .photoHint{
       margin-top:10px;
-      padding:12px 14px;
+      padding:14px 16px;
       border-radius:16px;
-      background:#EEF4FF;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.45;
+      background:#EDF3FC;
+      color:#7080A3;
+      font-size:14px;
+      line-height:1.35;
     }
-    .photoHintRow{
-      display:flex;
-      gap:8px;
-      align-items:flex-start;
-    }
-    .photoButtons{
+    .photoActions{
       display:grid;
-      grid-template-columns:1fr 52px;
-      gap:10px;
-      margin-top:10px;
+      grid-template-columns:1fr 56px;
+      gap:12px;
+      margin-top:12px;
     }
-    .photoButtons .main{
-      height:52px;
+    .imageLightbox{
+      position:fixed;
+      inset:0;
+      z-index:200;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      background:rgba(15,23,42,0.84);
     }
-    .photoButtons .cameraBtn{
-      height:52px;
-      width:52px;
-      min-width:52px;
+    .imageLightbox img{
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+      border-radius:18px;
+      background:#fff;
+    }
+    .imageLightboxClose{
+      position:absolute;
+      top:16px;
+      right:16px;
+      width:44px;
+      height:44px;
+      border-radius:999px;
+      border:0;
+      background:rgba(255,255,255,0.15);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       padding:0;
     }
-    .iconPrimary{
-      color:currentColor;
-    }
     @media (max-width:420px){
-      .pageHeroTitle{ font-size:17px; max-width:100%; }
-      #steps .stepBtn .stepLabel{ font-size:9px; }
-      .groupGrid.groupXYZ{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+      .brandLogoSvg{ width:96px; }
+      .pageHeroTitle{ font-size:18px; }
+      #steps .stepBtn{ gap:4px; padding:0 2px; }
+      #steps .stepBtn .stepTxt{ font-size:10px; }
+      .stepH1{ font-size:18px; }
     }
 
   </style>
@@ -1015,13 +896,16 @@
 <body>
 <header>
   <div class="headerBar">
-    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTE2IiBoZWlnaHQ9IjQzIiB2aWV3Qm94PSIwIDAgMTE2IDQzIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTguNTk3MiAyMS41QzE4LjU5NzIgMTguODA4OCAyMC40MDQ2IDE2LjYwMjkgMjIuOTk1OCAxNi42MDI5QzI0Ljk3NzQgMTYuNjAyOSAyNi42MzIzIDE3LjcwNTkgMjcuMDQ2MSAxOS4zMzgySDMxLjU1MzZDMzEuMzE0MSAxNS41NDQxIDI3Ljg5NTMgMTIuNSAyMy4xMDQ3IDEyLjVDMTguMDc0NiAxMi41IDE0LjI4NTYgMTYuMjA1OSAxNC4yODU2IDIxLjVDMTQuMjg1NiAyNi43OTQgMTguMDc0NiAzMC40OTk5IDIzLjEwNDcgMzAuNDk5OUMyNy45ODI0IDMwLjQ5OTkgMzEuNDQ0NyAyNy40NTU4IDMxLjU1MzYgMjMuMzA4OEgyNy4wNDYxQzI2LjY5NzcgMjUuMjA1OCAyNS4xMjk4IDI2LjM5NyAyMi45OTU4IDI2LjM5N0MyMC42MjIzIDI2LjQxOTEgMTguNTk3MiAyNC4yNzk0IDE4LjU5NzIgMjEuNVpNNDcuNzU0NiAyMi4zNjAyQzQ1LjAzMjYgMjMuMDIyIDQzLjEzODIgMjUuMzYwMiA0Mi43MDI3IDI5LjE1NDNDNDIuMjY3MSAyNS4zODIzIDQwLjM3MjcgMjMuMDIyIDM3LjY1MDcgMjIuMzYwMkMzNy4xNzE3IDE5LjQwNDQgMzkuNzYzIDE2LjgwMTUgNDIuNzAyNyAxNi44MDE1QzQ1LjY0MjMgMTYuODIzNSA0OC4yMTE5IDE5LjQwNDQgNDcuNzU0NiAyMi4zNjAyWk01MS41NjUzIDIxLjVDNTEuNTY1MyAxNi41MzY3IDQ3LjU4MDQgMTIuNSA0Mi42ODA5IDEyLjVDMzcuNzgxNCAxMi41IDMzLjc5NjUgMTYuNTM2NyAzMy43OTY1IDIxLjVDMzMuNzk2NSAyNi40NjMyIDM3Ljc4MTQgMzAuNDk5OSA0Mi42ODA5IDMwLjQ5OTlDNDcuNjAyMSAzMC41MjIgNTEuNTY1MyAyNi40ODUyIDUxLjU2NTMgMjEuNVpNNTguNjIwNSAxNy4xNzY0SDY1LjQ3OThWMTMuMTgzOEg1My44OTUzVjI5LjgxNjFINTguNjIwNVYxNy4xNzY0Wk03OS40NTk3IDIxLjVDNzkuNDU5NyAyNC4xMjQ5IDc3LjUyMTcgMjYuMDY2MSA3NS4xOTE3IDI2LjA2NjFDNzIuOTA1MyAyNi4wNjYxIDcwLjkyMzcgMjQuMTQ3IDcwLjkyMzcgMjEuNUM3MC45MjM3IDE4Ljg3NSA3Mi45MDUzIDE2LjkzMzggNzUuMTkxNyAxNi45MzM4Qzc3LjUyMTcgMTYuOTU1OSA3OS40NTk3IDE4Ljg3NSA3OS40NTk3IDIxLjVaTTc5LjEzMyAyOS44MzgySDgzLjg1ODNWMTMuMTgzOEg3OS4xMzNWMTUuMDE0N0M3Ny45MTM2IDEzLjQ5MjYgNzYuMzAyMiAxMi44NTI5IDc0LjU2MDIgMTIuODUyOUM3MC4xMTggMTIuODUyOSA2Ni41OTA0IDE2LjMxNjIgNjYuNTkwNCAyMS41MjJDNjYuNTkwNCAyNi43Mjc5IDcwLjExOCAzMC4xOTExIDc0LjU2MDIgMzAuMTkxMUM3Ni4zMDIyIDMwLjE5MTEgNzcuOTEzNiAyOS41NTE0IDc5LjEzMyAyOC4wMjkzVjI5LjgzODJaTTEwMS4zNDQgMTcuNzI3OUMxMDEuMzQ0IDE0Ljk3MDYgOTkuMDE0MSAxMi43NDI2IDk0LjMxMDYgMTIuNzQyNkM4OS4zMDIyIDEyLjc0MjYgODYuNzEwOSAxNS41ODgyIDg2LjcxMDkgMTkuMDk1Nkg5MS4zMDU1QzkxLjMwNTUgMTcuMjY0NyA5Mi4zMDcyIDE2LjMxNjIgOTQuMjIzNSAxNi4zMTYyQzk2LjAzMDggMTYuMzE2MiA5Ni44MTQ3IDE2Ljk3NzkgOTYuODE0NyAxOC4wMTQ3Qzk2LjgxNDcgMTkuMDUxNCA5Ni4yNDg2IDE5Ljc3OTQgOTQuODMzMiAxOS43Nzk0SDkyLjIyMDFWMjIuNzc5NEg5NC43Njc4Qzk2LjM3OTIgMjIuNzc5NCA5Ny4wNTQzIDIzLjQ4NTIgOTcuMDU0MyAyNC42MzIzQzk3LjA1NDMgMjUuNzEzMiA5Ni4zNTc1IDI2Ljc0OTkgOTQuMjg4OCAyNi43NDk5QzkyLjA2NzcgMjYuNzQ5OSA5MS4wNjYgMjUuNjAyOSA5MS4wNjYgMjMuNzA1OEg4Ni40NzE0Qzg2LjQ3MTQgMjcuOTg1MiA4OS40NTQ2IDMwLjI3OTMgOTQuMjg4OCAzMC4yNzkzQzk5LjA1NzYgMzAuMjc5MyAxMDEuNzE0IDI4LjI0OTkgMTAxLjcxNCAyNS4wMDczQzEwMS43MTQgMjMuMzMwOCAxMDAuODQzIDIyLjA5NTUgOTkuMTY2NSAyMS4zODk3QzEwMC42NDcgMjAuNjM5NyAxMDEuMzQ0IDE5LjIwNTggMTAxLjM0NCAxNy43Mjc5WiIgZmlsbD0iIzAwMDA3OCIvPgo8L3N2Zz4K" alt="СОГАЗ" class="brandLogo" />
-    <div id="brandTitle" style="font-weight:800;">Осмотрум - СОГАЗ</div>
-    <button id="resetBtn" type="button">Новый осмотр</button>
+    <div class="brandLogo" aria-label="СОГАЗ" title="СОГАЗ">
+      <svg class="brandLogoSvg" viewBox="0 0 116 43" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M18.5972 21.5C18.5972 18.8088 20.4046 16.6029 22.9958 16.6029C24.9774 16.6029 26.6323 17.7059 27.0461 19.3382H31.5536C31.3141 15.5441 27.8953 12.5 23.1047 12.5C18.0746 12.5 14.2856 16.2059 14.2856 21.5C14.2856 26.794 18.0746 30.4999 23.1047 30.4999C27.9824 30.4999 31.4447 27.4558 31.5536 23.3088H27.0461C26.6977 25.2058 25.1298 26.397 22.9958 26.397C20.6223 26.4191 18.5972 24.2794 18.5972 21.5ZM47.7546 22.3602C45.0326 23.022 43.1382 25.3602 42.7027 29.1543C42.2671 25.3823 40.3727 23.022 37.6507 22.3602C37.1717 19.4044 39.763 16.8015 42.7027 16.8015C45.6423 16.8235 48.2119 19.4044 47.7546 22.3602ZM51.5653 21.5C51.5653 16.5367 47.5804 12.5 42.6809 12.5C37.7814 12.5 33.7965 16.5367 33.7965 21.5C33.7965 26.4632 37.7814 30.4999 42.6809 30.4999C47.6021 30.522 51.5653 26.4852 51.5653 21.5ZM58.6205 17.1764H65.4798V13.1838H53.8953V29.8161H58.6205V17.1764ZM79.4597 21.5C79.4597 24.1249 77.5217 26.0661 75.1917 26.0661C72.9053 26.0661 70.9237 24.147 70.9237 21.5C70.9237 18.875 72.9053 16.9338 75.1917 16.9338C77.5217 16.9559 79.4597 18.875 79.4597 21.5ZM79.133 29.8382H83.8583V13.1838H79.133V15.0147C77.9136 13.4926 76.3022 12.8529 74.5602 12.8529C70.118 12.8529 66.5904 16.3162 66.5904 21.522C66.5904 26.7279 70.118 30.1911 74.5602 30.1911C76.3022 30.1911 77.9136 29.5514 79.133 28.0293V29.8382ZM101.344 17.7279C101.344 14.9706 99.0141 12.7426 94.3106 12.7426C89.3022 12.7426 86.7109 15.5882 86.7109 19.0956H91.3055C91.3055 17.2647 92.3072 16.3162 94.2235 16.3162C96.0308 16.3162 96.8147 16.9779 96.8147 18.0147C96.8147 19.0514 96.2486 19.7794 94.8332 19.7794H92.2201V22.7794H94.7678C96.3792 22.7794 97.0543 23.4852 97.0543 24.6323C97.0543 25.7132 96.3575 26.7499 94.2888 26.7499C92.0677 26.7499 91.066 25.6029 91.066 23.7058H86.4714C86.4714 27.9852 89.4546 30.2793 94.2888 30.2793C99.0576 30.2793 101.714 28.2499 101.714 25.0073C101.714 23.3308 100.843 22.0955 99.1665 21.3897C100.647 20.6397 101.344 19.2058 101.344 17.7279Z" fill="#000078"/>
+      </svg>
+    </div>
   </div>
 
   <!-- Скрытые элементы (нужны JS-логике, но не показываем в UI) -->
   <div style="display:none;">
+    <button id="resetBtn" type="button">Новый осмотр</button>
     <div id="statusLine" role="status" aria-live="polite"></div>
     <div id="persistLine"></div>
     <input id="configFile" type="file" accept=".json,application/json" />
@@ -1029,10 +913,10 @@
 </header>
 
 <div class="wrap">
+  <div id="pageHero" class="pageHero">
+    <div class="pageHeroTitle">Самостоятельный осмотр поврежденного имущества</div>
+  </div>
   <div class="card" id="stepperCard" style="display:none;">
-    <div class="stepperHero">
-      <div class="pageHeroTitle">Самостоятельный осмотр поврежденного имущества</div>
-    </div>
     <div class="row" style="justify-content:space-between;">
       <div class="steps" id="steps"></div>
       <div class="muted" id="configMeta"></div>
@@ -1088,8 +972,8 @@
         "act_date_source": "f_inspection_date"
       },
       "images": {
-        "max_long_side_px": 2560,
-        "target_max_bytes": 900000
+        "max_long_side_px": 3200,
+        "target_max_bytes": 2000000
       }
     },
     "dictionaries": [
@@ -7431,7 +7315,7 @@
       "steps": [
         {
           "id": "step1",
-          "title": "Анкета",
+          "title": "Информация",
           "required_fields": [
             "f_insurer",
             "f_insurer_rep",
@@ -7445,17 +7329,17 @@
         },
         {
           "id": "step3",
-          "title": "Добавить повреждение",
+          "title": "Повреждения",
           "list_ref": "state.damage_items"
         },
         {
           "id": "step2",
-          "title": "Список повреждений",
+          "title": "Проверка",
           "inventory_ref": "damage_item"
         },
         {
           "id": "step4",
-          "title": "Финализация",
+          "title": "Отправка",
           "actions": [
             "export_pdf",
             "submit"
@@ -7683,7 +7567,7 @@ const Signature = (() => {
     const row = el("div", { class:"sigActions" }, [
       el("button", { type:"button", class:"ghost", text:"Отмена" }),
       el("button", { type:"button", class:"ghost", text:"Очистить" }),
-      el("button", { type:"button", class:"primary", text:"Сохранить" }),
+      el("button", { type:"button", class:"soft", text:"Сохранить" }),
     ]);
     overlay.appendChild(title);
     overlay.appendChild(canvas);
@@ -7856,78 +7740,6 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
   return n;
 }
 
-  function makeInlineIcon(name) {
-    const svg = (children) => el("svg", {
-      width: "18",
-      height: "18",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      "stroke-width": "2",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "aria-hidden": "true"
-    }, children);
-
-    switch (name) {
-      case "arrow-left":
-        return svg([
-          el("path", { d:"M19 12H5" }),
-          el("path", { d:"M12 19l-7-7 7-7" })
-        ]);
-      case "paperclip":
-        return svg([
-          el("path", { d:"M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48" })
-        ]);
-      case "camera":
-        return svg([
-          el("path", { d:"M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z" }),
-          el("circle", { cx:"12", cy:"13", r:"3.5" })
-        ]);
-      case "download":
-        return svg([
-          el("path", { d:"M12 3v11" }),
-          el("path", { d:"M7 11l5 5 5-5" }),
-          el("path", { d:"M5 21h14" })
-        ]);
-      case "mail":
-        return svg([
-          el("rect", { x:"3", y:"5", width:"18", height:"14", rx:"2" }),
-          el("path", { d:"M3 7l9 6 9-6" })
-        ]);
-      case "info":
-        return svg([
-          el("circle", { cx:"12", cy:"12", r:"9" }),
-          el("path", { d:"M12 10v6" }),
-          el("path", { d:"M12 7h.01" })
-        ]);
-      default:
-        return document.createTextNode("");
-    }
-  }
-
-  const STEP_NAV_TITLES = {
-    step1: "Информация",
-    step2: "Повреждения",
-    step3: "Проверка",
-    step4: "Отправка"
-  };
-
-  const STEP_SCREEN_TITLES = {
-    step1: "Общая информация",
-    step2: "Список повреждений",
-    step3: "Добавить повреждение",
-    step4: "Отправка"
-  };
-
-  function getStepNavTitle(step) {
-    return STEP_NAV_TITLES[step?.id] || step?.title || "";
-  }
-
-  function getStepScreenTitle(step) {
-    return STEP_SCREEN_TITLES[step?.id] || step?.title || "";
-  }
-
   function mountMdField({ parent, labelText, required, controlEl, starEl }) {
     const wrap = el("div", { class:"mdField" });
     const lab = el("div", { class:"mdLabel" }, [
@@ -7957,6 +7769,83 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
     parent.appendChild(wrap);
     sync();
     return wrap;
+  }
+
+
+  const APP_HERO_TITLE = "Самостоятельный осмотр поврежденного имущества";
+  const STEP_LABELS = {
+    step1: "Информация",
+    step3: "Повреждения",
+    step2: "Проверка",
+    step4: "Отправка"
+  };
+  const STEP_SCREEN_TITLES = {
+    step1: "Общая информация",
+    step2: "Список повреждений",
+    step3: "Добавить повреждение",
+    step4: "Отправка"
+  };
+
+  function getStepperLabel(stepId, fallback = "") {
+    return STEP_LABELS[stepId] || fallback || "";
+  }
+  function getScreenTitle(stepId, fallback = "") {
+    return STEP_SCREEN_TITLES[stepId] || fallback || "";
+  }
+
+  function makeIcon(name, size = 20) {
+    const svg = el("svg", {
+      width: String(size),
+      height: String(size),
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      "stroke-width": "2",
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      "aria-hidden": "true"
+    });
+    const add = (tag, attrs) => svg.appendChild(el(tag, attrs));
+    if (name === "back") {
+      add("path", { d:"M15 18l-6-6 6-6" });
+    } else if (name === "clip") {
+      add("path", { d:"M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48" });
+    } else if (name === "camera") {
+      add("path", { d:"M4 7h4l2-2h4l2 2h4v12H4z" });
+      add("circle", { cx:"12", cy:"13", r:"3.5" });
+    } else if (name === "download") {
+      add("path", { d:"M12 3v11" });
+      add("path", { d:"M8 10l4 4 4-4" });
+      add("path", { d:"M5 21h14" });
+    } else if (name === "mail") {
+      add("rect", { x:"3", y:"5", width:"18", height:"14", rx:"2" });
+      add("path", { d:"M3 7l9 6 9-6" });
+    } else if (name === "close") {
+      add("path", { d:"M18 6L6 18" });
+      add("path", { d:"M6 6l12 12" });
+    }
+    return svg;
+  }
+
+  function openImageLightbox(src) {
+    if (!src) return;
+    const prevOverflow = document.body.style.overflow;
+    const overlay = el("div", { class:"imageLightbox" });
+    const closeBtn = el("button", { type:"button", class:"imageLightboxClose", "aria-label":"Закрыть" }, [makeIcon("close")]);
+    const img = el("img", { src, alt:"Фото повреждения" });
+    const close = () => {
+      try { document.removeEventListener("keydown", onKey); } catch {}
+      document.body.style.overflow = prevOverflow;
+      overlay.remove();
+    };
+    const onKey = (e) => { if (e.key === "Escape") close(); };
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+    closeBtn.addEventListener("click", close);
+    document.addEventListener("keydown", onKey);
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(img);
+    document.body.style.overflow = "hidden";
+    document.body.appendChild(overlay);
   }
 
   // ===============================
@@ -8615,8 +8504,8 @@ async function normalizeImageFallbackMainThread(file, cfg) {
   const cfgTargetBytes = Number(cfg?.constraints?.images?.target_max_bytes) || 900000;
 
   // На iOS при fallback слегка ужимаем лимиты, чтобы пройти по памяти стабильнее.
-  const maxLongSidePx = isIOS ? Math.min(cfgMaxLong, 1920) : cfgMaxLong;
-  const targetMaxBytes = isIOS ? Math.min(cfgTargetBytes, 700000) : cfgTargetBytes;
+  const maxLongSidePx = isIOS ? Math.min(cfgMaxLong, 2560) : cfgMaxLong;
+  const targetMaxBytes = isIOS ? Math.min(cfgTargetBytes, 1300000) : cfgTargetBytes;
 
   let src = null;
   let srcW = 0;
@@ -8663,13 +8552,13 @@ async function normalizeImageFallbackMainThread(file, cfg) {
     ctx.fillRect(0, 0, outW, outH);
     ctx.drawImage(src, 0, 0, outW, outH);
 
-    let quality = 0.9;
+    let quality = 0.94;
     let blob = null;
     for (let i = 0; i < 8; i++) {
       blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
       if (!blob) throw new Error("JPEG conversion failed");
-      if (blob.size <= targetMaxBytes || quality <= 0.6) break;
-      quality = Math.max(0.6, quality - 0.06);
+      if (blob.size <= targetMaxBytes || quality <= 0.72) break;
+      quality = Math.max(0.72, quality - 0.04);
     }
 
     if (!blob) throw new Error("JPEG conversion failed");
@@ -9496,7 +9385,6 @@ function initRulesEngine(cfg) {
     btns.forEach((b, i) => {
       const step = steps[i];
       b.classList.toggle("active", step && step.id === st.stepId);
-      b.classList.toggle("completed", i < curIdx);
       if (i <= curIdx) b.disabled = false;               // назад всегда можно
       else if (i === curIdx + 1) b.disabled = !canNext;  // вперёд только на 1 шаг и только если валидно
       else b.disabled = true;                             // нельзя перепрыгивать через шаги
@@ -9689,51 +9577,62 @@ function __applyPendingFocusAfterRender() {
     // Stepper
     const stepsWrap = $("steps");
     stepsWrap.replaceChildren();
-    for (let i = 0; i < steps.length; i++) {
-      const s = steps[i];
-      const curIdxLocal = steps.findIndex(x => x.id === st.stepId);
+    const curStepIndex = steps.findIndex(x => x.id === st.stepId);
+    steps.forEach((s, stepIndex) => {
       stepsWrap.appendChild(el("button", {
         type:"button",
-        class:"stepBtn" + (s.id === st.stepId ? " active" : "") + (i < curIdxLocal ? " completed" : ""),
+        class:"stepBtn" + (s.id === st.stepId ? " active" : "") + (stepIndex < curStepIndex ? " done" : ""),
         "aria-current": String(s.id === st.stepId),
         onclick: () => {
-          if (s.id === "step1") DebugUnlock.tap();
+                // Секрет: 7 тапов по шагу "Анкета" (step1) включает/выключает диагностику
+      if (s.id === "step1" && s.title === "Анкета") DebugUnlock.tap();
+      
+  const stNow = Store.get();
+  const stepsNow = stNow.config.ui.steps;
 
-          const stNow = Store.get();
-          const stepsNow = stNow.config.ui.steps;
-          const curIdx = stepsNow.findIndex(x => x.id === stNow.stepId);
-          const tgtIdx = stepsNow.findIndex(x => x.id === s.id);
+  const curIdx = stepsNow.findIndex(x => x.id === stNow.stepId);
+  const tgtIdx = stepsNow.findIndex(x => x.id === s.id);
 
-          if (tgtIdx <= curIdx) {
-            Store.update(d => { d.stepId = s.id; });
-            refreshStepperAvailability();
-            return;
-          }
+  // назад (или на текущий) — всегда можно
+  if (tgtIdx <= curIdx) {
+    Store.update(d => { d.stepId = s.id; });
+    refreshStepperAvailability();
+    // --- восстановление прокрутки ---
+const curStepId = Store.get().stepId;
+const sameStep = (prevStepId && curStepId === prevStepId);
+__renderPrevStepId = curStepId;
 
-          if (tgtIdx === curIdx + 1) {
-            const ok = (StepGuards.canNextByStepId[stNow.stepId] !== false);
-            if (!ok) {
-              setStatus("Сначала заполните обязательные поля текущего шага.", "err");
-              const damageId = (stNow.stepId === "step3" && stNow.current_damage_index != null) ? stNow.current_damage_index : null;
-              UIValidation.markAttempt(stNow.stepId, damageId);
-              render();
-              return;
-            }
-            Store.update(d => { d.stepId = s.id; });
-            refreshStepperAvailability();
-            return;
-          }
+requestAnimationFrame(() => {
+  if (sameStep) window.scrollTo(x, y);
+  else window.scrollTo(0, 0);
+});
+    return;
+  }
 
-          setStatus("Нельзя пропускать шаги. Перейди на следующий шаг по порядку.", "err");
-          refreshStepperAvailability();
-        }
-      }, [
-        el("span", { class:"stepBtnInner" }, [
-          el("span", { class:"stepCircle", text:String(i + 1) }),
-          el("span", { class:"stepLabel", text:getStepNavTitle(s) })
-        ])
-      ]));
+  // вперёд — только на 1 шаг
+  if (tgtIdx === curIdx + 1) {
+    const ok = (StepGuards.canNextByStepId[stNow.stepId] !== false);
+    if (!ok) {
+      setStatus("Сначала заполните обязательные поля текущего шага.", "err");
+      const damageId = (stNow.stepId === "step3" && stNow.current_damage_index != null) ? stNow.current_damage_index : null;
+      UIValidation.markAttempt(stNow.stepId, damageId);
+      render();
+      return;
     }
+    Store.update(d => { d.stepId = s.id; });
+    refreshStepperAvailability();
+    return;
+  }
+
+  // попытка “перепрыгнуть”
+  setStatus("Нельзя пропускать шаги. Перейди на следующий шаг по порядку.", "err");
+  refreshStepperAvailability();
+}
+      }, [
+        el("span", { class:"stepNo", text:String(stepIndex + 1) }),
+        el("span", { class:"stepTxt", text:getStepperLabel(s.id, s.title) })
+      ]));
+    });
 
     requestAnimationFrame(() => {
       const sc = $("stepperCard");
@@ -9765,27 +9664,16 @@ __restoreRenderKeep(__prevKeep);
 __applyPendingFocusAfterRender();
   }
 
-  function navButtons({ canPrev=true, canNext=true, nextDisabled=false, onPrev, onNext, nextText="Продолжить", prevText="Назад", prevMode="text", nextIcon=null }) {
-    const rowClass = "actions" + (!canPrev ? " single" : (prevMode === "icon" ? " iconPrev" : ""));
-    const kids = [];
+  function navButtons({ canPrev=true, canNext=true, nextDisabled=false, onPrev, onNext, nextText="Продолжить" }) {
+    const row = canPrev
+      ? el("div", { class:"actions iconPrev" }, [
+          el("button", { type:"button", class:"soft iconOnly", disabled: !canPrev, onclick: onPrev, "aria-label":"Назад" }, [makeIcon("back")]),
+          el("button", { type:"button", class:"primary", text: nextText, disabled: !canNext || nextDisabled, onclick: onNext })
+        ])
+      : el("div", { class:"actions single" }, [
+          el("button", { type:"button", class:"primary", text: nextText, disabled: !canNext || nextDisabled, onclick: onNext })
+        ]);
 
-    if (canPrev) {
-      if (prevMode === "icon") {
-        kids.push(el("button", { type:"button", class:"soft iconOnly", disabled: !canPrev, onclick: onPrev, "aria-label": prevText }, [
-          makeInlineIcon("arrow-left")
-        ]));
-      } else {
-        kids.push(el("button", { type:"button", class:"ghost", text: prevText, disabled: !canPrev, onclick: onPrev }));
-      }
-    }
-
-    const nextKids = [];
-    if (nextIcon) nextKids.push(makeInlineIcon(nextIcon));
-    nextKids.push(el("span", { text: nextText }));
-
-    kids.push(el("button", { type:"button", class:"primary", disabled: !canNext || nextDisabled, onclick: onNext }, nextKids));
-
-    const row = el("div", { class: rowClass }, kids);
     StickyFooter.set(row);
     return document.createComment("actions-mounted-in-stickyFooter");
   }
@@ -9826,7 +9714,7 @@ __applyPendingFocusAfterRender();
     const step = cfg.ui.steps.find(s => s.id === "step1");
     const required = step?.required_fields || [];
 
-    const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getStepScreenTitle(step) || "Общая информация" });
+    const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getScreenTitle("step1", step?.title || "Анкета") });
     root.appendChild(h1);
 
     const _now = new Date();
@@ -9841,7 +9729,6 @@ __applyPendingFocusAfterRender();
       st = Store.get();
     }
 
-    
 
     function isoToUiDate(iso) {
       if (!iso) return "";
@@ -10251,7 +10138,7 @@ function hasAnyIncompleteDamage(cfg, items) {
   // ===============================
   function renderStep2(root, cfg, st) {
     const step = cfg.ui.steps.find(s => s.id === "step2");
-    const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getStepScreenTitle(step) || "Список повреждений" });
+    const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getScreenTitle("step2", step?.title || "Список повреждений") });
     root.appendChild(h1);
 
     const list = el("div", { class:"list" });
@@ -10300,7 +10187,7 @@ st.damage_items.forEach((it, idx) => {
 
   const left = el("div", {}, leftKids);
 
-  const btns = el("div", { class:"itemActions" }, [
+  const btns = el("div", { class:"row" }, [
     el("button", {
       type:"button",
       class:"ghost miniBtn",
@@ -10340,8 +10227,8 @@ st.damage_items.forEach((it, idx) => {
     root.appendChild(el("div", { class:"actions" }, [
       el("button", {
         type:"button",
-        class:"primary",
-        text:"＋ Добавить повреждение",
+        class:"soft",
+        text:"Добавить повреждение",
         onclick: () => Store.update(d => {
   if (!Array.isArray(d.damage_items)) d.damage_items = [];
   d.damage_items.push({});
@@ -10370,7 +10257,7 @@ refreshStepperAvailability();
   function renderStep3(root, cfg, st) {
   const fieldsById = indexFieldsById(cfg);
   const step = cfg.ui.steps.find(s => s.id === "step3");
-  const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getStepScreenTitle(step) || "Добавить повреждение" });
+  const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getScreenTitle("step3", step?.title || "Повреждение") });
   root.appendChild(h1);
 
   const sel = cfg?.inventory?.damage_item?.selectors;
@@ -10389,8 +10276,7 @@ refreshStepperAvailability();
   }
   goNext(cfg, "step3");
 },
-      nextText: "Продолжить",
-      prevMode: "icon"
+      nextText: "Продолжить"
     }));
     return;
   }
@@ -10708,7 +10594,9 @@ const showSubelement = !!subDictId; // как и было: только если
 
 // Category tiles (4 крупных значка)
 {
-  const starEl = el("span", { class:"reqStar", text:"*" });
+  const starEl = el("span", { class:"reqStar", text:"*", style:"display:none;" });
+
+  selectorsCard.appendChild(el("div", { class:"muted categoryHint", text:"Выбери категорию." }));
 
   const tiles = el("div", { class:"catTiles" });
   const iconByCat = {
@@ -10845,14 +10733,14 @@ if (showElement) {
     const e = getChoice(itNow[F_EL]);
     const s = getChoice(itNow[F_SUB]);
 
-    let msg = "Выбери Категорию.";
-if (c && showElement && !e) msg = "Выбери Элемент.";
-if (c && showElement && e && showSubelement && !s) msg = "Выбери Подэлемент.";
+    let msg = "";
+if (c && showElement && !e) msg = "Выбери элемент.";
+if (c && showElement && e && showSubelement && !s) msg = "Выбери подэлемент.";
 if (c && (!showElement || e) && (!showSubelement || s)) {
   msg = "Под текущие значения не найден шаблон (template). Проверь Config.DB.templates.";
 }
 
-    root.appendChild(el("div", { class:"muted", style:"margin-top:10px;", text: msg }));
+    if (msg) root.appendChild(el("div", { class:"muted", style:"margin-top:10px;", text: msg }));
 
     // nav
     root.appendChild(navButtons({
@@ -10861,8 +10749,7 @@ if (c && (!showElement || e) && (!showSubelement || s)) {
       nextDisabled:true,
       onPrev: () => goPrev(cfg, "step3"),
       onNext: () => goNext(cfg, "step3"),
-      nextText: "Продолжить",
-      prevMode: "icon"
+      nextText: "Продолжить"
     }));
     return;
   }
@@ -11240,18 +11127,60 @@ StepGuards.canNextByStepId.step3 = canProceed;
   };
 
   const renderGroupField = (fid, def, required) => {
-    const starEl = el("span", { class: "reqStar", text: "*" });
+    const titleStar = el("span", { class: "reqStar", text: "*" });
+    const titleText = def.unit_static ? `${def.label}, ${def.unit_static}` : def.label;
     fieldsCard.appendChild(el("div", { class:"groupTitle" }, [
-      document.createTextNode(def.label),
+      document.createTextNode(titleText),
       required ? document.createTextNode(" ") : null,
-      required ? starEl : null
+      required ? titleStar : null
     ].filter(Boolean)));
 
     const cur = Store.get().damage_items[idx]?.[fid];
     const obj = (cur && typeof cur === "object") ? cur : {};
-
     const labels = def.axis_labels || {};
     const isXYZ = def.type === "group_xyz";
+
+    if (def.unit_static) {
+      if (Store.get().damage_items[idx]?.[fid] && typeof Store.get().damage_items[idx][fid] === "object") {
+        const cur2 = Store.get().damage_items[idx][fid];
+        if (!cur2.unit) {
+          Store.update(d => {
+            const it = d.damage_items[idx];
+            if (!it) return;
+            const o = (it[fid] && typeof it[fid] === "object") ? it[fid] : {};
+            o.unit = String(def.unit_static);
+            it[fid] = o;
+          }, { skipRender:true });
+        }
+      }
+    }
+
+    if (def.unit_options_dictionary_id) {
+      const unitWrap = el("div", { class:"groupUnit" });
+      const uStar = el("span", { class: "reqStar", text: "*" });
+      const uSel = el("select", { "data-fid": `step3:${idx}:${fid}:unit` });
+      uSel.appendChild(el("option", { value:"", text:"", disabled:true, hidden:true }));
+      for (const u of buildOrderedValues(def.unit_options_dictionary_id)) uSel.appendChild(el("option", { value:u, text:u }));
+      uSel.value = String(obj.unit ?? "");
+      uSel.addEventListener("change", () => {
+        const u = uSel.value || "";
+        Store.update(d => {
+          const it = d.damage_items[idx];
+          if (!it) return;
+          const curV = it[fid];
+          const o = (curV && typeof curV === "object") ? curV : {};
+          if (!u) delete o.unit;
+          else o.unit = u;
+          const hasAny = ["x","y","z"].some(k => typeof o[k] === "number" && Number.isFinite(o[k]));
+          if (!hasAny && !o.unit) delete it[fid];
+          else it[fid] = o;
+        }, { skipRender:true });
+        refreshStep3Ui();
+      });
+      mountMdField({ parent: unitWrap, labelText: "Единица измерения", required: !!required, controlEl: uSel, starEl: uStar });
+      fieldsCard.appendChild(unitWrap);
+    }
+
     const grid = el("div", { class:"groupGrid " + (isXYZ ? "groupXYZ" : "groupXY") });
 
     const makeAxis = (axisKey, axisLabel) => {
@@ -11307,58 +11236,21 @@ StepGuards.canNextByStepId.step3 = canProceed;
     makeAxis("y", labels.y || "Ширина");
     if (isXYZ) makeAxis("z", labels.z || "Высота");
 
-    // unit
-    if (def.unit_static) {
-      grid.appendChild(el("div", { class:"muted", style:"align-self:center;", text:`Ед.: ${def.unit_static}` }));
-      if (Store.get().damage_items[idx]?.[fid] && typeof Store.get().damage_items[idx][fid] === "object") {
-        const cur2 = Store.get().damage_items[idx][fid];
-        if (!cur2.unit) {
-          Store.update(d => {
-            const it = d.damage_items[idx];
-            if (!it) return;
-            const o = (it[fid] && typeof it[fid] === "object") ? it[fid] : {};
-            o.unit = String(def.unit_static);
-            it[fid] = o;
-          }, { skipRender:true });
-        }
-      }
-    } else if (def.unit_options_dictionary_id) {
-      const uStar = el("span", { class: "reqStar", text: "*" });
-      const uSel = el("select", { "data-fid": `step3:${idx}:${fid}:unit` });
-      uSel.appendChild(el("option", { value:"", text:"", disabled:true, hidden:true }));
-      for (const u of buildOrderedValues(def.unit_options_dictionary_id)) uSel.appendChild(el("option", { value:u, text:u }));
-      uSel.value = String(obj.unit ?? "");
-      uSel.addEventListener("change", () => {
-        const u = uSel.value || "";
-        Store.update(d => {
-          const it = d.damage_items[idx];
-          if (!it) return;
-          const curV = it[fid];
-          const o = (curV && typeof curV === "object") ? curV : {};
-          if (!u) delete o.unit;
-          else o.unit = u;
-          const hasAny = ["x","y","z"].some(k => typeof o[k] === "number" && Number.isFinite(o[k]));
-          if (!hasAny && !o.unit) delete it[fid];
-          else it[fid] = o;
-        }, { skipRender:true });
-        refreshStep3Ui();
-      });
-      mountMdField({ parent: grid, labelText: "Ед.", required: !!required, controlEl: uSel, starEl: uStar });
-    }
-
     fieldsCard.appendChild(grid);
     const errEl = el("div", { class: "fieldError", text: "" });
     fieldsCard.appendChild(errEl);
-    if (required) fieldUi.set(fid, { starEl, errEl });
+    if (required) fieldUi.set(fid, { starEl: titleStar, errEl });
   };
 
   const renderPhotosField = (fid, def, required) => {
     const starEl = el("span", { class: "reqStar", text: "*" });
-    const photoLabel = "Фотографии повреждения";
+    const labelText = "Фотографии повреждения";
     const labelEl = required
-      ? el("label", {}, [document.createTextNode(photoLabel), document.createTextNode(" "), starEl])
-      : el("label", { text: photoLabel });
+      ? el("label", {}, [document.createTextNode(labelText), document.createTextNode(" "), starEl])
+      : el("label", { text: labelText });
     fieldsCard.appendChild(labelEl);
+
+    fieldsCard.appendChild(el("div", { class:"photoHint", text:"Фото лучше делать горизонтально. Каждый ракурс — отдельное фото. Можно добавить до 10 фотографий (осталось 10)." }));
 
     const stNow = Store.get();
     const itNow = stNow.damage_items[idx] || {};
@@ -11369,13 +11261,7 @@ StepGuards.canNextByStepId.step3 = canProceed;
       def.max_count ?? 10
     );
 
-    const info = el("div", { class:"muted", style:"margin-top:6px;", text:`Максимум ${max} фото на повреждение. Добавлено: ${cur.length}/${max} фото.` });
-    fieldsCard.appendChild(info);
-
-    const hint = el("div", { class:"photoHint" });
-    fieldsCard.appendChild(hint);
-
-    const msg = el("div", { class:"muted", style:"margin-top:6px; font-size:12px;" });
+    const msg = el("div", { class:"muted", style:"margin-top:8px;" });
     fieldsCard.appendChild(msg);
 
     const input = el("input", {
@@ -11384,39 +11270,25 @@ StepGuards.canNextByStepId.step3 = canProceed;
       multiple:true,
       style:"display:none;"
     });
+    const cameraInput = el("input", {
+      type:"file",
+      accept:"image/*",
+      capture:"environment",
+      style:"display:none;"
+    });
     fieldsCard.appendChild(input);
+    fieldsCard.appendChild(cameraInput);
 
-    const btn = el("button", { type:"button", class:"ghost main" }, [
-      makeInlineIcon("paperclip"),
+    const addBtn = el("button", { type:"button", class:"soft", style:"margin:0;" }, [
+      makeIcon("clip"),
       el("span", { text:"Добавить фото" })
     ]);
-
-    const camBtn = el("button", { type:"button", class:"soft cameraBtn iconOnly", "aria-label":"Сделать фото" }, [
-      makeInlineIcon("camera")
-    ]);
-
-    const btnRow = el("div", { class:"photoButtons" }, [btn, camBtn]);
-    fieldsCard.appendChild(btnRow);
+    const cameraBtn = el("button", { type:"button", class:"soft iconOnly", "aria-label":"Открыть камеру" }, [makeIcon("camera")]);
+    const actions = el("div", { class:"photoActions" }, [addBtn, cameraBtn]);
+    fieldsCard.appendChild(actions);
 
     const grid = el("div", { class:"thumbGrid" });
     fieldsCard.appendChild(grid);
-
-    const updatePhotoHint = (count) => {
-      const remaining = Math.max(0, max - count);
-      hint.replaceChildren(
-        el("div", { class:"photoHintRow" }, [
-          makeInlineIcon("info"),
-          el("div", { text:`Фото лучше делать горизонтально. Каждый ракурс — отдельное фото. Можно добавить до ${max} фотографий (осталось ${remaining}).` })
-        ])
-      );
-    };
-
-    const openPicker = (captureMode = false) => {
-      if (btn.disabled) return;
-      if (captureMode) input.setAttribute("capture", "environment");
-      else input.removeAttribute("capture");
-      input.click();
-    };
 
     const rebuildGrid = async () => {
       const st2 = Store.get();
@@ -11426,65 +11298,59 @@ StepGuards.canNextByStepId.step3 = canProceed;
 
       for (const photoId of arr) {
         const card = el("div", { class:"thumbCard" });
-        const img = el("img", { class:"thumbImg" });
+        const img = el("img", { class:"thumbImg", alt:"Фото повреждения" });
         card.appendChild(img);
 
-        const rec = await Persistence.getImageRecord(photoId);
-        const fileName = (rec?.sourceName || photoId || "").trim();
-
-        const url = await ImagePipeline.getThumbUrl(photoId);
-        if (url) img.src = url;
-
         const meta = el("div", { class:"thumbMeta" });
-        meta.appendChild(el("div", { class:"thumbFile", text: fileName || (photoId.slice(0, 8) + "…") }));
+        const nameEl = el("span", { text:"Фото" });
+        meta.appendChild(nameEl);
 
-        const del = el("button", { type:"button", class:"thumbBtn ghost", text:"Удалить" });
+        const del = el("button", { type:"button", class:"thumbBtn", text:"Удалить" });
         del.addEventListener("click", async () => {
           if (!confirm("Удалить это фото?")) return;
-
           Store.update(d => {
             const it3 = d.damage_items[idx];
             if (!it3) return;
             const a = Array.isArray(it3[fid]) ? it3[fid] : [];
             it3[fid] = a.filter(x => x !== photoId);
           });
-
           try { await Persistence.deleteImageRecord(photoId); } catch (e) { console.error(e); }
           ImagePipeline.revoke(photoId);
         });
 
-        meta.appendChild(el("div", { class:"thumbActions" }, [del]));
+        meta.appendChild(del);
         card.appendChild(meta);
         grid.appendChild(card);
+
+        ImagePipeline.getThumbUrl(photoId).then(url => {
+          if (!url) return;
+          img.src = url;
+          img.addEventListener("click", () => openImageLightbox(url));
+        });
+        Persistence.getImageRecord(photoId).then(rec => {
+          if (rec?.sourceName) nameEl.textContent = rec.sourceName;
+        }).catch(() => {});
       }
 
-      const st3 = Store.get();
-      const it3 = st3.damage_items[idx] || {};
-      const a3 = Array.isArray(it3[fid]) ? it3[fid] : [];
-      info.textContent = `Максимум ${max} фото на повреждение. Добавлено: ${a3.length}/${max} фото.`;
-      updatePhotoHint(a3.length);
-      btn.disabled = (a3.length >= max);
-      camBtn.disabled = (a3.length >= max);
+      const a3 = Array.isArray((Store.get().damage_items[idx] || {})[fid]) ? (Store.get().damage_items[idx] || {})[fid] : [];
+      addBtn.disabled = (a3.length >= max);
+      cameraBtn.disabled = (a3.length >= max);
     };
 
-    input.addEventListener("change", async () => {
-      const files = Array.from(input.files || []);
+    const handleFiles = async (fileList) => {
+      const files = Array.from(fileList || []);
       if (!files.length) return;
-
       const st2 = Store.get();
       const it2 = st2.damage_items[idx] || {};
       const arr = Array.isArray(it2[fid]) ? it2[fid] : [];
       const remaining = Math.max(0, max - arr.length);
-      if (remaining <= 0) {
-        input.value = "";
-        return;
-      }
-
+      if (remaining <= 0) return;
       const toAdd = files.slice(0, remaining);
 
-      btn.disabled = true;
-      camBtn.disabled = true;
+      addBtn.disabled = true;
+      cameraBtn.disabled = true;
       input.disabled = true;
+      cameraInput.disabled = true;
       msg.textContent = `Обработка фото: 0 / ${toAdd.length}`;
 
       try {
@@ -11494,14 +11360,12 @@ StepGuards.canNextByStepId.step3 = canProceed;
           files: toAdd,
           onProgress: (done, total) => { msg.textContent = `Обработка фото: ${done} / ${total}`; }
         });
-
         Store.update(d => {
           const it3 = d.damage_items[idx];
           if (!it3) return;
           const a = Array.isArray(it3[fid]) ? it3[fid] : [];
           it3[fid] = [...a, ...newIds];
         });
-
         msg.textContent = "Готово.";
       } catch (e) {
         console.error(e);
@@ -11509,26 +11373,22 @@ StepGuards.canNextByStepId.step3 = canProceed;
         msg.textContent = "Ошибка (см. консоль).";
       } finally {
         input.disabled = false;
+        cameraInput.disabled = false;
         input.value = "";
+        cameraInput.value = "";
         await rebuildGrid();
       }
-    });
+    };
 
-    btn.addEventListener("click", () => {
-      UIValidation.markTouched("step3", "f_photos", idx);
-      openPicker(false);
-    });
-
-    camBtn.addEventListener("click", () => {
-      UIValidation.markTouched("step3", "f_photos", idx);
-      openPicker(true);
-    });
+    input.addEventListener("change", async () => { await handleFiles(input.files); });
+    cameraInput.addEventListener("change", async () => { await handleFiles(cameraInput.files); });
+    addBtn.addEventListener("click", () => { if (!addBtn.disabled) input.click(); });
+    cameraBtn.addEventListener("click", () => { if (!cameraBtn.disabled) cameraInput.click(); });
 
     const errEl = el("div", { class: "fieldError", text: "" });
     fieldsCard.appendChild(errEl);
     if (required) fieldUi.set(fid, { starEl, errEl });
 
-    updatePhotoHint(cur.length);
     rebuildGrid();
   };
 
@@ -11571,8 +11431,8 @@ StepGuards.canNextByStepId.step3 = canProceed;
   const addMoreRow = el("div", { class:"actions" }, [
     el("button", {
       type:"button",
-      class:"primary",
-      text:"＋ Добавить новое повреждение",
+      class:"soft",
+      text:"Добавить повреждение",
       onclick: () => Store.update(d => {
         if (!Array.isArray(d.damage_items)) d.damage_items = [];
         d.damage_items.push({});
@@ -11604,8 +11464,7 @@ StepGuards.canNextByStepId.step3 = canProceed;
   // Иначе можно перейти к списку (даже если текущее — черновик)
   goNext(cfg, "step3");
 },
-    nextText: "Продолжить",
-    prevMode: "icon"
+    nextText: "Продолжить"
   });
 
   // получить ссылку на next button (кнопки в StickyFooter, nav — это comment-заглушка)
@@ -12385,7 +12244,7 @@ function buildPdfFromJpegs(jpegPages, A4, dpi) {
 
 function renderStep4(root, cfg, st) {
   const step = cfg.ui.steps.find(s => s.id === "step4");
-  const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getStepScreenTitle(step) || "Отправка" });
+  const h1 = el("h1", { class:"stepH1", tabindex:"-1", text: getScreenTitle("step4", step?.title || "Финализация") });
   root.appendChild(h1);
 
   const items = Array.isArray(st?.damage_items) ? st.damage_items : [];
@@ -12462,38 +12321,13 @@ function renderStep4(root, cfg, st) {
 
   summaryCard.appendChild(ol);
 
-  // быстрые кнопки, чтобы вернуться и исправить
-  summaryCard.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [
-    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.stepId = "step1"; }) }, [
-      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
-        el("path", { d:"M12 20h9" }),
-        el("path", { d:"M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" })
-      ]),
-      el("span", { text:"Редактировать анкету" })
-    ]),
-    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.damage_items.push({}); d.current_damage_index = d.damage_items.length - 1; d.stepId = "step3"; }) }, [
-      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
-        el("path", { d:"M12 5v14" }),
-        el("path", { d:"M5 12h14" })
-      ]),
-      el("span", { text:"Добавить повреждение" })
-    ]),
-    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.stepId = "step2"; }) }, [
-      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
-        el("path", { d:"M4 6h16" }),
-        el("path", { d:"M4 12h16" }),
-        el("path", { d:"M4 18h16" })
-      ]),
-      el("span", { text:"Список повреждений" })
-    ])
-  ]));
 
   root.appendChild(summaryCard);
 
   const signBtn = el("button", {
     type:"button",
     class:"soft",
-    text: (Store.get().form?.f_signature_png ? "Подписать акт" : "Подписать акт")
+    text:"Подписать акт"
   });
   signBtn.addEventListener("click", () => {
     Signature.open({
@@ -12579,10 +12413,7 @@ function renderStep4(root, cfg, st) {
     }
   };
 
-  const dlBtn = el("button", { type:"button", class:"soft" }, [
-    makeInlineIcon("download"),
-    el("span", { text:"Скачать акт" })
-  ]);
+  const dlBtn = el("button", { type:"button", class:"soft" }, [makeIcon("download"), el("span", { text:"Скачать акт" })]);
   const hasSignatureNow = !!String(Store.get().form?.f_signature_png || "").trim();
   dlBtn.disabled = !hasSignatureNow;
   dlBtn.addEventListener("click", async () => {
@@ -12592,17 +12423,13 @@ function renderStep4(root, cfg, st) {
     } catch {}
   });
 
-  root.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [dlBtn]));
-
-  const shBtn = el("button", { type:"button", class:"primary" }, [
-    makeInlineIcon("mail"),
-    el("span", { text:"Отправить" })
-  ]);
+  const shBtn = el("button", { type:"button", class:"primary" }, [makeIcon("mail"), el("span", { text:"Отправить" })]);
   shBtn.disabled = !hasSignatureNow;
   shBtn.addEventListener("click", async () => {
     try {
       const { pdfBlob, fileName } = await makePdf(shBtn);
 
+      // Если share недоступен — просто скачиваем.
       if (!navigator.share) {
         downloadBlob(pdfBlob, fileName);
         return;
@@ -12610,20 +12437,22 @@ function renderStep4(root, cfg, st) {
 
       try {
         const file = new File([pdfBlob], fileName, { type:"application/pdf" });
+        // canShare бывает не везде — проверяем аккуратно
         if (navigator.canShare && !navigator.canShare({ files:[file] })) {
           downloadBlob(pdfBlob, fileName);
           return;
         }
         await navigator.share({ files:[file], title:fileName, text:"Акт осмотра (PDF)" });
       } catch (e) {
+        // если share не сработал — fallback на скачивание
         downloadBlob(pdfBlob, fileName);
       }
     } catch {}
   });
 
-  const backBtn = el("button", { type:"button", class:"soft iconOnly", onclick: () => goPrev(cfg, "step4"), "aria-label":"Назад" }, [
-    makeInlineIcon("arrow-left")
-  ]);
+  root.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [dlBtn]));
+
+  const backBtn = el("button", { type:"button", class:"soft iconOnly", onclick: () => goPrev(cfg, "step4"), "aria-label":"Назад" }, [makeIcon("back")]);
   const footerRow = el("div", { class:"actions iconPrev" }, [backBtn, shBtn]);
   StickyFooter.set(footerRow);
   root.appendChild(document.createComment("actions-mounted-in-stickyFooter"));
