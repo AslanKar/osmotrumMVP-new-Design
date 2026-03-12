@@ -555,83 +555,86 @@
       line-height:1.15;
       padding:0 14px;
     }
-  
-
-    /* ===== 2026 design refresh ===== */
+      /* ===== 2026 review fixes ===== */
     :root{
       --bg:#F5F7FB;
       --card:#FFFFFF;
       --cardSoft:#FAFBFF;
-      --primary:#0D108C;
-      --primaryPress:#1749D9;
-      --primarySoft:#EEF2FF;
+      --primary:#000078;
       --text:#20274A;
       --muted:#7B849C;
       --line:#E4EAF3;
-      --lineStrong:#D7DEEA;
-      --success:#42B36D;
       --wrapMax:430px;
-      --padX:16px;
-      --padY:16px;
-      --r12:14px;
-      --btnR:16px;
-      --shadowTop:0 -10px 30px rgba(13,16,140,0.08);
+      --shadowTop:0 14px 36px rgba(15,23,42,0.08);
     }
     body{
       background:var(--bg);
       color:var(--text);
-      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
     }
     header{
       background:#fff;
       border-bottom:0;
-      box-shadow:0 1px 0 rgba(15,23,42,0.06);
+      box-shadow:0 1px 0 rgba(15,23,42,.06);
       padding:12px var(--padX) 10px;
     }
-    .headerRow{ flex-wrap:nowrap; }
-    .headerLogoWrap{ display:flex; align-items:center; gap:10px; }
-    .brandLogo{ display:block; width:92px; height:auto; }
-    .headerActions{ display:none; }
-    #resetBtn{ display:none; }
+    .headerBar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:nowrap;
+    }
+    .brandLogo{
+      display:block;
+      width:92px;
+      height:auto;
+      flex:0 0 auto;
+    }
+    #brandTitle,
+    #resetBtn{
+      display:none !important;
+    }
     .wrap{
       max-width:var(--wrapMax);
       padding:12px var(--padX) 0;
     }
     #stepperCard{
-      position:relative;
-      top:0;
-      background:transparent;
+      background:var(--bg);
       border:0;
-      border-bottom:0;
-      padding:0;
-      margin-bottom:8px;
+      border-radius:0;
+      padding:10px 0 8px;
+      position:sticky;
+      top:var(--headerH,56px);
+      z-index:20;
     }
     .stepperHero{
       margin-bottom:10px;
     }
     .pageHeroTitle{
+      max-width:320px;
       font-size:18px;
       line-height:1.24;
-      letter-spacing:-0.02em;
       font-weight:800;
+      letter-spacing:-.02em;
       color:var(--text);
-      max-width:320px;
     }
     #stepperCard .row{
       gap:0;
+      flex-direction:column;
+    }
+    #configMeta{
+      display:none;
     }
     #steps{
       display:flex;
-      gap:8px;
+      gap:4px;
       align-items:center;
       width:100%;
-      overflow-x:auto;
-      padding:2px 0;
-      scrollbar-width:none;
+      overflow:visible;
+      flex-wrap:nowrap;
     }
-    #steps::-webkit-scrollbar{ display:none; }
     #steps .stepBtn{
-      flex:1 0 auto;
+      flex:1 1 0;
       min-width:0;
       height:auto;
       border:0;
@@ -640,35 +643,24 @@
       padding:0;
       display:flex;
       align-items:center;
-      gap:8px;
+      justify-content:flex-start;
       text-align:left;
-      color:var(--muted);
-      overflow:visible;
+      gap:4px;
+      overflow:hidden;
     }
     #steps .stepBtn::after{
-      content:"";
-      position:relative;
-      left:auto;
-      right:auto;
-      bottom:auto;
-      flex:1 1 auto;
-      min-width:14px;
-      height:2px;
-      margin:0;
-      background:#E3E8F2;
-      border-radius:999px;
-      display:block;
+      display:none;
     }
-    #steps .stepBtn:last-child::after{ display:none; }
     #steps .stepBtn .stepBtnInner{
       display:flex;
       align-items:center;
-      gap:8px;
-      min-width:max-content;
+      gap:4px;
+      min-width:0;
     }
     #steps .stepBtn .stepCircle{
-      width:24px;
-      height:24px;
+      width:22px;
+      height:22px;
+      flex:0 0 22px;
       border-radius:999px;
       border:1px solid #D9E0EC;
       background:#fff;
@@ -676,218 +668,76 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      font-size:12px;
-      font-weight:700;
-      flex:0 0 24px;
       box-sizing:border-box;
+      font-size:11px;
+      font-weight:700;
     }
     #steps .stepBtn .stepLabel{
-      font-size:12px;
-      line-height:1.2;
-      font-weight:600;
-      white-space:nowrap;
+      min-width:0;
+      font-size:10px;
+      line-height:1.1;
+      font-weight:700;
       color:inherit;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
     #steps .stepBtn.completed .stepCircle{
       background:#EAF8EF;
       border-color:#CFE8D8;
-      color:var(--success);
+      color:#42B36D;
     }
     #steps .stepBtn.completed .stepLabel{
-      color:var(--success);
-    }
-    #steps .stepBtn.completed::after{
-      background:#CFE8D8;
+      color:#42B36D;
     }
     #steps .stepBtn.active .stepCircle{
-      background:var(--primarySoft);
+      background:#EEF2FF;
       border-color:#D4DCFF;
       color:var(--primary);
     }
     #steps .stepBtn.active .stepLabel{
       color:var(--primary);
     }
-    #steps .stepBtn.active::after{
-      background:#CDD8FF;
-    }
     #steps .stepBtn:disabled .stepCircle{
-      background:#fff;
       color:#B8C1D2;
       border-color:#E3E8F2;
     }
     #steps .stepBtn:disabled .stepLabel{
       color:#B8C1D2;
     }
-    #steps .stepBtn:disabled::after{
-      background:#E8EDF5;
-    }
-    #configMeta{ display:none; }
     #screen{
       background:#fff;
       border:1px solid #EDF1F7;
       border-radius:30px;
-      box-sizing:border-box;
-      padding:18px 14px calc(var(--footerH) + 18px);
       box-shadow:0 14px 34px rgba(15,23,42,0.04);
+      padding:18px 14px calc(var(--footerH) + 18px);
     }
     .stepH1{
       margin:2px 0 14px;
       font-size:18px;
       line-height:1.25;
       font-weight:800;
-      letter-spacing:-0.02em;
+      letter-spacing:-.02em;
       color:var(--text);
+    }
+    .muted{
+      color:var(--muted);
     }
     .card{
-      border:1px solid #EDF1F7;
       background:var(--cardSoft);
+      border:1px solid #EDF1F7;
       border-radius:24px;
-      padding:14px;
       box-shadow:none;
     }
-    .list{ gap:12px; margin-top:4px; }
+    .list{
+      gap:12px;
+      margin-top:4px;
+    }
     .card.item{
       background:#fff;
-      border:1px solid var(--line);
+      border-color:var(--line);
       border-radius:20px;
       padding:16px;
-    }
-    .card.item.incomplete{
-      border-color:#F2C7C7;
-      background:#FFFDFD;
-    }
-    .item{ align-items:flex-start; }
-    .item .row{ gap:8px; }
-    .muted{ color:var(--muted); }
-    .mdField{
-      margin-top:10px;
-      overflow:visible;
-    }
-    .mdControl{
-      height:58px;
-      border-radius:14px;
-      border:0;
-      background:#F3F5FA;
-      padding:28px 14px 10px;
-      color:var(--text);
-      box-shadow:inset 0 0 0 1px transparent;
-    }
-    .mdControl:focus{
-      border-color:transparent;
-      box-shadow:inset 0 0 0 1px rgba(13,16,140,0.26), 0 0 0 3px rgba(13,16,140,0.08);
-    }
-    .mdLabel{
-      top:10px;
-      left:14px;
-      right:14px;
-      background:transparent;
-      padding:0;
-      color:#7D869C;
-      font-size:14px;
-    }
-    .mdField.isActive .mdLabel{
-      top:7px;
-      font-size:10px;
-      color:var(--primary);
-    }
-    .mdTextarea{
-      min-height:104px;
-      padding-top:20px;
-    }
-    textarea.mdControl{
-      padding-bottom:14px;
-    }
-    .groupTitle{
-      margin:18px 0 10px;
-      font-weight:800;
-      font-size:18px;
-      color:var(--text);
-    }
-    .groupGrid{
-      margin-top:0;
-      display:grid;
-      gap:10px;
-      align-items:start;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:12px;
-    }
-    .groupGrid.groupXY{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
-    .groupGrid.groupXYZ{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
-    .groupGrid .mdField{ margin-top:0; }
-    .spanAll{ grid-column:1 / -1; }
-    .reqStar{ color:#A1A8B9; }
-    .fieldError{
-      margin:6px 4px 0;
-      font-size:12px;
-    }
-    button,
-    .actions button,
-    .stickyFooter .actions button{
-      height:52px;
-      border-radius:16px;
-      font-weight:600;
-      font-size:15px;
-      box-shadow:none;
-      transition:background-color .16s ease, color .16s ease, border-color .16s ease, transform .16s ease;
-    }
-    button:hover,
-    .actions button:hover,
-    .stickyFooter .actions button:hover{
-      transform:translateY(-1px);
-    }
-    button.primary,
-    .actions button.primary,
-    .stickyFooter .actions button.primary{
-      background:var(--primary);
-      color:#fff;
-      border:0;
-      box-shadow:none;
-    }
-    button.primary:active,
-    .actions button.primary:active,
-    .stickyFooter .actions button.primary:active{
-      background:var(--primaryPress);
-    }
-    button.ghost,
-    .actions button.ghost,
-    .stickyFooter .actions button.ghost,
-    button.soft,
-    .actions button.soft,
-    .stickyFooter .actions button.soft{
-      background:#F3F6FD;
-      color:var(--primary);
-      border:1px solid transparent;
-      box-shadow:none;
-    }
-    button.outline,
-    .actions button.outline,
-    .stickyFooter .actions button.outline{
-      background:#fff;
-      color:var(--text);
-      border:1px solid var(--line);
-    }
-    button.iconOnly,
-    .actions button.iconOnly,
-    .stickyFooter .actions button.iconOnly{
-      width:52px;
-      min-width:52px;
-      padding:0;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .actions{
-      gap:10px;
-      margin-top:14px;
-    }
-    .actions button{
-      padding:0 16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
     }
     .stickyFooter{
       background:transparent;
@@ -907,7 +757,6 @@
       width:100%;
       margin:0;
       gap:10px;
-      grid-template-columns:1fr 1fr;
     }
     .stickyFooter .actions.single{
       grid-template-columns:1fr;
@@ -915,22 +764,74 @@
     .stickyFooter .actions.iconPrev{
       grid-template-columns:52px 1fr;
     }
+    button,
+    .actions button,
+    .stickyFooter .actions button{
+      height:52px;
+      border-radius:16px;
+      font-weight:700;
+      font-size:15px;
+      box-shadow:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      transition:background-color .16s ease, color .16s ease, transform .16s ease;
+    }
+    button:hover,
+    .actions button:hover,
+    .stickyFooter .actions button:hover{
+      transform:translateY(-1px);
+    }
+    button.primary,
+    .actions button.primary,
+    .stickyFooter .actions button.primary{
+      background:var(--primary);
+      color:#fff;
+      border:0;
+      box-shadow:none;
+    }
+    button.ghost,
+    button.soft,
+    .actions button.ghost,
+    .actions button.soft,
     .stickyFooter .actions button:not(.primary){
       background:#F3F6FD;
       color:var(--primary);
       border:1px solid transparent;
+      box-shadow:none;
+    }
+    button.outline{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+    button.iconOnly,
+    .stickyFooter .actions button.iconOnly{
+      width:52px;
+      min-width:52px;
+      padding:0;
+    }
+    .actions button{
+      padding:0 16px;
     }
     .miniBtn{
       height:48px;
-      padding:0 18px;
+      font-size:15px;
+      padding:0 14px;
       border-radius:16px;
-      background:#fff;
-      border:1px solid var(--line);
-      color:var(--text);
+      white-space:nowrap;
     }
-    .iconPrimary{ color:var(--primary); }
+    .itemActions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      width:100%;
+    }
+    .itemActions .miniBtn{
+      width:100%;
+    }
     .catTiles{
-      grid-template-columns:repeat(2, minmax(0, 1fr));
       gap:10px;
       margin-top:10px;
     }
@@ -942,99 +843,181 @@
       min-height:112px;
       display:flex;
       flex-direction:column;
-      justify-content:space-between;
+      justify-content:flex-end;
       text-align:left;
     }
     .catTile.active{
-      background:linear-gradient(135deg, #2550F6 0%, #1749D9 100%);
-      border-color:transparent;
+      background:linear-gradient(135deg,#2550F6 0%,#1749D9 100%);
       box-shadow:none;
     }
-    .catTile.active .catTileLabel{ color:#fff; }
-    .catTile.active .catTileIcon{ background:rgba(255,255,255,0.18); }
+    .catTile.active .catTileLabel{
+      color:#fff;
+    }
+    .catTile.active .catTileIcon{
+      background:rgba(255,255,255,.2);
+    }
     .catTileIcon{
       width:100%;
       height:72px;
       border-radius:14px;
       background:#fff;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      overflow:hidden;
       margin-bottom:8px;
     }
     .catTileImg{
+      width:100%;
+      height:100%;
       object-fit:contain;
-      padding:4px;
+      object-position:center top;
+      transform:translateY(-8px) scale(1.08);
       background:transparent;
     }
     .catTileLabel{
-      font-weight:700;
       font-size:15px;
+      font-weight:700;
       color:var(--text);
+    }
+    .groupGrid{
+      margin-top:0;
+      display:grid;
+      gap:10px;
+      align-items:start;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:12px;
+    }
+    .groupGrid.groupXY{
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+    .groupGrid.groupXYZ{
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+    }
+    .groupGrid .mdField{
+      margin-top:0;
+    }
+    .mdControl{
+      height:56px;
+      border-radius:14px;
+      border:0;
+      background:#F3F5FA;
+      padding:28px 12px 8px;
+      color:var(--text);
+      box-shadow:inset 0 0 0 1px transparent;
+    }
+    .mdLabel{
+      top:10px;
+      left:12px;
+      right:12px;
+      padding:0;
+      background:transparent;
+      color:#7D869C;
+      font-size:13px;
+    }
+    .mdField.isActive .mdLabel{
+      top:7px;
+      font-size:10px;
+      color:var(--primary);
     }
     .thumbGrid{
       grid-template-columns:repeat(2, minmax(0, 1fr));
       gap:10px;
+      margin-top:10px;
     }
     .thumbCard{
       border:1px solid var(--line);
       border-radius:16px;
       padding:10px;
       background:#fff;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      overflow:hidden;
+    }
+    .thumbImg{
+      width:100%;
+      height:auto;
+      aspect-ratio:1 / 1;
+      object-fit:cover;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#f3f4f6;
+    }
+    .thumbMeta{
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      gap:8px;
+      margin-top:0;
+      min-width:0;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .thumbFile{
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .thumbActions{
+      display:flex;
+      justify-content:flex-end;
     }
     .thumbBtn{
-      padding:6px 10px;
-      border-radius:12px;
-      font-size:13px;
       height:36px;
+      padding:0 14px;
+      border-radius:12px;
+      white-space:nowrap;
     }
-    .summaryLine{ margin-top:8px; }
-    .summaryLabel{ font-weight:700; }
-    .summaryBlockLabel{
-      font-size:12px;
-      line-height:1.35;
+    .photoHint{
+      margin-top:10px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:#EEF4FF;
       color:var(--muted);
-      margin-top:12px;
-      margin-bottom:2px;
-    }
-    .summaryActions{
-      display:grid;
-      gap:10px;
-      margin-top:14px;
-    }
-    .summaryActions button{
-      justify-content:flex-start;
-    }
-    .sectionTitle{
-      margin:0 0 12px;
-      font-size:18px;
-      line-height:1.25;
-      font-weight:800;
-      color:var(--text);
-    }
-    .sectionHint{
-      margin:-4px 0 12px;
       font-size:12px;
       line-height:1.45;
-      color:var(--muted);
+    }
+    .photoHintRow{
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+    }
+    .photoButtons{
+      display:grid;
+      grid-template-columns:1fr 52px;
+      gap:10px;
+      margin-top:10px;
+    }
+    .photoButtons .main{
+      height:52px;
+    }
+    .photoButtons .cameraBtn{
+      height:52px;
+      width:52px;
+      min-width:52px;
+      padding:0;
+    }
+    .iconPrimary{
+      color:currentColor;
     }
     @media (max-width:420px){
       .pageHeroTitle{ font-size:17px; max-width:100%; }
-      #screen{ border-radius:28px; padding-left:12px; padding-right:12px; }
-      .card{ border-radius:22px; }
-      .groupGrid.groupXYZ{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
-      .groupGrid.groupXYZ .mdField:nth-of-type(4){ grid-column:1 / -1; }
+      #steps .stepBtn .stepLabel{ font-size:9px; }
+      .groupGrid.groupXYZ{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
     }
 
   </style>
 </head>
 <body>
 <header>
-  <div class="row headerRow" style="justify-content:space-between; align-items:center;">
-    <div class="headerLogoWrap">
-      <img src="Logo.svg" alt="СОГАЗ" class="brandLogo" />
-      <div id="brandTitle" style="font-weight:800; display:none;">Осмотрум - СОГАЗ</div>
-    </div>
-    <div class="row headerActions">
-      <button id="resetBtn" type="button" aria-label="Новый осмотр">Новый осмотр</button>
-    </div>
+  <div class="headerBar">
+    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTE2IiBoZWlnaHQ9IjQzIiB2aWV3Qm94PSIwIDAgMTE2IDQzIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTguNTk3MiAyMS41QzE4LjU5NzIgMTguODA4OCAyMC40MDQ2IDE2LjYwMjkgMjIuOTk1OCAxNi42MDI5QzI0Ljk3NzQgMTYuNjAyOSAyNi42MzIzIDE3LjcwNTkgMjcuMDQ2MSAxOS4zMzgySDMxLjU1MzZDMzEuMzE0MSAxNS41NDQxIDI3Ljg5NTMgMTIuNSAyMy4xMDQ3IDEyLjVDMTguMDc0NiAxMi41IDE0LjI4NTYgMTYuMjA1OSAxNC4yODU2IDIxLjVDMTQuMjg1NiAyNi43OTQgMTguMDc0NiAzMC40OTk5IDIzLjEwNDcgMzAuNDk5OUMyNy45ODI0IDMwLjQ5OTkgMzEuNDQ0NyAyNy40NTU4IDMxLjU1MzYgMjMuMzA4OEgyNy4wNDYxQzI2LjY5NzcgMjUuMjA1OCAyNS4xMjk4IDI2LjM5NyAyMi45OTU4IDI2LjM5N0MyMC42MjIzIDI2LjQxOTEgMTguNTk3MiAyNC4yNzk0IDE4LjU5NzIgMjEuNVpNNDcuNzU0NiAyMi4zNjAyQzQ1LjAzMjYgMjMuMDIyIDQzLjEzODIgMjUuMzYwMiA0Mi43MDI3IDI5LjE1NDNDNDIuMjY3MSAyNS4zODIzIDQwLjM3MjcgMjMuMDIyIDM3LjY1MDcgMjIuMzYwMkMzNy4xNzE3IDE5LjQwNDQgMzkuNzYzIDE2LjgwMTUgNDIuNzAyNyAxNi44MDE1QzQ1LjY0MjMgMTYuODIzNSA0OC4yMTE5IDE5LjQwNDQgNDcuNzU0NiAyMi4zNjAyWk01MS41NjUzIDIxLjVDNTEuNTY1MyAxNi41MzY3IDQ3LjU4MDQgMTIuNSA0Mi42ODA5IDEyLjVDMzcuNzgxNCAxMi41IDMzLjc5NjUgMTYuNTM2NyAzMy43OTY1IDIxLjVDMzMuNzk2NSAyNi40NjMyIDM3Ljc4MTQgMzAuNDk5OSA0Mi42ODA5IDMwLjQ5OTlDNDcuNjAyMSAzMC41MjIgNTEuNTY1MyAyNi40ODUyIDUxLjU2NTMgMjEuNVpNNTguNjIwNSAxNy4xNzY0SDY1LjQ3OThWMTMuMTgzOEg1My44OTUzVjI5LjgxNjFINTguNjIwNVYxNy4xNzY0Wk03OS40NTk3IDIxLjVDNzkuNDU5NyAyNC4xMjQ5IDc3LjUyMTcgMjYuMDY2MSA3NS4xOTE3IDI2LjA2NjFDNzIuOTA1MyAyNi4wNjYxIDcwLjkyMzcgMjQuMTQ3IDcwLjkyMzcgMjEuNUM3MC45MjM3IDE4Ljg3NSA3Mi45MDUzIDE2LjkzMzggNzUuMTkxNyAxNi45MzM4Qzc3LjUyMTcgMTYuOTU1OSA3OS40NTk3IDE4Ljg3NSA3OS40NTk3IDIxLjVaTTc5LjEzMyAyOS44MzgySDgzLjg1ODNWMTMuMTgzOEg3OS4xMzNWMTUuMDE0N0M3Ny45MTM2IDEzLjQ5MjYgNzYuMzAyMiAxMi44NTI5IDc0LjU2MDIgMTIuODUyOUM3MC4xMTggMTIuODUyOSA2Ni41OTA0IDE2LjMxNjIgNjYuNTkwNCAyMS41MjJDNjYuNTkwNCAyNi43Mjc5IDcwLjExOCAzMC4xOTExIDc0LjU2MDIgMzAuMTkxMUM3Ni4zMDIyIDMwLjE5MTEgNzcuOTEzNiAyOS41NTE0IDc5LjEzMyAyOC4wMjkzVjI5LjgzODJaTTEwMS4zNDQgMTcuNzI3OUMxMDEuMzQ0IDE0Ljk3MDYgOTkuMDE0MSAxMi43NDI2IDk0LjMxMDYgMTIuNzQyNkM4OS4zMDIyIDEyLjc0MjYgODYuNzEwOSAxNS41ODgyIDg2LjcxMDkgMTkuMDk1Nkg5MS4zMDU1QzkxLjMwNTUgMTcuMjY0NyA5Mi4zMDcyIDE2LjMxNjIgOTQuMjIzNSAxNi4zMTYyQzk2LjAzMDggMTYuMzE2MiA5Ni44MTQ3IDE2Ljk3NzkgOTYuODE0NyAxOC4wMTQ3Qzk2LjgxNDcgMTkuMDUxNCA5Ni4yNDg2IDE5Ljc3OTQgOTQuODMzMiAxOS43Nzk0SDkyLjIyMDFWMjIuNzc5NEg5NC43Njc4Qzk2LjM3OTIgMjIuNzc5NCA5Ny4wNTQzIDIzLjQ4NTIgOTcuMDU0MyAyNC42MzIzQzk3LjA1NDMgMjUuNzEzMiA5Ni4zNTc1IDI2Ljc0OTkgOTQuMjg4OCAyNi43NDk5QzkyLjA2NzcgMjYuNzQ5OSA5MS4wNjYgMjUuNjAyOSA5MS4wNjYgMjMuNzA1OEg4Ni40NzE0Qzg2LjQ3MTQgMjcuOTg1MiA4OS40NTQ2IDMwLjI3OTMgOTQuMjg4OCAzMC4yNzkzQzk5LjA1NzYgMzAuMjc5MyAxMDEuNzE0IDI4LjI0OTkgMTAxLjcxNCAyNS4wMDczQzEwMS43MTQgMjMuMzMwOCAxMDAuODQzIDIyLjA5NTUgOTkuMTY2NSAyMS4zODk3QzEwMC42NDcgMjAuNjM5NyAxMDEuMzQ0IDE5LjIwNTggMTAxLjM0NCAxNy43Mjc5WiIgZmlsbD0iIzAwMDA3OCIvPgo8L3N2Zz4K" alt="СОГАЗ" class="brandLogo" />
+    <div id="brandTitle" style="font-weight:800;">Осмотрум - СОГАЗ</div>
+    <button id="resetBtn" type="button">Новый осмотр</button>
   </div>
 
   <!-- Скрытые элементы (нужны JS-логике, но не показываем в UI) -->
@@ -1048,7 +1031,7 @@
 <div class="wrap">
   <div class="card" id="stepperCard" style="display:none;">
     <div class="stepperHero">
-      <div class="pageHeroTitle" id="pageHeroTitle">Самостоятельный осмотр поврежденного имущества</div>
+      <div class="pageHeroTitle">Самостоятельный осмотр поврежденного имущества</div>
     </div>
     <div class="row" style="justify-content:space-between;">
       <div class="steps" id="steps"></div>
@@ -7873,6 +7856,78 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
   return n;
 }
 
+  function makeInlineIcon(name) {
+    const svg = (children) => el("svg", {
+      width: "18",
+      height: "18",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      "stroke-width": "2",
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      "aria-hidden": "true"
+    }, children);
+
+    switch (name) {
+      case "arrow-left":
+        return svg([
+          el("path", { d:"M19 12H5" }),
+          el("path", { d:"M12 19l-7-7 7-7" })
+        ]);
+      case "paperclip":
+        return svg([
+          el("path", { d:"M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48" })
+        ]);
+      case "camera":
+        return svg([
+          el("path", { d:"M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z" }),
+          el("circle", { cx:"12", cy:"13", r:"3.5" })
+        ]);
+      case "download":
+        return svg([
+          el("path", { d:"M12 3v11" }),
+          el("path", { d:"M7 11l5 5 5-5" }),
+          el("path", { d:"M5 21h14" })
+        ]);
+      case "mail":
+        return svg([
+          el("rect", { x:"3", y:"5", width:"18", height:"14", rx:"2" }),
+          el("path", { d:"M3 7l9 6 9-6" })
+        ]);
+      case "info":
+        return svg([
+          el("circle", { cx:"12", cy:"12", r:"9" }),
+          el("path", { d:"M12 10v6" }),
+          el("path", { d:"M12 7h.01" })
+        ]);
+      default:
+        return document.createTextNode("");
+    }
+  }
+
+  const STEP_NAV_TITLES = {
+    step1: "Информация",
+    step2: "Повреждения",
+    step3: "Проверка",
+    step4: "Отправка"
+  };
+
+  const STEP_SCREEN_TITLES = {
+    step1: "Общая информация",
+    step2: "Список повреждений",
+    step3: "Добавить повреждение",
+    step4: "Отправка"
+  };
+
+  function getStepNavTitle(step) {
+    return STEP_NAV_TITLES[step?.id] || step?.title || "";
+  }
+
+  function getStepScreenTitle(step) {
+    return STEP_SCREEN_TITLES[step?.id] || step?.title || "";
+  }
+
   function mountMdField({ parent, labelText, required, controlEl, starEl }) {
     const wrap = el("div", { class:"mdField" });
     const lab = el("div", { class:"mdLabel" }, [
@@ -9424,50 +9479,6 @@ function initRulesEngine(cfg) {
     };
   })();
 
-  const UI_APP_TITLE = "Самостоятельный осмотр поврежденного имущества";
-  const UI_STEP_META = {
-    step1: { navTitle:"Информация", screenTitle:"Общая информация" },
-    step3: { navTitle:"Повреждения", screenTitle:"Добавить повреждение" },
-    step2: { navTitle:"Проверка", screenTitle:"Список повреждений" },
-    step4: { navTitle:"Отправка", screenTitle:"Отправка" }
-  };
-
-  function getStepMeta(stepId) {
-    return UI_STEP_META[stepId] || {};
-  }
-
-  function getStepNavTitle(step) {
-    return getStepMeta(step?.id)?.navTitle || step?.title || "";
-  }
-
-  function getStepScreenTitle(step) {
-    return getStepMeta(step?.id)?.screenTitle || step?.title || "";
-  }
-
-  function makeInlineIcon(name) {
-    const base = { width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round", "aria-hidden":"true" };
-    if (name === "arrow-left") {
-      return el("svg", base, [
-        el("path", { d:"M15 18l-6-6 6-6" }),
-        el("path", { d:"M21 12H9" })
-      ]);
-    }
-    if (name === "download") {
-      return el("svg", base, [
-        el("path", { d:"M12 3v12" }),
-        el("path", { d:"M7 10l5 5 5-5" }),
-        el("path", { d:"M5 21h14" })
-      ]);
-    }
-    if (name === "send") {
-      return el("svg", base, [
-        el("path", { d:"M22 2L11 13" }),
-        el("path", { d:"M22 2L15 22l-4-9-9-4z" })
-      ]);
-    }
-    return el("span");
-  };
-
   function refreshStepperAvailability() {
     const st = Store.get();
     const cfg = st?.config;
@@ -9479,18 +9490,16 @@ function initRulesEngine(cfg) {
 
     const btns = Array.from(document.querySelectorAll("#steps .stepBtn"));
 
+    // по умолчанию считаем шаг “валидным”, если guard не задан
     const canNext = (StepGuards.canNextByStepId[st.stepId] !== false);
 
     btns.forEach((b, i) => {
       const step = steps[i];
-      const isActive = !!(step && step.id === st.stepId);
-      const isCompleted = i < curIdx;
-      b.classList.toggle("active", isActive);
-      b.classList.toggle("completed", isCompleted);
-      b.dataset.state = isActive ? "active" : (isCompleted ? "completed" : "upcoming");
-      if (i <= curIdx) b.disabled = false;
-      else if (i === curIdx + 1) b.disabled = !canNext;
-      else b.disabled = true;
+      b.classList.toggle("active", step && step.id === st.stepId);
+      b.classList.toggle("completed", i < curIdx);
+      if (i <= curIdx) b.disabled = false;               // назад всегда можно
+      else if (i === curIdx + 1) b.disabled = !canNext;  // вперёд только на 1 шаг и только если валидно
+      else b.disabled = true;                             // нельзя перепрыгивать через шаги
     });
   }
 
@@ -9678,70 +9687,53 @@ function __applyPendingFocusAfterRender() {
     const steps = cfg.ui.steps;
 
     // Stepper
-    const heroTitle = $("pageHeroTitle");
-    if (heroTitle) heroTitle.textContent = UI_APP_TITLE;
-
     const stepsWrap = $("steps");
     stepsWrap.replaceChildren();
-    steps.forEach((s, index) => {
-      const meta = getStepMeta(s.id);
-      const btn = el("button", {
+    for (let i = 0; i < steps.length; i++) {
+      const s = steps[i];
+      const curIdxLocal = steps.findIndex(x => x.id === st.stepId);
+      stepsWrap.appendChild(el("button", {
         type:"button",
-        class:"stepBtn" + (s.id === st.stepId ? " active" : ""),
+        class:"stepBtn" + (s.id === st.stepId ? " active" : "") + (i < curIdxLocal ? " completed" : ""),
         "aria-current": String(s.id === st.stepId),
-        "data-step-id": s.id,
         onclick: () => {
-                // Секрет: 7 тапов по шагу "Анкета" (step1) включает/выключает диагностику
-      if (s.id === "step1" && s.title === "Анкета") DebugUnlock.tap();
-      
-  const stNow = Store.get();
-  const stepsNow = stNow.config.ui.steps;
+          if (s.id === "step1") DebugUnlock.tap();
 
-  const curIdx = stepsNow.findIndex(x => x.id === stNow.stepId);
-  const tgtIdx = stepsNow.findIndex(x => x.id === s.id);
+          const stNow = Store.get();
+          const stepsNow = stNow.config.ui.steps;
+          const curIdx = stepsNow.findIndex(x => x.id === stNow.stepId);
+          const tgtIdx = stepsNow.findIndex(x => x.id === s.id);
 
-  // назад (или на текущий) — всегда можно
-  if (tgtIdx <= curIdx) {
-    Store.update(d => { d.stepId = s.id; });
-    refreshStepperAvailability();
-    // --- восстановление прокрутки ---
-const curStepId = Store.get().stepId;
-const sameStep = (prevStepId && curStepId === prevStepId);
-__renderPrevStepId = curStepId;
+          if (tgtIdx <= curIdx) {
+            Store.update(d => { d.stepId = s.id; });
+            refreshStepperAvailability();
+            return;
+          }
 
-requestAnimationFrame(() => {
-  if (sameStep) window.scrollTo(x, y);
-  else window.scrollTo(0, 0);
-});
-    return;
-  }
+          if (tgtIdx === curIdx + 1) {
+            const ok = (StepGuards.canNextByStepId[stNow.stepId] !== false);
+            if (!ok) {
+              setStatus("Сначала заполните обязательные поля текущего шага.", "err");
+              const damageId = (stNow.stepId === "step3" && stNow.current_damage_index != null) ? stNow.current_damage_index : null;
+              UIValidation.markAttempt(stNow.stepId, damageId);
+              render();
+              return;
+            }
+            Store.update(d => { d.stepId = s.id; });
+            refreshStepperAvailability();
+            return;
+          }
 
-  // вперёд — только на 1 шаг
-  if (tgtIdx === curIdx + 1) {
-    const ok = (StepGuards.canNextByStepId[stNow.stepId] !== false);
-    if (!ok) {
-      setStatus("Сначала заполните обязательные поля текущего шага.", "err");
-      const damageId = (stNow.stepId === "step3" && stNow.current_damage_index != null) ? stNow.current_damage_index : null;
-      UIValidation.markAttempt(stNow.stepId, damageId);
-      render();
-      return;
-    }
-    Store.update(d => { d.stepId = s.id; });
-    refreshStepperAvailability();
-    return;
-  }
-
-  // попытка “перепрыгнуть”
-  setStatus("Нельзя пропускать шаги. Перейди на следующий шаг по порядку.", "err");
-  refreshStepperAvailability();
-}
-      });
-      btn.appendChild(el("span", { class:"stepBtnInner" }, [
-        el("span", { class:"stepCircle", text:String(index + 1) }),
-        el("span", { class:"stepLabel", text: meta.navTitle || s.title })
+          setStatus("Нельзя пропускать шаги. Перейди на следующий шаг по порядку.", "err");
+          refreshStepperAvailability();
+        }
+      }, [
+        el("span", { class:"stepBtnInner" }, [
+          el("span", { class:"stepCircle", text:String(i + 1) }),
+          el("span", { class:"stepLabel", text:getStepNavTitle(s) })
+        ])
       ]));
-      stepsWrap.appendChild(btn);
-    });
+    }
 
     requestAnimationFrame(() => {
       const sc = $("stepperCard");
@@ -9787,14 +9779,13 @@ __applyPendingFocusAfterRender();
       }
     }
 
-    const nextBtnKids = [];
-    if (nextIcon) nextBtnKids.push(makeInlineIcon(nextIcon));
-    nextBtnKids.push(el("span", { text: nextText }));
+    const nextKids = [];
+    if (nextIcon) nextKids.push(makeInlineIcon(nextIcon));
+    nextKids.push(el("span", { text: nextText }));
 
-    kids.push(el("button", { type:"button", class:"primary", disabled: !canNext || nextDisabled, onclick: onNext }, nextBtnKids));
+    kids.push(el("button", { type:"button", class:"primary", disabled: !canNext || nextDisabled, onclick: onNext }, nextKids));
 
     const row = el("div", { class: rowClass }, kids);
-
     StickyFooter.set(row);
     return document.createComment("actions-mounted-in-stickyFooter");
   }
@@ -9850,6 +9841,7 @@ __applyPendingFocusAfterRender();
       st = Store.get();
     }
 
+    
 
     function isoToUiDate(iso) {
       if (!iso) return "";
@@ -10308,7 +10300,7 @@ st.damage_items.forEach((it, idx) => {
 
   const left = el("div", {}, leftKids);
 
-  const btns = el("div", { class:"row" }, [
+  const btns = el("div", { class:"itemActions" }, [
     el("button", {
       type:"button",
       class:"ghost miniBtn",
@@ -10349,7 +10341,7 @@ st.damage_items.forEach((it, idx) => {
       el("button", {
         type:"button",
         class:"primary",
-        text:"Добавить повреждение",
+        text:"＋ Добавить повреждение",
         onclick: () => Store.update(d => {
   if (!Array.isArray(d.damage_items)) d.damage_items = [];
   d.damage_items.push({});
@@ -10597,8 +10589,7 @@ const showSubelement = !!subDictId; // как и было: только если
   const isVisible = (fid) => (rtFor(fid).visible === false) ? false : true;
 
   // ---------- UI: selectors card ----------
-  const selectorsCard = el("div", { class:"card", style:"padding:14px; margin-top:10px;" });
-  selectorsCard.appendChild(el("div", { class:"sectionTitle", text:"Где повреждение" }));
+  const selectorsCard = el("div", { class:"card", style:"padding:12px; margin-top:10px;" });
   const fieldUi = new Map(); // fid -> { starEl, errEl }
 
   const renderSelectWithOther = ({ fid, label, required, dictId, disabled, allowOther }) => {
@@ -10717,14 +10708,7 @@ const showSubelement = !!subDictId; // как и было: только если
 
 // Category tiles (4 крупных значка)
 {
-  const catLabel = (fieldsById.get(F_CAT)?.label || "Категория");
   const starEl = el("span", { class:"reqStar", text:"*" });
-
-  selectorsCard.appendChild(el("label", {}, [
-    document.createTextNode(catLabel),
-    document.createTextNode(" "),
-    starEl
-  ]));
 
   const tiles = el("div", { class:"catTiles" });
   const iconByCat = {
@@ -11034,8 +11018,7 @@ StepGuards.canNextByStepId.step3 = canProceed;
   };
 
   // ---------- render template fields ----------
-  const fieldsCard = el("div", { class:"card", style:"padding:14px; margin-top:10px;" });
-  fieldsCard.appendChild(el("div", { class:"sectionTitle", text:"Повреждённый объект" }));
+  const fieldsCard = el("div", { class:"card", style:"padding:12px; margin-top:10px;" });
 
   const setValueNoRender = (fid, val) => {
     Store.update(d => {
@@ -11258,9 +11241,8 @@ StepGuards.canNextByStepId.step3 = canProceed;
 
   const renderGroupField = (fid, def, required) => {
     const starEl = el("span", { class: "reqStar", text: "*" });
-    const groupLabelText = def.unit_static ? `${def.label}, ${def.unit_static}` : def.label;
     fieldsCard.appendChild(el("div", { class:"groupTitle" }, [
-      document.createTextNode(groupLabelText),
+      document.createTextNode(def.label),
       required ? document.createTextNode(" ") : null,
       required ? starEl : null
     ].filter(Boolean)));
@@ -11321,14 +11303,25 @@ StepGuards.canNextByStepId.step3 = canProceed;
       mountMdField({ parent: grid, labelText: axisLabel || axisKey, required: false, controlEl: inp, starEl: axisStar });
     };
 
+    makeAxis("x", labels.x || "Длина");
+    makeAxis("y", labels.y || "Ширина");
+    if (isXYZ) makeAxis("z", labels.z || "Высота");
+
+    // unit
     if (def.unit_static) {
-      Store.update(d => {
-        const it = d.damage_items[idx];
-        if (!it) return;
-        const o = (it[fid] && typeof it[fid] === "object") ? it[fid] : {};
-        if (!o.unit) o.unit = String(def.unit_static);
-        it[fid] = o;
-      }, { skipRender:true });
+      grid.appendChild(el("div", { class:"muted", style:"align-self:center;", text:`Ед.: ${def.unit_static}` }));
+      if (Store.get().damage_items[idx]?.[fid] && typeof Store.get().damage_items[idx][fid] === "object") {
+        const cur2 = Store.get().damage_items[idx][fid];
+        if (!cur2.unit) {
+          Store.update(d => {
+            const it = d.damage_items[idx];
+            if (!it) return;
+            const o = (it[fid] && typeof it[fid] === "object") ? it[fid] : {};
+            o.unit = String(def.unit_static);
+            it[fid] = o;
+          }, { skipRender:true });
+        }
+      }
     } else if (def.unit_options_dictionary_id) {
       const uStar = el("span", { class: "reqStar", text: "*" });
       const uSel = el("select", { "data-fid": `step3:${idx}:${fid}:unit` });
@@ -11350,13 +11343,8 @@ StepGuards.canNextByStepId.step3 = canProceed;
         }, { skipRender:true });
         refreshStep3Ui();
       });
-      const unitWrap = mountMdField({ parent: grid, labelText: "Единица измерения", required: !!required, controlEl: uSel, starEl: uStar });
-      unitWrap.classList.add("spanAll");
+      mountMdField({ parent: grid, labelText: "Ед.", required: !!required, controlEl: uSel, starEl: uStar });
     }
-
-    makeAxis("x", labels.x || "Длина");
-    makeAxis("y", labels.y || "Ширина");
-    if (isXYZ) makeAxis("z", labels.z || "Высота");
 
     fieldsCard.appendChild(grid);
     const errEl = el("div", { class: "fieldError", text: "" });
@@ -11366,9 +11354,10 @@ StepGuards.canNextByStepId.step3 = canProceed;
 
   const renderPhotosField = (fid, def, required) => {
     const starEl = el("span", { class: "reqStar", text: "*" });
+    const photoLabel = "Фотографии повреждения";
     const labelEl = required
-      ? el("label", {}, [document.createTextNode(def.label), document.createTextNode(" "), starEl])
-      : el("label", { text: def.label });
+      ? el("label", {}, [document.createTextNode(photoLabel), document.createTextNode(" "), starEl])
+      : el("label", { text: photoLabel });
     fieldsCard.appendChild(labelEl);
 
     const stNow = Store.get();
@@ -11380,32 +11369,54 @@ StepGuards.canNextByStepId.step3 = canProceed;
       def.max_count ?? 10
     );
 
-    const info = el("div", { class:"muted", style:"margin-top:6px;", text:`Максимум ${max} фото на повреждение. Загружено: ${cur.length}/${max} фото.` });
+    const info = el("div", { class:"muted", style:"margin-top:6px;", text:`Максимум ${max} фото на повреждение. Добавлено: ${cur.length}/${max} фото.` });
     fieldsCard.appendChild(info);
 
-    const msg = el("div", { class:"muted", style:"margin-top:6px;" });
+    const hint = el("div", { class:"photoHint" });
+    fieldsCard.appendChild(hint);
+
+    const msg = el("div", { class:"muted", style:"margin-top:6px; font-size:12px;" });
     fieldsCard.appendChild(msg);
 
     const input = el("input", {
-  type:"file",
-  accept:"image/*",
-  multiple:true,
-  style:"display:none;"
-});
-
+      type:"file",
+      accept:"image/*",
+      multiple:true,
+      style:"display:none;"
+    });
     fieldsCard.appendChild(input);
 
-    const btn = el("button", { type:"button", class:"ghost miniBtn", style:"margin-top:10px;" }, [
-      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
-        el("path", { d:"M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48" })
-      ]),
-      el("span", { text:"Загрузить фото" })
+    const btn = el("button", { type:"button", class:"ghost main" }, [
+      makeInlineIcon("paperclip"),
+      el("span", { text:"Добавить фото" })
     ]);
-    btn.disabled = (cur.length >= max);
-    fieldsCard.appendChild(btn);
+
+    const camBtn = el("button", { type:"button", class:"soft cameraBtn iconOnly", "aria-label":"Сделать фото" }, [
+      makeInlineIcon("camera")
+    ]);
+
+    const btnRow = el("div", { class:"photoButtons" }, [btn, camBtn]);
+    fieldsCard.appendChild(btnRow);
 
     const grid = el("div", { class:"thumbGrid" });
     fieldsCard.appendChild(grid);
+
+    const updatePhotoHint = (count) => {
+      const remaining = Math.max(0, max - count);
+      hint.replaceChildren(
+        el("div", { class:"photoHintRow" }, [
+          makeInlineIcon("info"),
+          el("div", { text:`Фото лучше делать горизонтально. Каждый ракурс — отдельное фото. Можно добавить до ${max} фотографий (осталось ${remaining}).` })
+        ])
+      );
+    };
+
+    const openPicker = (captureMode = false) => {
+      if (btn.disabled) return;
+      if (captureMode) input.setAttribute("capture", "environment");
+      else input.removeAttribute("capture");
+      input.click();
+    };
 
     const rebuildGrid = async () => {
       const st2 = Store.get();
@@ -11418,12 +11429,16 @@ StepGuards.canNextByStepId.step3 = canProceed;
         const img = el("img", { class:"thumbImg" });
         card.appendChild(img);
 
-        ImagePipeline.getThumbUrl(photoId).then(url => { if (url) img.src = url; });
+        const rec = await Persistence.getImageRecord(photoId);
+        const fileName = (rec?.sourceName || photoId || "").trim();
+
+        const url = await ImagePipeline.getThumbUrl(photoId);
+        if (url) img.src = url;
 
         const meta = el("div", { class:"thumbMeta" });
-        meta.appendChild(el("span", { text: photoId.slice(0,8) + "…" }));
+        meta.appendChild(el("div", { class:"thumbFile", text: fileName || (photoId.slice(0, 8) + "…") }));
 
-        const del = el("button", { type:"button", class:"thumbBtn", text:"Удалить" });
+        const del = el("button", { type:"button", class:"thumbBtn ghost", text:"Удалить" });
         del.addEventListener("click", async () => {
           if (!confirm("Удалить это фото?")) return;
 
@@ -11438,7 +11453,7 @@ StepGuards.canNextByStepId.step3 = canProceed;
           ImagePipeline.revoke(photoId);
         });
 
-        meta.appendChild(del);
+        meta.appendChild(el("div", { class:"thumbActions" }, [del]));
         card.appendChild(meta);
         grid.appendChild(card);
       }
@@ -11447,77 +11462,73 @@ StepGuards.canNextByStepId.step3 = canProceed;
       const it3 = st3.damage_items[idx] || {};
       const a3 = Array.isArray(it3[fid]) ? it3[fid] : [];
       info.textContent = `Максимум ${max} фото на повреждение. Добавлено: ${a3.length}/${max} фото.`;
+      updatePhotoHint(a3.length);
       btn.disabled = (a3.length >= max);
+      camBtn.disabled = (a3.length >= max);
     };
+
     input.addEventListener("change", async () => {
-  const files = Array.from(input.files || []);
-  if (!files.length) return;
+      const files = Array.from(input.files || []);
+      if (!files.length) return;
 
-  const st2 = Store.get();
-  const it2 = st2.damage_items[idx] || {};
-  const arr = Array.isArray(it2[fid]) ? it2[fid] : [];
-  const remaining = Math.max(0, max - arr.length);
-  if (remaining <= 0) {
-    input.value = "";
-    return;
-  }
+      const st2 = Store.get();
+      const it2 = st2.damage_items[idx] || {};
+      const arr = Array.isArray(it2[fid]) ? it2[fid] : [];
+      const remaining = Math.max(0, max - arr.length);
+      if (remaining <= 0) {
+        input.value = "";
+        return;
+      }
 
-  const toAdd = files.slice(0, remaining);
+      const toAdd = files.slice(0, remaining);
 
-  btn.disabled = true;
-  input.disabled = true;
-  msg.textContent = `Обработка фото: 0 / ${toAdd.length}`;
+      btn.disabled = true;
+      camBtn.disabled = true;
+      input.disabled = true;
+      msg.textContent = `Обработка фото: 0 / ${toAdd.length}`;
 
-  try {
-    await ImagePipeline.init(cfg);
-    const newIds = await ImagePipeline.processAndStoreFiles({
-      cfg,
-      files: toAdd,
-      onProgress: (done, total) => { msg.textContent = `Обработка фото: ${done} / ${total}`; }
+      try {
+        await ImagePipeline.init(cfg);
+        const newIds = await ImagePipeline.processAndStoreFiles({
+          cfg,
+          files: toAdd,
+          onProgress: (done, total) => { msg.textContent = `Обработка фото: ${done} / ${total}`; }
+        });
+
+        Store.update(d => {
+          const it3 = d.damage_items[idx];
+          if (!it3) return;
+          const a = Array.isArray(it3[fid]) ? it3[fid] : [];
+          it3[fid] = [...a, ...newIds];
+        });
+
+        msg.textContent = "Готово.";
+      } catch (e) {
+        console.error(e);
+        alert(formatErr(e));
+        msg.textContent = "Ошибка (см. консоль).";
+      } finally {
+        input.disabled = false;
+        input.value = "";
+        await rebuildGrid();
+      }
     });
 
-    Store.update(d => {
-      const it3 = d.damage_items[idx];
-      if (!it3) return;
-      const a = Array.isArray(it3[fid]) ? it3[fid] : [];
-      it3[fid] = [...a, ...newIds];
+    btn.addEventListener("click", () => {
+      UIValidation.markTouched("step3", "f_photos", idx);
+      openPicker(false);
     });
 
-    msg.textContent = "Готово.";
-  } catch (e) {
-    console.error(e);
-    alert(formatErr(e));
-    msg.textContent = "Ошибка (см. консоль).";
-  } finally {
-    input.disabled = false;
-    input.value = "";
-    await rebuildGrid();
-  }
-});
-
-btn.addEventListener("click", () => {
-  if (btn.disabled) return;
-
-  UIValidation.markTouched("step3", "f_photos", idx);
-
-  const st2 = Store.get();
-  const it2 = st2.damage_items[idx] || {};
-  const arr = Array.isArray(it2[fid]) ? it2[fid] : [];
-  const remaining = Math.max(0, max - arr.length);
-
-  alert(
-    "Сделайте/загрузите фото в горизонтальной ориентации. Один ракурс — одно фото. " +
-    `Лимит: максимум ${max} фото на повреждение (осталось ${remaining}).`
-  );
-
-  input.click();
-});
+    camBtn.addEventListener("click", () => {
+      UIValidation.markTouched("step3", "f_photos", idx);
+      openPicker(true);
+    });
 
     const errEl = el("div", { class: "fieldError", text: "" });
     fieldsCard.appendChild(errEl);
     if (required) fieldUi.set(fid, { starEl, errEl });
 
-    // initial render
+    updatePhotoHint(cur.length);
     rebuildGrid();
   };
 
@@ -11560,8 +11571,8 @@ btn.addEventListener("click", () => {
   const addMoreRow = el("div", { class:"actions" }, [
     el("button", {
       type:"button",
-      class:"soft",
-      text:"Добавить повреждение",
+      class:"primary",
+      text:"＋ Добавить новое повреждение",
       onclick: () => Store.update(d => {
         if (!Array.isArray(d.damage_items)) d.damage_items = [];
         d.damage_items.push({});
@@ -12405,18 +12416,19 @@ function renderStep4(root, cfg, st) {
 
   const summaryCard = el("div", { class:"card", style:"margin-top:10px;" });
   summaryCard.appendChild(el("div", {
-    text:"Акт осмотра",
+    text:"Кратко по акту:",
     style:"font-weight:800; margin-bottom:8px;"
   }));
 
   const row = (label, value) => el("div", { class:"summaryLine" }, [
-    el("div", { class:"summaryBlockLabel", text: label }),
-    el("div", { class:"summaryLabel", text: value || "—" })
+    el("span", { class:"summaryLabel", text: label + ":" }),
+    document.createTextNode(" "),
+    el("span", { text: value || "—" })
   ]);
 
-  const insurerLabel = "Страхователь";
-  const repLabel = "Представитель страхователя";
-  const eventDateLabel = "Дата события";
+  const insurerLabel = fieldsById.get("f_insurer")?.label || "Страхователь";
+  const repLabel = fieldsById.get("f_insurer_rep")?.label || "Представитель страхователя";
+  const eventDateLabel = fieldsById.get("f_event_date")?.label || "Дата события";
 
   const insurerVal = fmtChoice(form.f_insurer);
   const repVal = fmtChoice(form.f_insurer_rep);
@@ -12427,7 +12439,7 @@ function renderStep4(root, cfg, st) {
   summaryCard.appendChild(row(eventDateLabel, eventDateVal));
 
   // Повреждения: "Категория / Элемент / Подэлемент"
-  summaryCard.appendChild(el("div", { class:"summaryBlockLabel", text:"Повреждения" }));
+  summaryCard.appendChild(el("div", { style:"margin-top:10px; font-weight:700;", text:"Повреждения:" }));
 
   const ol = el("ol", { style:"margin:6px 0 0 18px;" });
 
@@ -12450,13 +12462,29 @@ function renderStep4(root, cfg, st) {
 
   summaryCard.appendChild(ol);
 
-  summaryCard.appendChild(el("div", { class:"summaryActions" }, [
-    el("button", { type:"button", class:"outline", onclick: () => Store.update(d => { d.stepId = "step1"; }) }, [
+  // быстрые кнопки, чтобы вернуться и исправить
+  summaryCard.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [
+    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.stepId = "step1"; }) }, [
       el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
         el("path", { d:"M12 20h9" }),
         el("path", { d:"M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" })
       ]),
       el("span", { text:"Редактировать анкету" })
+    ]),
+    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.damage_items.push({}); d.current_damage_index = d.damage_items.length - 1; d.stepId = "step3"; }) }, [
+      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
+        el("path", { d:"M12 5v14" }),
+        el("path", { d:"M5 12h14" })
+      ]),
+      el("span", { text:"Добавить повреждение" })
+    ]),
+    el("button", { type:"button", class:"ghost", onclick: () => Store.update(d => { d.stepId = "step2"; }) }, [
+      el("svg", { class:"iconPrimary", width:"18", height:"18", viewBox:"0 0 24 24", fill:"none", "stroke":"currentColor", "stroke-width":"2", "stroke-linecap":"round", "stroke-linejoin":"round" }, [
+        el("path", { d:"M4 6h16" }),
+        el("path", { d:"M4 12h16" }),
+        el("path", { d:"M4 18h16" })
+      ]),
+      el("span", { text:"Список повреждений" })
     ])
   ]));
 
@@ -12465,7 +12493,7 @@ function renderStep4(root, cfg, st) {
   const signBtn = el("button", {
     type:"button",
     class:"soft",
-    text: (Store.get().form?.f_signature_png ? "Подпись добавлена (изменить)" : "Подписать акт")
+    text: (Store.get().form?.f_signature_png ? "Подписать акт" : "Подписать акт")
   });
   signBtn.addEventListener("click", () => {
     Signature.open({
@@ -12476,7 +12504,7 @@ function renderStep4(root, cfg, st) {
       }
     });
   });
-  summaryCard.appendChild(el("div", { class:"actions", style:"margin-top:14px;" }, [signBtn]));
+  root.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [signBtn]));
 
   
   // -------------------------------
@@ -12551,7 +12579,10 @@ function renderStep4(root, cfg, st) {
     }
   };
 
-  const dlBtn = el("button", { type:"button", class:"soft" }, [makeInlineIcon("download"), el("span", { text:"Скачать акт" })]);
+  const dlBtn = el("button", { type:"button", class:"soft" }, [
+    makeInlineIcon("download"),
+    el("span", { text:"Скачать акт" })
+  ]);
   const hasSignatureNow = !!String(Store.get().form?.f_signature_png || "").trim();
   dlBtn.disabled = !hasSignatureNow;
   dlBtn.addEventListener("click", async () => {
@@ -12561,13 +12592,17 @@ function renderStep4(root, cfg, st) {
     } catch {}
   });
 
-  const shBtn = el("button", { type:"button", class:"primary" }, [makeInlineIcon("send"), el("span", { text:"Отправить" })]);
+  root.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [dlBtn]));
+
+  const shBtn = el("button", { type:"button", class:"primary" }, [
+    makeInlineIcon("mail"),
+    el("span", { text:"Отправить" })
+  ]);
   shBtn.disabled = !hasSignatureNow;
   shBtn.addEventListener("click", async () => {
     try {
       const { pdfBlob, fileName } = await makePdf(shBtn);
 
-      // Если share недоступен — просто скачиваем.
       if (!navigator.share) {
         downloadBlob(pdfBlob, fileName);
         return;
@@ -12575,20 +12610,16 @@ function renderStep4(root, cfg, st) {
 
       try {
         const file = new File([pdfBlob], fileName, { type:"application/pdf" });
-        // canShare бывает не везде — проверяем аккуратно
         if (navigator.canShare && !navigator.canShare({ files:[file] })) {
           downloadBlob(pdfBlob, fileName);
           return;
         }
         await navigator.share({ files:[file], title:fileName, text:"Акт осмотра (PDF)" });
       } catch (e) {
-        // если share не сработал — fallback на скачивание
         downloadBlob(pdfBlob, fileName);
       }
     } catch {}
   });
-
-  summaryCard.appendChild(el("div", { class:"actions", style:"margin-top:10px;" }, [dlBtn]));
 
   const backBtn = el("button", { type:"button", class:"soft iconOnly", onclick: () => goPrev(cfg, "step4"), "aria-label":"Назад" }, [
     makeInlineIcon("arrow-left")
