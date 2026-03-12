@@ -401,7 +401,10 @@
       max-width:calc(100% - 58px);
     }
     .mdField select.mdControl{
+      padding-left:16px;
       padding-right:44px;
+      text-align:left;
+      text-indent:0;
     }
     .mdTextarea{
       height:auto;
@@ -609,22 +612,22 @@
     #configMeta{ display:none; }
     #steps{
       display:grid;
-      grid-template-columns:repeat(4, minmax(0,1fr));
-      gap:6px;
+      grid-template-columns:1.18fr 1.22fr 0.92fr 0.84fr;
+      gap:3px;
       width:100%;
       align-items:center;
     }
     #steps .stepBtn{
   height:32px;
   min-width:0;
-  padding:0 1px;
+  padding:0;
   border:0;
   border-radius:999px;
   background:transparent;
   display:flex;
   align-items:center;
   justify-content:flex-start;
-  gap:4px;
+  gap:2px;
   color:#A2A8B6;
   font-size:10px;
   line-height:1;
@@ -652,9 +655,9 @@
   overflow:hidden;
   text-overflow:clip;
   white-space:nowrap;
-  font-size:9px;
+  font-size:8px;
   font-weight:700;
-  letter-spacing:-0.01em;
+  letter-spacing:-0.02em;
 } 
     #steps .stepBtn.done{ color:#56B57B; }
     #steps .stepBtn.done .stepNo{ background:#EAF8EF; border-color:#CEE7D7; color:#56B57B; }
@@ -909,8 +912,8 @@ button.iconOnly,
     @media (max-width:420px){
       .brandLogoSvg{ width:112px; }
       .pageHeroTitle{ font-size:18px; }
-      #steps .stepBtn{ gap:3px; padding:0 1px; }
-#steps .stepBtn .stepTxt{ font-size:8.5px; }
+      #steps .stepBtn{ gap:2px; padding:0; }
+      #steps .stepBtn .stepTxt{ font-size:8px; }
       .stepH1{ font-size:18px; }
     }
 
@@ -7830,7 +7833,13 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
     });
     const add = (tag, attrs) => svg.appendChild(el(tag, attrs));
     if (name === "back") {
-      add("path", { d:"M15 18l-6-6 6-6" });
+      svg.setAttribute("viewBox", "0 0 21 20");
+      add("path", {
+        d:"M4.66675 10H16.3334M16.3334 10L11.3334 15M16.3334 10L11.3334 5",
+        "stroke-linecap":"round",
+        "stroke-linejoin":"round",
+        "stroke-width":"1.5"
+      });
     } else if (name === "clip") {
       add("path", { d:"M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48" });
     } else if (name === "camera") {
@@ -7844,8 +7853,13 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
       add("rect", { x:"3", y:"5", width:"18", height:"14", rx:"2" });
       add("path", { d:"M3 7l9 6 9-6" });
     } else if (name === "close") {
-      add("path", { d:"M18 6L6 18" });
-      add("path", { d:"M6 6l12 12" });
+      svg.setAttribute("viewBox", "0 0 20 20");
+      add("path", {
+        d:"M15 5L5 15M5 5L15 15",
+        "stroke-linecap":"round",
+        "stroke-linejoin":"round",
+        "stroke-width":"1.5"
+      });
     }
     return svg;
   }
@@ -11273,7 +11287,8 @@ StepGuards.canNextByStepId.step3 = canProceed;
       : el("label", { text: labelText });
     fieldsCard.appendChild(labelEl);
 
-    fieldsCard.appendChild(el("div", { class:"photoHint", text:"Фото лучше делать горизонтально. Каждый ракурс — отдельное фото. Можно добавить до 10 фотографий (осталось 10)." }));
+    const hintEl = el("div", { class:"photoHint" });
+    fieldsCard.appendChild(hintEl);
 
     const stNow = Store.get();
     const itNow = stNow.damage_items[idx] || {};
@@ -11318,6 +11333,10 @@ StepGuards.canNextByStepId.step3 = canProceed;
       const it2 = st2.damage_items[idx] || {};
       const arr = Array.isArray(it2[fid]) ? it2[fid] : [];
       grid.replaceChildren();
+
+      const remainingHint = Math.max(0, max - arr.length);
+      hintEl.textContent =
+        `Фото лучше делать горизонтально. Каждый ракурс — отдельное фото. Можно добавить до ${max} фотографий (осталось ${remainingHint}).`;
 
       for (const photoId of arr) {
         const card = el("div", { class:"thumbCard" });
