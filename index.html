@@ -397,8 +397,10 @@
       color:var(--primary);
     }
     .mdField.isSelect .mdLabel{
+      left:16px;
       right:44px;
-      max-width:calc(100% - 58px);
+      max-width:calc(100% - 60px);
+      text-align:left;
     }
     .mdField select.mdControl{
       padding-left:16px;
@@ -570,7 +572,7 @@
     body{ background:#F5F6FA; }
     header{
       background:#fff;
-      padding:18px 16px 14px;
+      padding:14px var(--padX) 12px;
       border-bottom:1px solid #E8EBF2;
       box-shadow:none;
     }
@@ -579,10 +581,11 @@
       margin:0 auto;
       display:flex;
       align-items:center;
-      min-height:44px;
+      justify-content:flex-start;
+      min-height:40px;
     }
     .brandLogo{ display:flex; align-items:center; }
-    .brandLogoSvg{ display:block; width:148px; height:auto; }
+    .brandLogoSvg{ display:block; width:162px; height:auto; }
     .wrap{ padding-top:6px; }
     .pageHero{ padding:8px 4px 4px; }
     .pageHeroTitle{
@@ -743,8 +746,10 @@ button.iconOnly,
       color:var(--primary);
     }
     .mdField.isSelect .mdLabel{
+      left:16px;
       right:44px;
       max-width:calc(100% - 60px);
+      text-align:left;
     }
     .groupTitle{
       margin-top:18px;
@@ -7836,15 +7841,21 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
       svg.setAttribute("viewBox", "0 0 21 20");
       add("path", {
         d:"M4.66675 10H16.3334M16.3334 10L11.3334 15M16.3334 10L11.3334 5",
+        fill:"none",
+        stroke:"currentColor",
         "stroke-linecap":"round",
         "stroke-linejoin":"round",
         "stroke-width":"1.5"
       });
     } else if (name === "clip") {
-      add("path", { d:"M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48" });
+      add("path", {
+        d:"M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48",
+        fill:"none",
+        stroke:"currentColor"
+      });
     } else if (name === "camera") {
-      add("path", { d:"M4 7h4l2-2h4l2 2h4v12H4z" });
-      add("circle", { cx:"12", cy:"13", r:"3.5" });
+      add("path", { d:"M4 7h4l2-2h4l2 2h4v12H4z", fill:"none", stroke:"currentColor" });
+      add("circle", { cx:"12", cy:"13", r:"3.5", fill:"none", stroke:"currentColor" });
     } else if (name === "download") {
       add("path", { d:"M12 3v11" });
       add("path", { d:"M8 10l4 4 4-4" });
@@ -7856,6 +7867,8 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
       svg.setAttribute("viewBox", "0 0 20 20");
       add("path", {
         d:"M15 5L5 15M5 5L15 15",
+        fill:"none",
+        stroke:"currentColor",
         "stroke-linecap":"round",
         "stroke-linejoin":"round",
         "stroke-width":"1.5"
