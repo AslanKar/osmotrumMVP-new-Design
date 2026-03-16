@@ -397,13 +397,13 @@
       color:var(--primary);
     }
     .mdField.isSelect .mdLabel{
-      left:16px;
+      left:18px;
       right:44px;
-      max-width:calc(100% - 60px);
+      max-width:calc(100% - 62px);
       text-align:left;
     }
     .mdField select.mdControl{
-      padding-left:16px;
+      padding-left:18px;
       padding-right:44px;
       text-align:left;
       text-indent:0;
@@ -587,7 +587,7 @@
     .brandLogo{ display:flex; align-items:center; }
     .brandLogoSvg{ display:block; width:176px; height:auto; }
     .wrap{ padding-top:6px; }
-    .pageHero{ padding:8px 4px 4px; }
+    .pageHero{ padding:8px 0 4px; }
     .pageHeroTitle{
       margin:0;
       color:var(--heroText);
@@ -873,6 +873,11 @@ button.iconOnly,
       grid-template-columns:1fr 56px;
       gap:12px;
       margin-top:12px;
+    }
+    .photoActions .soft{
+      justify-content:flex-start;
+      gap:10px;
+      font-size:15px;
     }
     .imageLightbox{
       position:fixed;
@@ -7847,9 +7852,9 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
     };
 
     if (name === "back") {
-      svg.setAttribute("viewBox", "0 0 21 20");
+      svg.setAttribute("viewBox", "0 0 20 20");
       add("path", {
-        d: "M4.66675 10H16.3334M16.3334 10L11.3334 15M16.3334 10L11.3334 5",
+        d: "M6 10H17M6 10L11 5M6 10L11 15",
         fill: "none",
         stroke: "currentColor",
         "stroke-linecap": "round",
@@ -7860,13 +7865,15 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
       add("path", {
         d: "M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.88 16.88a2 2 0 1 1-2.83-2.83l8.49-8.48",
         fill: "none",
-        stroke: "currentColor"
+        stroke: "currentColor",
+        "stroke-width": "1.8"
       });
     } else if (name === "camera") {
       add("path", {
         d: "M4 7h4l2-2h4l2 2h4v12H4z",
         fill: "none",
-        stroke: "currentColor"
+        stroke: "currentColor",
+        "stroke-width": "1.8"
       });
       add("circle", {
         cx: "12",
