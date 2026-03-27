@@ -7873,7 +7873,7 @@ window.addEventListener("touchstart", __markUserPointer, { capture:true, passive
         d: "M4 7h4l2-2h4l2 2h4v12H4z",
         fill: "none",
         stroke: "currentColor",
-        "stroke-width": "1.8"
+        "stroke-width": "1.5"
       });
       add("circle", {
         cx: "12",
@@ -10672,7 +10672,7 @@ const showSubelement = !!subDictId; // как и было: только если
 {
   const starEl = el("span", { class:"reqStar", text:"*", style:"display:none;" });
 
-  selectorsCard.appendChild(el("div", { class:"muted categoryHint", text:"Выбери категорию." }));
+  selectorsCard.appendChild(el("div", { class:"muted categoryHint", text:"Выберите категорию." }));
 
   const tiles = el("div", { class:"catTiles" });
   const iconByCat = {
@@ -10810,8 +10810,8 @@ if (showElement) {
     const s = getChoice(itNow[F_SUB]);
 
     let msg = "";
-if (c && showElement && !e) msg = "Выбери элемент.";
-if (c && showElement && e && showSubelement && !s) msg = "Выбери подэлемент.";
+if (c && showElement && !e) msg = "Выберите элемент.";
+if (c && showElement && e && showSubelement && !s) msg = "Выберите подэлемент.";
 if (c && (!showElement || e) && (!showSubelement || s)) {
   msg = "Под текущие значения не найден шаблон (template). Проверь Config.DB.templates.";
 }
